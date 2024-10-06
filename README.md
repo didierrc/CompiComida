@@ -3,7 +3,7 @@
 ## General Description
 Get rid of the grocery list stress with the CompiComida App. Designed to simplify the meals planning and pantry management.
 It'll help you to create and organize your shopping list, discover new and delicious meals and to keep track of your pantry
-resources like expiracy dates! And all in just one place.
+resources like expire dates! And all in just one place.
 
 ![Grocery List Simpson](https://media2.giphy.com/media/l0G16KpPfcmdN1G1O/200w.gif?cid=6c09b952mnojk36mo1ony6m0eanf37mxp3klovbeeyy3yt24&ep=v1_gifs_search&rid=200w.gif&ct=g)
 
@@ -114,7 +114,7 @@ Here you will find a detailed breakdown of what each team member have done (or w
 - **Barcode Scanning**: Add items by scanning barcodes.
 - **Gamification**: Challenges or rewards for completing lists or meal planning.
 - **Automatic photos**: Ability to add photos automatically for regular items like bread, water, milk, ...
-- **Price tracking charts**: Appart from setting a price for an item. It would be beneficial to see charts on the fluctuation of price along time.
+- **Price tracking charts**: Apart from setting a price for an item. It would be beneficial to see charts on the fluctuation of price along time.
 ---
 
 ## Initial schema
