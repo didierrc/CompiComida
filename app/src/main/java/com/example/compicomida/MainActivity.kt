@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
+import com.example.compicomida.db.entities.ItemCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -39,41 +40,36 @@ class MainActivity : AppCompatActivity() {
 
             db!!.clearAllTables()
 
-            db!!.groceryListDao().add(GroceryList(1, "Prueba 1-N", Date()))
+            val aList = GroceryList(0, "Didier buys groceries", Date())
+            val aCat = ItemCategory(0, "Fruits")
 
-            val listInserted = db!!.groceryListDao().getAll().first()
-            val listItems = listOf(
+            db!!.groceryListDao().add(aList)
+            db!!.itemCategoryDao().add(aCat)
+
+            val aListDB = db!!.groceryListDao().getAll().first()
+            val aCatDB = db!!.itemCategoryDao().getAll().first()
+
+            db!!.groceryItemDao().add(
                 GroceryItem(
                     itemId = 0,
-                    listId = listInserted.listId,
-                    itemName = "Manzanas",
+                    listId = aListDB.listId,
+                    categoryId = aCatDB.categoryId,
+                    itemName = "Apple",
                     expirationDate = Date(),
-                    quantity = 10,
+                    quantity = 3,
                     unit = null,
-                    price = 2.0,
-                    isPurchased = false,
-                    itemPhotoUri = "pp.jpg"
-                ),
-                GroceryItem(
-                    itemId = 0,
-                    listId = listInserted.listId,
-                    itemName = "Mantequilla",
-                    expirationDate = Date(),
-                    quantity = 10,
-                    unit = "gr",
                     price = 10.0,
-                    isPurchased = true,
-                    itemPhotoUri = "gg.jpg"
+                    isPurchased = false,
+                    itemPhotoUri = "apple.jpg"
                 )
             )
-
-            db!!.groceryItemDao().addAll(*listItems.toTypedArray())
 
             db!!.groceryListDao().getAllWithItems().forEach { entry ->
                 println("Nombre Lista: ${entry.key.listName}")
                 println("Productos:")
                 entry.value.forEach {
-                    println("- ${it.itemName}: ")
+                    val catName = db!!.itemCategoryDao().getById(it.categoryId!!)?.categoryName
+                    println("- ${it.itemName}: ${it.quantity} | ${it.price}€ | ${it.expirationDate} | $catName")
                 }
             }
 

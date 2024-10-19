@@ -14,6 +14,12 @@ import java.util.Date
             parentColumns = ["list_id"],
             childColumns = ["list_id"],
             onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = ItemCategory::class,
+            parentColumns = ["category_id"],
+            childColumns = ["category_id"],
+            onDelete = ForeignKey.SET_NULL
         )
     ], indices = [
         Index(value = ["list_id"])
@@ -26,6 +32,9 @@ data class GroceryItem(
 
     // Foreign key to the GroceryList entity
     @ColumnInfo(name = "list_id") val listId: Int,
+
+    // Foreign key to the ItemCategory entity
+    @ColumnInfo(name = "category_id") val categoryId: Int?,
 
     // Other attributes
     @ColumnInfo(name = "item_name") val itemName: String,

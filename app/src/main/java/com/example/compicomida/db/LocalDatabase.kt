@@ -8,11 +8,13 @@ import androidx.room.TypeConverters
 import com.example.compicomida.db.converters.DateConverter
 import com.example.compicomida.db.dao.GroceryItemDao
 import com.example.compicomida.db.dao.GroceryListDao
+import com.example.compicomida.db.dao.ItemCategoryDao
 import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
+import com.example.compicomida.db.entities.ItemCategory
 
 @Database(
-    entities = [GroceryList::class, GroceryItem::class],
+    entities = [GroceryList::class, GroceryItem::class, ItemCategory::class],
     version = 1, exportSchema = false
 )
 @TypeConverters(
@@ -22,6 +24,7 @@ abstract class LocalDatabase : RoomDatabase() {
 
     abstract fun groceryListDao(): GroceryListDao
     abstract fun groceryItemDao(): GroceryItemDao
+    abstract fun itemCategoryDao(): ItemCategoryDao
 
     // Singleton database
     companion object {
