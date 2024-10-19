@@ -9,4 +9,40 @@
     <string name="lists_menu">Listas</string>
     <string name="home_expire_title">Productos que caducarán pronto</string>
     <string name="home_list_title">Tu lista de la compra</string>
+    <string name="add_grocery_item_name_title">Nombre</string>
+    <string name="add_grocery_item_name_hint">Escriba el nombre del producto</string>
+    <string name="add_grocery_item_type_title">Tipo</string>
+    <string name="add_grocery_item_quantity_title">Cantidad</string>
+    <string name="add_grocery_item_quantity_hint">Escriba la cantidad</string>
+    <string name="add_grocery_item_units_title">Unidades</string>
+    <string name="add_grocery_item_price_title">Precio</string>
+    <string name="add_grocery_item_price_hint">Escriba el precio</string>
+    <string name="add_grocery_item_image_title">Imagen</string>
+    <string name="add_grocery_item_image_button_text">Seleccionar imagen</string>
+    <string name="add_grocery_item_add_button_text">Añadir Producto</string>
+
+    <string-array name="grocery_item_types">
+        <item>Bebida</item>
+        <item>Cítrico</item>
+        <item>Lácteos</item>
+        <item>Legumbre</item>
+        <item>Fruta</item>
+        <item>Verdura</item>
+        <item>Carne</item>
+        <item>Pescado</item>
+        <item>Marisco</item>
+        <item>Fruto seco</item>
+        <item>Grano</item>
+        <item>Condimento</item>
+        <item>Conserva</item>
+    </string-array>
+
+    <string-array name="grocery_item_units">
+        <item>No especificada</item>
+        <item>kg</item>
+        <item>g</item>
+        <item>L</item>
+        <item>cl</item>
+    </string-array>
 </resources>
+
