@@ -9,12 +9,14 @@ import com.example.compicomida.db.converters.DateConverter
 import com.example.compicomida.db.dao.GroceryItemDao
 import com.example.compicomida.db.dao.GroceryListDao
 import com.example.compicomida.db.dao.ItemCategoryDao
+import com.example.compicomida.db.dao.PantryItemDao
 import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.db.entities.ItemCategory
+import com.example.compicomida.db.entities.PantryItem
 
 @Database(
-    entities = [GroceryList::class, GroceryItem::class, ItemCategory::class],
+    entities = [GroceryList::class, GroceryItem::class, ItemCategory::class, PantryItem::class],
     version = 1, exportSchema = false
 )
 @TypeConverters(
@@ -25,6 +27,7 @@ abstract class LocalDatabase : RoomDatabase() {
     abstract fun groceryListDao(): GroceryListDao
     abstract fun groceryItemDao(): GroceryItemDao
     abstract fun itemCategoryDao(): ItemCategoryDao
+    abstract fun pantryItemDao(): PantryItemDao
 
     // Singleton database
     companion object {

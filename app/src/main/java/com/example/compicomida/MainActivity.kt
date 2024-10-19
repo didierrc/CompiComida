@@ -10,9 +10,11 @@ import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.db.entities.ItemCategory
+import com.example.compicomida.db.entities.PantryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.Date
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
             db!!.clearAllTables()
 
-            val aList = GroceryList(0, "Didier buys groceries", Date())
+            val aList = GroceryList(0, "Didier buys groceries", LocalDateTime.now())
             val aCat = ItemCategory(0, "Fruits")
 
             db!!.groceryListDao().add(aList)
@@ -55,7 +57,6 @@ class MainActivity : AppCompatActivity() {
                     listId = aListDB.listId,
                     categoryId = aCatDB.categoryId,
                     itemName = "Apple",
-                    expirationDate = Date(),
                     quantity = 3,
                     unit = null,
                     price = 10.0,
@@ -65,14 +66,37 @@ class MainActivity : AppCompatActivity() {
             )
 
             db!!.groceryListDao().getAllWithItems().forEach { entry ->
-                println("Nombre Lista: ${entry.key.listName}")
-                println("Productos:")
+                println("----- Nombre Lista: ${entry.key.listName}")
+                println("** Productos:")
                 entry.value.forEach {
                     val catName = db!!.itemCategoryDao().getById(it.categoryId!!)?.categoryName
-                    println("- ${it.itemName}: ${it.quantity} | ${it.price}€ | ${it.expirationDate} | $catName")
+                    println("- ${it.itemName}: ${it.quantity} | ${it.price}€ | $catName")
                 }
             }
 
+            db!!.pantryItemDao().add(
+                PantryItem(
+                    pantryId = 0,
+                    itemId = null, // not associated to any grocery item
+                    expirationDate = LocalDateTime.now().plusDays(20),
+                    pantryName = "Apples",
+                    quantity = 10,
+                    unit = null,
+                    lastUpdate = LocalDateTime.now().plusDays(-20),
+                    pantryPhotoUri = "apples.jpg"
+                )
+            )
+
+            println("----- Despensa")
+            db!!.pantryItemDao().getAll().forEach {
+                println(
+                    "- ${it.pantryName}: ${it.quantity} | ${
+                        it.expirationDate.format(
+                            DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                        )
+                    }"
+                )
+            }
 
         }
 

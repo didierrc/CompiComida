@@ -3,7 +3,7 @@ package com.example.compicomida.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
+import java.time.LocalDateTime
 
 @Entity
 data class GroceryList(
@@ -12,5 +12,5 @@ data class GroceryList(
     var listId: Int,
 
     @ColumnInfo(name = "list_name") val listName: String,
-    @ColumnInfo(name = "created_at") val createdAt: Date
+    @ColumnInfo(name = "created_at") val createdAt: LocalDateTime
 )

@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.Date
 
 @Entity(
     foreignKeys = [
@@ -38,7 +37,6 @@ data class GroceryItem(
 
     // Other attributes
     @ColumnInfo(name = "item_name") val itemName: String,
-    @ColumnInfo(name = "expiration_date") val expirationDate: Date,
     val quantity: Int,
     val unit: String?, // nullable
     val price: Double,
