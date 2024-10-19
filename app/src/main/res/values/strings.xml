@@ -7,4 +7,6 @@
     <string name="new_menu">Nuevo</string>
     <string name="pantry_menu">Despensa</string>
     <string name="lists_menu">Listas</string>
+    <string name="home_expire_title">Productos que caducarán pronto</string>
+    <string name="home_list_title">Tu lista de la compra</string>
 </resources>
