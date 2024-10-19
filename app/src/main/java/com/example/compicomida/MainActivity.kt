@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.db.entities.ItemCategory
 import com.example.compicomida.db.entities.PantryItem
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -36,6 +39,13 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // Set up bottom navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+        val navHostFragment = findNavController(R.id.fragmentContainerView)
+
+        bottomNav.setupWithNavController(navHostFragment)
+
+        // Initialize database
         db = LocalDatabase.getDB(this)
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -69,7 +79,8 @@ class MainActivity : AppCompatActivity() {
                 println("----- Nombre Lista: ${entry.key.listName}")
                 println("** Productos:")
                 entry.value.forEach {
-                    val catName = db!!.itemCategoryDao().getById(it.categoryId!!)?.categoryName
+                    val catName =
+                        db!!.itemCategoryDao().getById(it.categoryId!!)?.categoryName
                     println("- ${it.itemName}: ${it.quantity} | ${it.price}€ | $catName")
                 }
             }

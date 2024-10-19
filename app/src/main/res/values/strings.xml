@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CompiComida</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_menu">Home</string>
+    <string name="recipes_menu">Recetas</string>
+    <string name="new_menu">Nuevo</string>
+    <string name="pantry_menu">Despensa</string>
+    <string name="lists_menu">Listas</string>
 </resources>
