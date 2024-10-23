@@ -36,6 +36,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+    }
+
+    private fun smallFirestoreDBTest() {
+
+    }
+
+    // Put it into main to see if Local DB works OK
+    // Probably this should be moved into TEST folder.
+    private fun smallLocalDBTest() {
         db = LocalDatabase.getDB(this)
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -99,7 +109,5 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-
-
     }
 }
