@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("com.google.devtools.ksp") version "1.9.24-1.0.20"
+    alias(libs.plugins.googleServices)
 }
 
 android {
@@ -39,12 +40,16 @@ android {
 
 dependencies {
 
-    //New
+    // Room dependencies
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    // Firebase BoM
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore) // Remote DB
 
     // Base
     implementation(libs.androidx.core.ktx)

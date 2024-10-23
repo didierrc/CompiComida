@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "677592552714",
+    "project_id": "compicomida",
+    "storage_bucket": "compicomida.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677592552714:android:35d57a4792bc23739e56f3",
+        "android_client_info": {
+          "package_name": "com.example.compicomida"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXu3cO6hczdcGbm2UL8T-54mLeQUApOh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
