@@ -17,109 +17,143 @@
             android:textSize="24sp"
             android:layout_margin="5dp" />
 
-    <EditText
-            android:id="@+id/et_product_name"
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_product_name_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/add_grocery_item_name_hint"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="5dp"
-            android:inputType="text" />
+            android:layout_margin="5dp">
 
+        <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_product_name"
+                android:hint="@string/add_grocery_item_name_hint"
+                android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
             android:id="@+id/tv_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_grocery_item_type_title"
-            app:layout_constraintTop_toBottomOf="@id/et_product_name"
+            app:layout_constraintTop_toBottomOf="@id/et_product_name_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="24sp"
             android:layout_margin="5dp" />
-
-    <Spinner
-            android:id="@+id/spinner_product_type"
+    <!--Esto es temporal, tendrremos que cargarlo en tiempo de ejecución desde DB-->
+    <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_type"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="5dp"
-            android:entries="@array/grocery_item_types" />
-    <!--Esto es temporal, tendrremos que cargarlo en tiempo de ejecución desde DB-->
+            android:id="@+id/spinner_product_type_layout">
 
+        <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/grocery_item_types"
+                android:id="@+id/spinner_product_type"
+                tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
             android:id="@+id/tv_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_grocery_item_quantity_title"
-            app:layout_constraintTop_toBottomOf="@id/spinner_product_type"
+            app:layout_constraintTop_toBottomOf="@id/spinner_product_type_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="24sp"
             android:layout_margin="5dp" />
 
-    <EditText
-            android:id="@+id/et_product_quantity"
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_product_quantity_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/add_grocery_item_quantity_hint"
             app:layout_constraintTop_toBottomOf="@id/tv_quantity"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="5dp"
-            android:inputType="number" />
+            android:layout_margin="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_product_quantity"
+                android:hint="@string/add_grocery_item_quantity_hint"
+                android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
             android:id="@+id/tv_units"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_grocery_item_units_title"
-            app:layout_constraintTop_toBottomOf="@id/et_product_quantity"
+            app:layout_constraintTop_toBottomOf="@id/et_product_quantity_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="24sp"
             android:layout_margin="5dp" />
 
-    <Spinner
-            android:id="@+id/spinner_product_units"
+    <!--Esto es temporal, tendrremos que cargarlo en tiempo de ejecución desde DB-->
+
+    <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tv_units"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="5dp"
-            android:entries="@array/grocery_item_units" />
-    <!--Esto es temporal, tendrremos que cargarlo en tiempo de ejecución desde DB-->
+            android:id="@+id/spinner_product_units_layout">
+
+        <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/grocery_item_units"
+                android:id="@+id/spinner_product_units"
+                tools:ignore="LabelFor" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_grocery_item_price_title"
-            app:layout_constraintTop_toBottomOf="@id/spinner_product_units"
+            app:layout_constraintTop_toBottomOf="@id/spinner_product_units_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="24sp"
             android:layout_margin="5dp" />
 
-    <EditText
-            android:id="@+id/et_product_price"
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_product_price_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/add_grocery_item_price_hint"
             app:layout_constraintTop_toBottomOf="@id/tv_price"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="5dp"
-            android:inputType="numberDecimal" />
+            android:layout_margin="5dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/et_product_price"
+                android:hint="@string/add_grocery_item_price_hint"
+                android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
             android:id="@+id/tv_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_grocery_item_image_title"
-            app:layout_constraintTop_toBottomOf="@id/et_product_price"
+            app:layout_constraintTop_toBottomOf="@id/et_product_price_layout"
             app:layout_constraintStart_toStartOf="parent"
             android:textSize="24sp"
             android:layout_margin="5dp" />
@@ -145,7 +179,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/bet_add_grocery_item"
+            android:id="@+id/bt_add_grocery_item"
             android:layout_margin="5dp"
             style="@style/CustomButtonStyle" />
 
