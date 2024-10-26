@@ -1,6 +1,7 @@
 package com.example.compicomida
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,6 +15,7 @@ import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.db.entities.ItemCategory
 import com.example.compicomida.db.entities.PantryItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -22,7 +24,7 @@ import java.time.format.DateTimeFormatter
 class MainActivity : AppCompatActivity() {
 
     private var db: LocalDatabase? = null
-
+    private val firestoreDB = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,46 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setupWithNavController(navHostFragment)
 
         // Initialize database
+
+        smallLocalDBTest()
+        smallFirestoreDBTest()
+    }
+
+    // Put it into main to see if Firestore DB works OK
+    // Probably this should be moved into TEST folder and Mocked.
+    private fun smallFirestoreDBTest() {
+
+        Log.d("Firestore", "******** Testing Firestore ********")
+
+        firestoreDB.collection("meals")
+            .get()
+            .addOnSuccessListener { docs ->
+                Log.d("Firestore", "****** Meals ******")
+                for (doc in docs) {
+                    Log.d("Firestore", "--> Meals: ${doc.id}")
+                    Log.d("Firestore", "Name: ${doc.data["name"]}")
+                    Log.d("Firestore", "Description: ${doc.data["description"]}")
+                    Log.d("Firestore", "Difficulty: ${doc.data["difficulty"]}")
+                    Log.d("Firestore", "Preparation time: ${doc.data["preparation_time"]}m")
+                    Log.d("Firestore", "Image: ${doc.data["image"]}")
+                    Log.d("Firestore", "Ingredients:")
+
+                    val ingredients = doc.data["ingredients"] as? List<*>
+                    ingredients?.forEach { ingredient ->
+                        val i = ingredient as? Map<*, *>
+                        Log.d("Firestore", "- ${i!!["name"]}: ${i["quantity"]} ${i["unit"]}")
+                    }
+
+                    // If the above works, the Steps part is easier :)
+                    // Another thing is, could the above be improved instead of Casting?? TBD
+
+                }
+            }
+    }
+
+    // Put it into main to see if Local DB works OK
+    // Probably this should be moved into TEST folder.
+    private fun smallLocalDBTest() {
         db = LocalDatabase.getDB(this)
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -110,7 +152,5 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-
-
     }
 }
