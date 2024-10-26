@@ -36,7 +36,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
                         android:textStyle="bold" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,8 +90,7 @@
                         app:layout_constraintTop_toBottomOf="@id/expire_element"
                         app:layout_constraintStart_toStartOf="parent"
                         android:layout_marginTop="16dp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="16dp" />
+                        android:textStyle="bold" />
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
