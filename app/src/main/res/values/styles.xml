@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><!-- res/values/styles.xml -->
+
+<resources>
+    <!-- Custom style for BottomNavigationView -->
+    <style name="CustomBottomNavigationViewStyle" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">?attr/colorPrimary</item>
+
+        <item name="itemTextColor">@color/white</item>
+
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:background">@drawable/custom_button_background</item>
+    </style>
+
+
+</resources>
+
