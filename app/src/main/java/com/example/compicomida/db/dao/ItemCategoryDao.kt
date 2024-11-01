@@ -18,6 +18,9 @@ interface ItemCategoryDao {
     @Query("SELECT * FROM ItemCategory WHERE category_id = :id")
     suspend fun getById(id: Int): ItemCategory?
 
+    @Query("SELECT * FROM ItemCategory WHERE category_name = :name")
+    suspend fun getByName(name: String): ItemCategory?
+
     // Inserts
 
     @Insert

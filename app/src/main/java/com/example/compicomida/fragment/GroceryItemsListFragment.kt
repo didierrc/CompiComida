@@ -53,7 +53,7 @@ class GroceryItemsListFragment : Fragment() {
         val fabNewItem = view.findViewById<FloatingActionButton>(R.id.fabNewItem)
         fabNewItem.setOnClickListener {
             val target = GroceryItemsListFragmentDirections
-                .actionGroceryItemsListFragmentToAddGroceryItemFragment()
+                .actionGroceryItemsListFragmentToAddGroceryItemFragment(args.listId)
             findNavController().navigate(target)
         }
     }
