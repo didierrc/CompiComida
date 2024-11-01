@@ -21,6 +21,9 @@
     <string name="add_grocery_item_add_button_text">Añadir Producto</string>
     <string name="add_grocery_list_add_button_text">Añadir Lista</string>
     <string name="searchbar_hint">Búsqueda de productos</string>
+    <string name="content_desc_grocery_list_image">Grocery List Image</string>
+    <string name="recycler_grocery_list_name">Lista 1</string>
+    <string name="recycler_grocery_list_date">Creada el %1$s</string>
 
     <string-array name="grocery_item_types">
         <item>Bebida</item>

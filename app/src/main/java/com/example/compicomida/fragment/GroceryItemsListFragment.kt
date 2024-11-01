@@ -11,24 +11,21 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
-import com.example.compicomida.db.converters.DateConverter
 import com.example.compicomida.db.entities.GroceryItem
-import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.recyclerViews.GroceryItemsAdapter
-import com.example.compicomida.recyclerViews.ShoppingListsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 
+/**
+ * GroceryItemsListFragment:
+ * - Shows a list with all the products from a grocery list.
+ */
 class GroceryItemsListFragment : Fragment() {
 
-    private lateinit var recyclerGroceryItem : RecyclerView
-    private val firestoreDB = FirebaseFirestore.getInstance()
-
-    private val args : GroceryItemsListFragmentArgs by navArgs()
+    private lateinit var recyclerGroceryItem: RecyclerView
+    private val args: GroceryItemsListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,23 +55,24 @@ class GroceryItemsListFragment : Fragment() {
 
 
         lifecycleScope.launch(Dispatchers.IO) {
-            var groceryItems : List<GroceryItem> = List(5) { i -> GroceryItem(i,args.listId, 0, "Producto ${i}", (i * 2 + 1),null,(i + 0.1),if (i < 2) false else true,null)}
-
-
-            /*var groceryItems : MutableList<GroceryItem> = mutableListOf()
-
-            firestoreDB.collection("groceryItems")
-                .get()
-                .addOnSuccessListener { groceryItems ->
-                    Log.d("Firestore", "****** Grocery Items ******")
-                    for (groceryItem in groceryItems) {
-
-                        groceryItems.add( GroceryItem(i,args.listId, 0, "Producto ${i}",(i * 2 + 1) ,null,(i + 0.1),false,null) )
-                    }
-                }*/
+            var groceryItems: List<GroceryItem> = List(5) { i ->
+                GroceryItem(
+                    i,
+                    args.listId,
+                    0,
+                    "Producto ${i}",
+                    (i * 2 + 1),
+                    null,
+                    (i + 0.1),
+                    i >= 2,
+                    null
+                )
+            }
+            
             withContext(Dispatchers.Main) {
-                recyclerGroceryItem.adapter = GroceryItemsAdapter(groceryItems) { //will change if the product is purchare or not
-                }
+                recyclerGroceryItem.adapter =
+                    GroceryItemsAdapter(groceryItems) { //will change if the product is purchare or not
+                    }
             }
 
         }

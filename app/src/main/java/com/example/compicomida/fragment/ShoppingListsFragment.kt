@@ -11,21 +11,21 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
-import com.example.compicomida.db.converters.DateConverter
-import com.example.compicomida.db.entities.GroceryList
+import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.recyclerViews.ShoppingListsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
 
-
+/**
+ * ShoppingListsFragment:
+ * - Shows a list with all the created grocery lists.
+ */
 class ShoppingListsFragment : Fragment() {
-    private lateinit var recyclerGroceryList : RecyclerView
-    private val firestoreDB = FirebaseFirestore.getInstance()
-    private val dateConverter = DateConverter()
+
+    private lateinit var recyclerGroceryList: RecyclerView
+    private var db: LocalDatabase? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,47 +37,49 @@ class ShoppingListsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeRecylerGroceryList()
+
+        // Shows all the current lists from DB.
+        db = LocalDatabase.getDB(requireContext())
+        db?.let { initializeRecyclerGroceryList(it) }
 
 
-        val fabNewList = view.findViewById<FloatingActionButton>(R.id.fabNewlist)
+        // Initialise the Fab - Add new list.
+        initFabNewList(view)
+    }
+
+    // Initialise the Fab Click Listener
+    private fun initFabNewList(view: View) {
+        val fabNewList: FloatingActionButton = view.findViewById(R.id.fabNewlist)
         fabNewList.setOnClickListener {
-            val destino = ShoppingListsFragmentDirections
-                .actionShoppingListsFragmentToAddGroceryListFragment()
-            findNavController().navigate(destino)
+            findNavController().navigate(
+                ShoppingListsFragmentDirections
+                    .actionShoppingListsFragmentToAddGroceryListFragment()
+            )
         }
     }
 
-    private fun initializeRecylerGroceryList() {
+    // Shows all the current lists from DB.
+    private fun initializeRecyclerGroceryList(db: LocalDatabase) {
+
         recyclerGroceryList = requireView().findViewById(R.id.recyclerGroceryList)
-        //Fíjate cómo le pasamos el contexto. Ya no es "this" ¡Estamos en un fragment!
         recyclerGroceryList.layoutManager = LinearLayoutManager(requireContext())
 
-
         lifecycleScope.launch(Dispatchers.IO) {
-            var shoppingLists : List<GroceryList> = List(5) { i -> GroceryList(i,"Lista $i", LocalDateTime.now())}
 
-
-            /*var shoppingLists : MutableList<GroceryList> = mutableListOf()
-
-            firestoreDB.collection("groceryLists")
-                .get()
-                .addOnSuccessListener { groceryLists ->
-                    Log.d("Firestore", "****** Grocery Lists ******")
-                    for (groceryList in groceryLists) {
-                        Log.d("Firestore", "--> List: ${groceryList.id}")
-                        Log.d("Firestore", "Name: ${groceryList.data["listName"]}")
-                        Log.d("Firestore", "Created at: ${groceryList.data["createdAt"]}")
-
-                        shoppingLists.add( GroceryList(groceryList.id.toInt(),groceryList.data["listName"].toString(),dateConverter.fromTimestamp(groceryList.data["createdAt"].toString())!!))
-
-                    }
-                }*/
+            val shoppingLists = db.groceryListDao().getAll()
 
             withContext(Dispatchers.Main) {
-                recyclerGroceryList.adapter = ShoppingListsAdapter(shoppingLists) { shoppingList ->
-                    val destino = ShoppingListsFragmentDirections.actionShoppingListsFragmentToGroceryItemsListFragment(shoppingList!!.listId)
-                    findNavController().navigate(destino)
+                recyclerGroceryList.adapter = ShoppingListsAdapter(shoppingLists) { shopListId ->
+                    val target = shopListId?.let {
+                        ShoppingListsFragmentDirections
+                            .actionShoppingListsFragmentToGroceryItemsListFragment(it)
+                    }
+
+
+                    if (target != null)
+                        findNavController().navigate(target)
+                    else
+                        Log.e("ShoppingListsFragment", "Target is null")
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.example.compicomida
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,142 +14,140 @@ import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.db.entities.ItemCategory
 import com.example.compicomida.db.entities.PantryItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
     private var db: LocalDatabase? = null
-    private val firestoreDB = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Default behaviour for Main Activity
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom
-            )
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
         // Set up bottom navigation
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_navigation_view)
         val navHostFragment = findNavController(R.id.fragmentContainerView)
-
         bottomNav.setupWithNavController(navHostFragment)
 
-        // Initialize database
-
-        smallLocalDBTest()
-        smallFirestoreDBTest()
-    }
-
-    // Put it into main to see if Firestore DB works OK
-    // Probably this should be moved into TEST folder and Mocked.
-    private fun smallFirestoreDBTest() {
-
-        Log.d("Firestore", "******** Testing Firestore ********")
-
-        firestoreDB.collection("meals")
-            .get()
-            .addOnSuccessListener { docs ->
-                Log.d("Firestore", "****** Meals ******")
-                for (doc in docs) {
-                    Log.d("Firestore", "--> Meals: ${doc.id}")
-                    Log.d("Firestore", "Name: ${doc.data["name"]}")
-                    Log.d("Firestore", "Description: ${doc.data["description"]}")
-                    Log.d("Firestore", "Difficulty: ${doc.data["difficulty"]}")
-                    Log.d("Firestore", "Preparation time: ${doc.data["preparation_time"]}m")
-                    Log.d("Firestore", "Image: ${doc.data["image"]}")
-                    Log.d("Firestore", "Ingredients:")
-
-                    val ingredients = doc.data["ingredients"] as? List<*>
-                    ingredients?.forEach { ingredient ->
-                        val i = ingredient as? Map<*, *>
-                        Log.d("Firestore", "- ${i!!["name"]}: ${i["quantity"]} ${i["unit"]}")
-                    }
-
-                    // If the above works, the Steps part is easier :)
-                    // Another thing is, could the above be improved instead of Casting?? TBD
-
-                }
-            }
-    }
-
-    // Put it into main to see if Local DB works OK
-    // Probably this should be moved into TEST folder.
-    private fun smallLocalDBTest() {
+        // Initialize DB
         db = LocalDatabase.getDB(this)
+        db?.let { dbTestValues(it) }
+    }
+
+    /*
+    Test values for grocery lists and grocery.
+     */
+    private fun dbTestValues(db: LocalDatabase) {
 
         lifecycleScope.launch(Dispatchers.IO) {
 
-            db!!.clearAllTables()
+            db.clearAllTables()
 
-            val aList = GroceryList(0, "Didier buys groceries", LocalDateTime.now())
-            val aCat = ItemCategory(0, "Fruits")
-
-            db!!.groceryListDao().add(aList)
-            db!!.itemCategoryDao().add(aCat)
-
-            val aListDB = db!!.groceryListDao().getAll().first()
-            val aCatDB = db!!.itemCategoryDao().getAll().first()
-
-            db!!.groceryItemDao().add(
-                GroceryItem(
-                    itemId = 0,
-                    listId = aListDB.listId,
-                    categoryId = aCatDB.categoryId,
-                    itemName = "Apple",
-                    quantity = 3,
-                    unit = null,
-                    price = 10.0,
-                    isPurchased = false,
-                    itemPhotoUri = "apple.jpg"
-                )
+            val groceryLists = listOf(
+                GroceryList(0, "Lista Didier", LocalDateTime.now()),
+                GroceryList(0, "Lista Raúl", LocalDateTime.now()),
+                GroceryList(0, "Lista Yago", LocalDateTime.now()),
             )
+            db.groceryListDao().addAll(*groceryLists.toTypedArray())
 
-            db!!.groceryListDao().getAllWithItems().forEach { entry ->
-                println("----- Nombre Lista: ${entry.key.listName}")
-                println("** Productos:")
-                entry.value.forEach {
-                    val catName =
-                        db!!.itemCategoryDao().getById(it.categoryId!!)?.categoryName
-                    println("- ${it.itemName}: ${it.quantity} | ${it.price}€ | $catName")
-                }
+            val aCategory = ItemCategory(0, "Frutas")
+            db.itemCategoryDao().add(aCategory)
+            val catId = db.itemCategoryDao().getAll().first().categoryId
+
+            db.groceryListDao().getAll().forEach {
+                val groceryItems = listOf(
+                    GroceryItem(
+                        0,
+                        it.listId,
+                        catId,
+                        "Manzanas",
+                        3,
+                        null,
+                        10.0,
+                        false,
+                        "apple.jpg"
+                    ),
+                    GroceryItem(
+                        0,
+                        it.listId,
+                        catId,
+                        "Plátanos",
+                        2,
+                        null,
+                        5.0,
+                        false,
+                        "banana.jpg"
+                    ),
+                    GroceryItem(
+                        0,
+                        it.listId,
+                        catId,
+                        "Naranjas",
+                        1,
+                        null,
+                        8.0,
+                        false,
+                        "orange.jpg"
+                    ),
+                )
+                db.groceryItemDao().addAll(*groceryItems.toTypedArray())
             }
 
-            db!!.pantryItemDao().add(
+            val pantryItems = listOf(
                 PantryItem(
-                    pantryId = 0,
-                    itemId = null, // not associated to any grocery item
-                    expirationDate = LocalDateTime.now().plusDays(20),
-                    pantryName = "Apples",
-                    quantity = 10,
-                    unit = null,
-                    lastUpdate = LocalDateTime.now().plusDays(-20),
-                    pantryPhotoUri = "apples.jpg"
+                    0,
+                    null,
+                    LocalDateTime.now(),
+                    "Peras",
+                    3,
+                    null,
+                    LocalDateTime.now().plusDays(-1),
+                    "peras.jpg"
+                ),
+                PantryItem(
+                    0,
+                    null,
+                    LocalDateTime.now().plusDays(5),
+                    "Mangos",
+                    2,
+                    null,
+                    LocalDateTime.now().plusDays(-2),
+                    "mangos.jpg"
+                ),
+                PantryItem(
+                    0,
+                    null,
+                    LocalDateTime.now().plusDays(7),
+                    "Fresas",
+                    1,
+                    null,
+                    LocalDateTime.now().plusDays(-3),
+                    "fresas.jpg"
+                ),
+                PantryItem(
+                    0,
+                    null,
+                    LocalDateTime.now().plusDays(10),
+                    "Limones",
+                    5,
+                    null,
+                    LocalDateTime.now().plusDays(-4),
+                    "limones.jpg"
                 )
             )
-
-            println("----- Despensa")
-            db!!.pantryItemDao().getAll().forEach {
-                println(
-                    "- ${it.pantryName}: ${it.quantity} | ${
-                        it.expirationDate.format(
-                            DateTimeFormatter.ofPattern("dd/MM/yyyy")
-                        )
-                    }"
-                )
-            }
-
+            db.pantryItemDao().addAll(*pantryItems.toTypedArray())
         }
     }
+
+
 }
