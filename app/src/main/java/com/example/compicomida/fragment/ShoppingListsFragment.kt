@@ -42,7 +42,6 @@ class ShoppingListsFragment : Fragment() {
         db = LocalDatabase.getDB(requireContext())
         db?.let { initializeRecyclerGroceryList(it) }
 
-
         // Initialise the Fab - Add new list.
         initFabNewList(view)
     }
@@ -74,7 +73,6 @@ class ShoppingListsFragment : Fragment() {
                         ShoppingListsFragmentDirections
                             .actionShoppingListsFragmentToGroceryItemsListFragment(it)
                     }
-
 
                     if (target != null)
                         findNavController().navigate(target)

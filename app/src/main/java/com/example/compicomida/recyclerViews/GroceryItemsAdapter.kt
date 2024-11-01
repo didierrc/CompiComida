@@ -7,22 +7,21 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
 import com.example.compicomida.R
-import com.example.compicomida.db.converters.DateConverter
 import com.example.compicomida.db.entities.GroceryItem
-import com.example.compicomida.db.entities.GroceryList
 
 class GroceryItemsAdapter(
 
     private val groceryItems: List<GroceryItem>,
-    private val onClickListener: (GroceryItem?) -> Unit
+    private val onClickGoToItemDetail: (Int?) -> Unit
 
 ) : RecyclerView.Adapter<GroceryItemsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val layoutElemento = R.layout.recycler_grocery_item
-        val view = LayoutInflater.from(viewGroup.context).inflate(layoutElemento, viewGroup, false)
-        return ViewHolder(view, onClickListener)
+        val itemLayout = R.layout.recycler_grocery_item
+        val view = LayoutInflater.from(viewGroup.context).inflate(itemLayout, viewGroup, false)
+        return ViewHolder(view, onClickGoToItemDetail)
     }
 
 
@@ -35,27 +34,30 @@ class GroceryItemsAdapter(
 
     class ViewHolder(
         view: View,
-        onClickListener: (GroceryItem?) -> Unit
+        onClickGoToItemDetail: (Int?) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
         private val tvTitle: TextView = view.findViewById(R.id.recycler_grocery_item_title)
         private val tvText: TextView = view.findViewById(R.id.recycler_grocery_item_text)
-        private val cbPurchared : CheckBox = view.findViewById(R.id.recycler_grocery_item_checkBox)
+        private val cbPurchared: CheckBox = view.findViewById(R.id.recycler_grocery_item_checkBox)
         private val imageView: ImageView = view.findViewById(R.id.recycler_grocery_item_image)
-        private var actualGroceryItem: GroceryItem? = null
+
+        private var groceryItem: GroceryItem? = null
 
         init {
-            view.setOnClickListener { it ->
-                onClickListener(actualGroceryItem)
-            }
+            view.setOnClickListener { onClickGoToItemDetail(groceryItem?.itemId) }
         }
-        fun bind(groceryItem : GroceryItem) {
-            actualGroceryItem = groceryItem
+
+        fun bind(groceryItem: GroceryItem) {
+            this.groceryItem = groceryItem
+
             tvTitle.text = groceryItem.itemName
-            tvText.text = "Cantidad: ${groceryItem.quantity}"
-            cbPurchared.isChecked  = groceryItem.isPurchased
-            //to let users customize the image of the lists
-            //imageView.load(groceryItem.itemPhotoUri)
+            tvText.text = itemView.context.getString(
+                R.string.grocery_items_adapter_cantidad_text,
+                groceryItem.quantity
+            )
+            cbPurchared.isChecked = groceryItem.isPurchased
+            imageView.load(groceryItem.itemPhotoUri)
         }
     }
 

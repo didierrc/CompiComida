@@ -18,6 +18,9 @@ interface GroceryItemDao {
     @Query("SELECT * FROM GroceryItem WHERE item_id = :id")
     suspend fun getById(id: Int): GroceryItem?
 
+    @Query("SELECT * FROM GroceryItem WHERE list_id = :id")
+    suspend fun getByListId(id: Int): List<GroceryItem>
+
     // Inserts
 
     @Insert

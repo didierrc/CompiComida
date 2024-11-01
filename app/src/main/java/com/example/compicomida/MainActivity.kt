@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                         null,
                         10.0,
                         false,
-                        "apple.jpg"
+                        "https://cdn-icons-png.flaticon.com/512/740/740922.png"
                     ),
                     GroceryItem(
                         0,
@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                         null,
                         5.0,
                         false,
-                        "banana.jpg"
+                        "https://cdn-icons-png.flaticon.com/512/5779/5779223.png"
                     ),
                     GroceryItem(
                         0,
@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                         null,
                         8.0,
                         false,
-                        "orange.jpg"
+                        "https://cdn-icons-png.flaticon.com/512/721/721098.png"
                     ),
                 )
                 db.groceryItemDao().addAll(*groceryItems.toTypedArray())

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
-import com.example.compicomida.db.entities.GroceryItem
+import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.recyclerViews.GroceryItemsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +27,7 @@ class GroceryItemsListFragment : Fragment() {
 
     private lateinit var recyclerGroceryItem: RecyclerView
     private val args: GroceryItemsListFragmentArgs by navArgs()
+    private var db: LocalDatabase? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,43 +38,57 @@ class GroceryItemsListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
-        initializeRecylerGroceryItem()
 
+        // Shows all the current items inside a shopping list from DB.
+        db = LocalDatabase.getDB(requireContext())
+        db?.let { initializeRecyclerItemsList(it) }
 
+        initFabNewList(view)
+    }
+
+    // Initialise the Fab Click Listener
+    private fun initFabNewList(view: View) {
         val fabNewItem = view.findViewById<FloatingActionButton>(R.id.fabNewItem)
         fabNewItem.setOnClickListener {
-            val destino = GroceryItemsListFragmentDirections
+            val target = GroceryItemsListFragmentDirections
                 .actionGroceryItemsListFragmentToAddGroceryItemFragment()
-            findNavController().navigate(destino)
+            findNavController().navigate(target)
         }
     }
 
-    private fun initializeRecylerGroceryItem() {
+    private fun initializeRecyclerItemsList(db: LocalDatabase) {
+
         recyclerGroceryItem = requireView().findViewById(R.id.recyclerGroceryItem)
-        //Fíjate cómo le pasamos el contexto. Ya no es "this" ¡Estamos en un fragment!
         recyclerGroceryItem.layoutManager = LinearLayoutManager(requireContext())
 
-
         lifecycleScope.launch(Dispatchers.IO) {
-            var groceryItems: List<GroceryItem> = List(5) { i ->
-                GroceryItem(
-                    i,
-                    args.listId,
-                    0,
-                    "Producto ${i}",
-                    (i * 2 + 1),
-                    null,
-                    (i + 0.1),
-                    i >= 2,
-                    null
-                )
-            }
-            
+            val groceryItems = db.groceryItemDao().getByListId(args.listId)
+
             withContext(Dispatchers.Main) {
-                recyclerGroceryItem.adapter =
-                    GroceryItemsAdapter(groceryItems) { //will change if the product is purchare or not
+
+                recyclerGroceryItem.adapter = GroceryItemsAdapter(groceryItems) { itemId ->
+
+                    Toast.makeText(requireContext(), "Item clicked: $itemId", Toast.LENGTH_SHORT)
+                        .show()
+
+                    /*
+
+                    val target = itemId?.let {
+                        // TODO: Navigate to Item's detail
+
+                        //GroceryItemsListFragmentDirections
+                        //.actionGroceryItemsListFragmentToGroceryItemDetail(it)
                     }
+
+                    if (target != null)
+                        findNavController().navigate(target)
+                    else
+                        Log.e("GroceryItemsListsFragment", "Target is null")
+                     */
+
+                }
             }
 
         }
