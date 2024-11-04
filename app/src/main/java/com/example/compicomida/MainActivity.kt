@@ -30,7 +30,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
 
@@ -60,8 +65,20 @@ class MainActivity : AppCompatActivity() {
             )
             db.groceryListDao().addAll(*groceryLists.toTypedArray())
 
-            val aCategory = ItemCategory(0, "Frutas")
+            val aCategory = ItemCategory(0, "Fruta")
+            val aCategory2 = ItemCategory(1, "Verdura")
+            val aCategory3 = ItemCategory(2, "Carne")
+            val aCategory4 = ItemCategory(3, "Pescado")
+            val aCategory5 = ItemCategory(4, "Lácteo")
+            val aCategory6 = ItemCategory(5, "Bebida")
+            val aCategory7 = ItemCategory(6, "Fruto Seco")
             db.itemCategoryDao().add(aCategory)
+            db.itemCategoryDao().add(aCategory2)
+            db.itemCategoryDao().add(aCategory3)
+            db.itemCategoryDao().add(aCategory4)
+            db.itemCategoryDao().add(aCategory5)
+            db.itemCategoryDao().add(aCategory6)
+            db.itemCategoryDao().add(aCategory7)
             val catId = db.itemCategoryDao().getAll().first().categoryId
 
             db.groceryListDao().getAll().forEach {
@@ -72,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Manzanas",
                         3,
-                        null,
+                        "kg",
                         10.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/740/740922.png"
@@ -82,8 +99,8 @@ class MainActivity : AppCompatActivity() {
                         it.listId,
                         catId,
                         "Plátanos",
-                        2,
-                        null,
+                        500,
+                        "g",
                         5.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/5779/5779223.png"
@@ -94,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Naranjas",
                         1,
-                        null,
+                        "kg",
                         8.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/721/721098.png"

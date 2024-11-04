@@ -19,6 +19,9 @@ interface GroceryListDao {
     @Query("SELECT * FROM GroceryList WHERE list_id = :id")
     suspend fun getById(id: Int): GroceryList?
 
+    @Query("SELECT * FROM GroceryList WHERE list_name = :name")
+    suspend fun getByName(name: String): GroceryList?
+
     @Query(
         "SELECT * FROM GroceryList g " +
                 "INNER JOIN GroceryItem i on g.list_id = i.list_id"

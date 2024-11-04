@@ -61,7 +61,7 @@ class AddGroceryItemFragment : Fragment() {
     }
 
     private fun initialiseViewElements(view: View) {
-        itemName = view.findViewById(R.id.et_product_name)
+        itemName = view.findViewById(R.id.et_list_name)
         spinnerCategories = view.findViewById(R.id.spinner_product_type)
         quantity = view.findViewById(R.id.et_product_quantity)
         units = view.findViewById(R.id.spinner_product_units)
@@ -77,7 +77,8 @@ class AddGroceryItemFragment : Fragment() {
                 // TODO: Here the category is found by the name in the spinner
                 //  Research if there's a way of storing both ID and the Name in the Spinner
                 //  so this is not necessary
-                val itemCategory = db.itemCategoryDao().getByName(spinnerCategories.text.toString())
+                val itemCategory =
+                    db.itemCategoryDao().getByName(spinnerCategories.text.toString())
 
                 val newItem = GroceryItem(
                     itemId = 0,
@@ -98,7 +99,7 @@ class AddGroceryItemFragment : Fragment() {
                     price.text?.clear()
                     findNavController().popBackStack()
                 }
-                
+
             }
         }
     }

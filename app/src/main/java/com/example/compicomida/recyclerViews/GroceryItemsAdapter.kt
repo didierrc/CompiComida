@@ -20,7 +20,8 @@ class GroceryItemsAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val itemLayout = R.layout.recycler_grocery_item
-        val view = LayoutInflater.from(viewGroup.context).inflate(itemLayout, viewGroup, false)
+        val view =
+            LayoutInflater.from(viewGroup.context).inflate(itemLayout, viewGroup, false)
         return ViewHolder(view, onClickGoToItemDetail)
     }
 
@@ -37,10 +38,13 @@ class GroceryItemsAdapter(
         onClickGoToItemDetail: (Int?) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
-        private val tvTitle: TextView = view.findViewById(R.id.recycler_grocery_item_title)
+        private val tvTitle: TextView =
+            view.findViewById(R.id.recycler_grocery_item_title)
         private val tvText: TextView = view.findViewById(R.id.recycler_grocery_item_text)
-        private val cbPurchared: CheckBox = view.findViewById(R.id.recycler_grocery_item_checkBox)
-        private val imageView: ImageView = view.findViewById(R.id.recycler_grocery_item_image)
+        private val cbPurchared: CheckBox =
+            view.findViewById(R.id.recycler_grocery_item_checkBox)
+        private val imageView: ImageView =
+            view.findViewById(R.id.recycler_grocery_item_image)
 
         private var groceryItem: GroceryItem? = null
 
@@ -54,7 +58,8 @@ class GroceryItemsAdapter(
             tvTitle.text = groceryItem.itemName
             tvText.text = itemView.context.getString(
                 R.string.grocery_items_adapter_cantidad_text,
-                groceryItem.quantity
+                groceryItem.quantity,
+                groceryItem.unit ?: ""
             )
             cbPurchared.isChecked = groceryItem.isPurchased
             imageView.load(groceryItem.itemPhotoUri)
