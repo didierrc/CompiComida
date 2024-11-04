@@ -6,7 +6,6 @@
         <item name="colorPrimaryVariant">@color/green</item>
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/white</item>
-        <item name="elevationOverlayColor">@color/lessWhite</item>
         <item name="colorSecondaryContainer">@color/white</item>
     </style>
 

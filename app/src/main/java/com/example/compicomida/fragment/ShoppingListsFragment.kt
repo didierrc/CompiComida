@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
 import com.example.compicomida.db.LocalDatabase
+import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.recyclerViews.ShoppingListsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
@@ -68,18 +69,38 @@ class ShoppingListsFragment : Fragment() {
             val shoppingLists = db.groceryListDao().getAll()
 
             withContext(Dispatchers.Main) {
-                recyclerGroceryList.adapter = ShoppingListsAdapter(shoppingLists) { shopListId ->
-                    val target = shopListId?.let {
-                        ShoppingListsFragmentDirections
-                            .actionShoppingListsFragmentToGroceryItemsListFragment(it)
-                    }
+                recyclerGroceryList.adapter =
+                    ShoppingListsAdapter(shoppingLists, { shopListId ->
+                        val target = shopListId?.let {
+                            ShoppingListsFragmentDirections
+                                .actionShoppingListsFragmentToGroceryItemsListFragment(
+                                    it
+                                )
+                        }
 
-                    if (target != null)
-                        findNavController().navigate(target)
-                    else
-                        Log.e("ShoppingListsFragment", "Target is null")
+                        if (target != null)
+                            findNavController().navigate(target)
+                        else
+                            Log.e("ShoppingListsFragment", "Target is null")
+                    },
+                        { groceryList ->
+                            deleteGroceryList(groceryList, db)
+                        })
+            }
+        }
+    }
+
+
+    private fun deleteGroceryList(groceryList: GroceryList?, db: LocalDatabase) {
+        if (groceryList != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                db.groceryListDao().delete(groceryList)
+                withContext(Dispatchers.Main) {
+                    initializeRecyclerGroceryList(db)
                 }
             }
+        } else {
+            Log.e("ShoppingListsFragment", "GroceryList is null")
         }
     }
 }
