@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ShoppingListsFragment">
+    tools:context=".fragment.GroceryItemsListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerGroceryList"
+        android:id="@+id/recyclerGroceryItem"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/recycler_grocery_list" />
+        tools:listitem="@layout/recycler_grocery_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNewlist"
+        android:id="@+id/fabNewItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
