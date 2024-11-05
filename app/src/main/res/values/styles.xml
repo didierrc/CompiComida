@@ -18,6 +18,12 @@
         <item name="rippleColor">@color/red</item>
     </style>
 
+    <style name="CustomFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/green</item>
+        <item name="fabSize">mini</item>
+        <item name="rippleColor">@color/white</item>
+    </style>
+
 
 </resources>
 

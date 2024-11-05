@@ -47,7 +47,7 @@ class ShoppingListsAdapter(
         private val tvName: TextView = view.findViewById(R.id.recycler_grocery_list_name)
         private val tvDate: TextView = view.findViewById(R.id.recycler_grocery_list_date)
         private val btnDeleteList: Button =
-            view.findViewById(R.id.recycler_grocery_list_delete)
+            view.findViewById(R.id.recycler_grocery_list_btn_delete)
         private val imageView: ImageView =
             view.findViewById(R.id.recycler_grocery_list_image)
         private val dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
@@ -60,13 +60,11 @@ class ShoppingListsAdapter(
                 onClickGoToItems(groceryList?.listId)
             }
             btnDeleteList.setOnClickListener {
-                groceryList?.let { list ->
-                    btnDeleteList.isEnabled =
-                        false // Disable the button to prevent multiple clicks
-                    btnDeleteList.animate().alpha(0f).setDuration(400).withEndAction {
-                        onDeleteList(list)
-                    }.start()
-                }
+                btnDeleteList.isEnabled =
+                    false // Disable the button to prevent multiple clicks
+                btnDeleteList.animate().alpha(0f).setDuration(400).withEndAction {
+                    onDeleteList(groceryList)
+                }.start()
             }
         }
 

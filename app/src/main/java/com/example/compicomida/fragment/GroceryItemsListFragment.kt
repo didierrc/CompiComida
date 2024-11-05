@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
 import com.example.compicomida.db.LocalDatabase
+import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.recyclerViews.GroceryItemsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
@@ -59,7 +60,6 @@ class GroceryItemsListFragment : Fragment() {
     }
 
     private fun initializeRecyclerItemsList(db: LocalDatabase) {
-
         recyclerGroceryItem = requireView().findViewById(R.id.recyclerGroceryItem)
         recyclerGroceryItem.layoutManager = LinearLayoutManager(requireContext())
 
@@ -67,30 +67,48 @@ class GroceryItemsListFragment : Fragment() {
             val groceryItems = db.groceryItemDao().getByListId(args.listId)
 
             withContext(Dispatchers.Main) {
+                val adapter = GroceryItemsAdapter(groceryItems, { itemId ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Item clicked: $itemId",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }, { groceryItem ->
+                    deleteGroceryItem(groceryItem, db)
+                },
+                    { groceryItem, checkState ->
+                        checkGroceryItem(groceryItem, checkState, db)
+                    })
 
-                recyclerGroceryItem.adapter = GroceryItemsAdapter(groceryItems) { itemId ->
-
-                    Toast.makeText(requireContext(), "Item clicked: $itemId", Toast.LENGTH_SHORT)
-                        .show()
-
-                    /*
-
-                    val target = itemId?.let {
-                        // TODO: Navigate to Item's detail
-
-                        //GroceryItemsListFragmentDirections
-                        //.actionGroceryItemsListFragmentToGroceryItemDetail(it)
-                    }
-
-                    if (target != null)
-                        findNavController().navigate(target)
-                    else
-                        Log.e("GroceryItemsListsFragment", "Target is null")
-                     */
-
-                }
+                recyclerGroceryItem.adapter = adapter
             }
-
         }
     }
+
+    private fun checkGroceryItem(
+        groceryItem: GroceryItem?,
+        checkState: Boolean,
+        db: LocalDatabase
+    ) {
+        if (groceryItem != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                groceryItem.isPurchased = checkState
+                db.groceryItemDao().update(groceryItem)
+            }
+        }
+
+    }
+
+    private fun deleteGroceryItem(groceryItem: GroceryItem?, db: LocalDatabase) {
+        if (groceryItem != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                db.groceryItemDao().delete(groceryItem)
+                withContext(Dispatchers.Main) {
+                    initializeRecyclerItemsList(db)
+                }
+            }
+        }
+    }
+
+
 }

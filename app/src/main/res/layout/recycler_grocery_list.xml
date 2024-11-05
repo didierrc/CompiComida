@@ -52,8 +52,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:id="@+id/recycler_grocery_list_delete"
+            android:id="@+id/recycler_grocery_list_btn_delete"
             style="@style/CustomMaterialIconButtonOutlinedStyle"
             app:icon="@drawable/baseline_delete_24" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

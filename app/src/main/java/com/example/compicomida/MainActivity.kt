@@ -66,12 +66,12 @@ class MainActivity : AppCompatActivity() {
             db.groceryListDao().addAll(*groceryLists.toTypedArray())
 
             val aCategory = ItemCategory(0, "Fruta")
-            val aCategory2 = ItemCategory(1, "Verdura")
-            val aCategory3 = ItemCategory(2, "Carne")
-            val aCategory4 = ItemCategory(3, "Pescado")
-            val aCategory5 = ItemCategory(4, "Lácteo")
-            val aCategory6 = ItemCategory(5, "Bebida")
-            val aCategory7 = ItemCategory(6, "Fruto Seco")
+            val aCategory2 = ItemCategory(0, "Verdura")
+            val aCategory3 = ItemCategory(0, "Carne")
+            val aCategory4 = ItemCategory(0, "Pescado")
+            val aCategory5 = ItemCategory(0, "Lácteo")
+            val aCategory6 = ItemCategory(0, "Bebida")
+            val aCategory7 = ItemCategory(0, "Fruto Seco")
             db.itemCategoryDao().add(aCategory)
             db.itemCategoryDao().add(aCategory2)
             db.itemCategoryDao().add(aCategory3)
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Manzanas",
                         3,
-                        "kg",
+                        null,
                         10.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/740/740922.png"
@@ -99,8 +99,8 @@ class MainActivity : AppCompatActivity() {
                         it.listId,
                         catId,
                         "Plátanos",
-                        500,
-                        "g",
+                        2,
+                        null,
                         5.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/5779/5779223.png"
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Naranjas",
                         1,
-                        "kg",
+                        null,
                         8.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/721/721098.png"
