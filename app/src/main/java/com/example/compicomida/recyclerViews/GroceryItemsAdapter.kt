@@ -74,10 +74,15 @@ class GroceryItemsAdapter(
             this.groceryItem = groceryItem
 
             tvTitle.text = groceryItem.itemName
+
+            var unit = ""
+            if (groceryItem.unit != "No especificada") {
+                unit = groceryItem.unit.toString()
+            }
             tvText.text = itemView.context.getString(
                 R.string.grocery_items_adapter_cantidad_text,
                 groceryItem.quantity,
-                groceryItem.unit ?: ""
+                unit
             )
             cbPurchased.isChecked = groceryItem.isPurchased
             imageView.load(groceryItem.itemPhotoUri)

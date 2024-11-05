@@ -40,11 +40,7 @@
             android:id="@+id/addGroceryListFragment"
             android:name="com.example.compicomida.fragment.AddGroceryListFragment"
             android:label="fragment_add_grocery_list"
-            tools:layout="@layout/fragment_add_grocery_list">
-        <action
-                android:id="@+id/action_addGroceryListFragment_to_shoppingListsFragment"
-                app:destination="@id/shoppingListsFragment" />
-    </fragment>
+            tools:layout="@layout/fragment_add_grocery_list" />
     <fragment
             android:id="@+id/pantryFragment"
             android:name="com.example.compicomida.fragment.PantryFragment"

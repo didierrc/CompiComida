@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -80,28 +81,61 @@ class AddGroceryItemFragment : Fragment() {
                 val itemCategory =
                     db.itemCategoryDao().getByName(spinnerCategories.text.toString())
 
-                val newItem = GroceryItem(
-                    itemId = 0,
-                    listId = args.listId,
-                    categoryId = itemCategory?.categoryId,
-                    itemName = itemName.text.toString(),
-                    quantity = quantity.text.toString().toInt(),
-                    unit = units.text.toString(),
-                    price = price.text.toString().toDouble(),
-                    isPurchased = false,
-                    itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png" // TODO: Add image
-                )
-                db.groceryItemDao().add(newItem)
 
-                withContext(Dispatchers.Main) {
-                    itemName.text?.clear()
-                    quantity.text?.clear()
-                    price.text?.clear()
-                    findNavController().popBackStack()
+                val listID = args.listId
+                val categoryId = itemCategory?.categoryId
+                val itemNameTxt = itemName.text.toString().trim()
+                val quantityTxt = quantity.text.toString().trim()
+                val unitTxt = units.text.toString().trim()
+                val priceTxt = price.text.toString().trim()
+                val priceValue = priceTxt.toDoubleOrNull()
+                val quantityValue = quantityTxt.toIntOrNull()
+                if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
+                    withContext(Dispatchers.Main) {
+                        showAlert(getString(R.string.error_empty_fields_add_grocery_item))
+                    }
+                } else if (itemCategory == null) {
+                    withContext(Dispatchers.Main) {
+                        showAlert(getString(R.string.error_category_not_found_add_grocery_item))
+                    }
+                } else if (priceValue == null || quantityValue == null) {
+                    withContext(Dispatchers.Main) {
+                        showAlert(getString(R.string.error_valid_numbers_add_grocery_item))
+                    }
+                } else {
+                    val newItem = GroceryItem(
+                        itemId = 0,
+                        listId = listID,
+                        categoryId = categoryId,
+                        itemName = itemNameTxt,
+                        quantity = quantityValue,
+                        unit = unitTxt,
+                        price = priceValue,
+                        isPurchased = false,
+                        itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png" // TODO: Add image
+                    )
+                    db.groceryItemDao().add(newItem)
+
+                    withContext(Dispatchers.Main) {
+                        itemName.text?.clear()
+                        quantity.text?.clear()
+                        price.text?.clear()
+                        findNavController().popBackStack()
+                    }
                 }
+
 
             }
         }
+    }
+
+    private fun showAlert(message: String, title: String = "Error") {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton("Ok", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
     private fun initSpinnerCategories(db: LocalDatabase) {

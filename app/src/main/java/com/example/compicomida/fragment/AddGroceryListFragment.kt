@@ -77,9 +77,9 @@ class AddGroceryListFragment : Fragment() {
         }
     }
 
-    private fun showAlert(message: String) {
+    private fun showAlert(message: String, title: String = "Error") {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Error")
+        builder.setTitle(title)
         builder.setMessage(message)
         builder.setPositiveButton("Ok", null)
         val dialog: AlertDialog = builder.create()
