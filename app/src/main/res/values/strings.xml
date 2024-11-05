@@ -24,7 +24,13 @@
     <string name="content_desc_grocery_list_image">Grocery List Image</string>
     <string name="recycler_grocery_list_name">Lista 1</string>
     <string name="recycler_grocery_list_date">Creada el %1$s</string>
-    <string name="grocery_items_adapter_cantidad_text">Cantidad: %1$d</string>
+    <string name="grocery_items_adapter_cantidad_text">Cantidad: %1$d %2$s</string>
+    <string name="add_grocery_list_title">Crear Lista de la Compra</string>
+    <string name="add_grocery_list_name_hint">Nombre de la lista</string>
+    <string name="content_desc_grocery_item_image">ListItem</string>
+    <string name="error_empty_fields_add_grocery_item">Debe cumplimentar todos los campos</string>
+    <string name="error_valid_numbers_add_grocery_item">El precio y la cantidad deben ser números válidos</string>
+    <string name="error_category_not_found_add_grocery_item">Debe proporcionar una categoría para el producto</string>
 
     <string-array name="grocery_item_types">
         <item>Bebida</item>

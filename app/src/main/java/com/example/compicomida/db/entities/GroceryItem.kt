@@ -40,7 +40,7 @@ data class GroceryItem(
     val quantity: Int,
     val unit: String?, // nullable
     val price: Double,
-    @ColumnInfo(name = "is_purchased") val isPurchased: Boolean,
+    @ColumnInfo(name = "is_purchased") var isPurchased: Boolean,
     // Storing photo URI instead of the photo itself as Blob.
     @ColumnInfo(name = "item_photo_uri") val itemPhotoUri: String?
 )

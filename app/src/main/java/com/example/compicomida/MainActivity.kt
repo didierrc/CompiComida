@@ -30,7 +30,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
 
@@ -60,8 +65,20 @@ class MainActivity : AppCompatActivity() {
             )
             db.groceryListDao().addAll(*groceryLists.toTypedArray())
 
-            val aCategory = ItemCategory(0, "Frutas")
+            val aCategory = ItemCategory(0, "Fruta")
+            val aCategory2 = ItemCategory(0, "Verdura")
+            val aCategory3 = ItemCategory(0, "Carne")
+            val aCategory4 = ItemCategory(0, "Pescado")
+            val aCategory5 = ItemCategory(0, "Lácteo")
+            val aCategory6 = ItemCategory(0, "Bebida")
+            val aCategory7 = ItemCategory(0, "Fruto Seco")
             db.itemCategoryDao().add(aCategory)
+            db.itemCategoryDao().add(aCategory2)
+            db.itemCategoryDao().add(aCategory3)
+            db.itemCategoryDao().add(aCategory4)
+            db.itemCategoryDao().add(aCategory5)
+            db.itemCategoryDao().add(aCategory6)
+            db.itemCategoryDao().add(aCategory7)
             val catId = db.itemCategoryDao().getAll().first().categoryId
 
             db.groceryListDao().getAll().forEach {
