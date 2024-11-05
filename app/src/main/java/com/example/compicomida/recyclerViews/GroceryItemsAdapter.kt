@@ -76,7 +76,7 @@ class GroceryItemsAdapter(
             tvTitle.text = groceryItem.itemName
 
             var unit = ""
-            if (groceryItem.unit != "No especificada") {
+            if (groceryItem.unit != "No especificada" && groceryItem.unit != null) {
                 unit = groceryItem.unit.toString()
             }
             tvText.text = itemView.context.getString(

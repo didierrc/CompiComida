@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Manzanas",
                         3,
-                        null,
+                        "kg",
                         10.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/740/740922.png"
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Plátanos",
                         2,
-                        null,
+                        "kg",
                         5.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/5779/5779223.png"
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
                         catId,
                         "Naranjas",
                         1,
-                        null,
+                        "kg",
                         8.0,
                         false,
                         "https://cdn-icons-png.flaticon.com/512/721/721098.png"
