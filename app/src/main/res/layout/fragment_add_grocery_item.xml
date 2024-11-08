@@ -159,7 +159,7 @@
             app:layout_constraintTop_toBottomOf="@id/et_product_price_layout" />
 
     <Button
-            android:id="@+id/bt_img"
+            android:id="@+id/btn_img"
             style="@style/CustomButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
