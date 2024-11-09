@@ -61,6 +61,10 @@ class AddGroceryItemActivity : AppCompatActivity() {
             initSpinnerCategories(it)
             addOnClickListener(it)
         }
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
     }
 

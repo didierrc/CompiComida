@@ -8,6 +8,18 @@
         android:id="@+id/addGroceryItem"
         tools:context=".AddGroceryItemActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:title="@string/add_grocery_item_title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
@@ -16,7 +28,7 @@
             android:text="@string/add_grocery_item_name_title"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_list_name_layout"

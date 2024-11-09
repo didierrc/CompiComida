@@ -52,7 +52,9 @@ class GroceryItemsListActivity : AppCompatActivity() {
         initAddGroceryItemLauncher()
         initFabNewList()
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
     }
 
