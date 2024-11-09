@@ -1,5 +1,7 @@
 package com.example.compicomida.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -35,6 +38,8 @@ class AddGroceryItemFragment : Fragment() {
     private lateinit var units: AutoCompleteTextView
     private lateinit var price: TextInputEditText
     private lateinit var btnAdd: Button
+    private lateinit var btnImage: Button
+    private var imageURI: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +73,7 @@ class AddGroceryItemFragment : Fragment() {
         units = view.findViewById(R.id.spinner_product_units)
         price = view.findViewById(R.id.et_product_price)
         btnAdd = view.findViewById(R.id.bt_add_grocery_item)
+        btnImage = view.findViewById(R.id.btn_img)
 
     }
 
@@ -112,7 +118,8 @@ class AddGroceryItemFragment : Fragment() {
                         unit = unitTxt,
                         price = priceValue,
                         isPurchased = false,
-                        itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png" // TODO: Add image
+                        itemPhotoUri = imageURI
+                            ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
                     )
                     db.groceryItemDao().add(newItem)
 
@@ -126,6 +133,18 @@ class AddGroceryItemFragment : Fragment() {
 
 
             }
+        }
+        val imagePickerLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val uri = result.data?.data
+                    imageURI = uri.toString()
+                }
+            }
+
+        btnImage.setOnClickListener {
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply { type = "image/*" }
+            imagePickerLauncher.launch(intent)
         }
     }
 
