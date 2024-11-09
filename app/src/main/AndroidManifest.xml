@@ -15,6 +15,13 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.CompiComida">
         <activity
+                android:name=".AddGroceryItemActivity"
+                android:exported="false" />
+        <activity
+                android:name=".GroceryItemsListActivity"
+                android:exported="false"
+                android:parentActivityName=".MainActivity" />
+        <activity
                 android:name=".MainActivity"
                 android:exported="true">
             <intent-filter>
