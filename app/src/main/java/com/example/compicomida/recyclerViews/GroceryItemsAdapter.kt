@@ -3,7 +3,6 @@ package com.example.compicomida.recyclerViews
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
@@ -50,21 +49,21 @@ class GroceryItemsAdapter(
             view.findViewById(R.id.recycler_grocery_item_checkBox)
         private val imageView: ImageView =
             view.findViewById(R.id.recycler_grocery_item_image)
-        private val btnDeleteItem: Button =
-            view.findViewById(R.id.recycler_grocery_item_btn_delete)
+//        private val btnDeleteItem: Button =
+//            view.findViewById(R.id.recycler_grocery_item_btn_delete)
 
         private var groceryItem: GroceryItem? = null
 
         init {
             view.setOnClickListener { onClickGoToItemDetail(groceryItem?.itemId) }
-            with(btnDeleteItem) {
-                setOnClickListener {
-                    isEnabled = false // Disable the button to prevent multiple clicks
-                    animate().alpha(0f).setDuration(400).withEndAction {
-                        onDeleteItem(groceryItem)
-                    }.start()
-                }
-            }
+//            with(btnDeleteItem) {
+//                setOnClickListener {
+//                    isEnabled = false // Disable the button to prevent multiple clicks
+//                    animate().alpha(0f).setDuration(400).withEndAction {
+//                        onDeleteItem(groceryItem)
+//                    }.start()
+//                }
+//            }
             cbPurchased.setOnCheckedChangeListener { _, isChecked ->
                 onCheckItem(groceryItem, isChecked)
             }

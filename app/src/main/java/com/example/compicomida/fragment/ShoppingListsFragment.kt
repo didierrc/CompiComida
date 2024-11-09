@@ -1,5 +1,6 @@
 package com.example.compicomida.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.compicomida.GroceryItemsListActivity
 import com.example.compicomida.R
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryList
@@ -71,17 +73,15 @@ class ShoppingListsFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 recyclerGroceryList.adapter =
                     ShoppingListsAdapter(shoppingLists, { shopListId ->
-                        val target = shopListId?.let {
-                            ShoppingListsFragmentDirections
-                                .actionShoppingListsFragmentToGroceryItemsListFragment(
-                                    it
+                        shopListId?.let {
+                            val intent =
+                                Intent(
+                                    requireContext(),
+                                    GroceryItemsListActivity::class.java
                                 )
+                            intent.putExtra("listId", it)
+                            startActivity(intent)
                         }
-
-                        if (target != null)
-                            findNavController().navigate(target)
-                        else
-                            Log.e("ShoppingListsFragment", "Target is null")
                     },
                         { groceryList ->
                             deleteGroceryList(groceryList, db)

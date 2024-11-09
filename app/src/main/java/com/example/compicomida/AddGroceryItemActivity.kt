@@ -1,21 +1,19 @@
-package com.example.compicomida.fragment
+package com.example.compicomida
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.example.compicomida.R
+import com.example.compicomida.databinding.ActivityAddGroceryItemBinding
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryItem
 import com.google.android.material.textfield.TextInputEditText
@@ -23,15 +21,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * AddGroceryItemFragment:
- * - Shows a form to create a new grocery item.
- */
-class AddGroceryItemFragment : Fragment() {
-
-    private var db: LocalDatabase? = null
-    private val args: GroceryItemsListFragmentArgs by navArgs()
-
+class AddGroceryItemActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityAddGroceryItemBinding
+    private lateinit var db: LocalDatabase
     private lateinit var itemName: TextInputEditText
     private lateinit var spinnerCategories: AutoCompleteTextView
     private lateinit var quantity: TextInputEditText
@@ -41,39 +33,49 @@ class AddGroceryItemFragment : Fragment() {
     private lateinit var btnImage: Button
     private var imageURI: String? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_grocery_item, container, false)
-    }
+    private var listId: Int = 0
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        binding = ActivityAddGroceryItemBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.addGroceryItem)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
+            insets
+        }
+        listId = intent.getIntExtra("listId", 0)
+        db = LocalDatabase.getDB(this)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        // Get the view elements
-        initialiseViewElements(view)
+        initialiseViewElements()
 
         // Init db
-        db = LocalDatabase.getDB(requireContext())
-        db?.let {
+        db.let {
             // Initialise Spinner of Categories
             initSpinnerCategories(it)
             addOnClickListener(it)
         }
-
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
     }
 
-    private fun initialiseViewElements(view: View) {
-        itemName = view.findViewById(R.id.et_list_name)
-        spinnerCategories = view.findViewById(R.id.spinner_product_type)
-        quantity = view.findViewById(R.id.et_product_quantity)
-        units = view.findViewById(R.id.spinner_product_units)
-        price = view.findViewById(R.id.et_product_price)
-        btnAdd = view.findViewById(R.id.bt_add_grocery_item)
-        btnImage = view.findViewById(R.id.btn_img)
+    private fun initialiseViewElements() {
+        itemName = findViewById(R.id.et_list_name)
+        spinnerCategories = findViewById(R.id.spinner_product_type)
+        quantity = findViewById(R.id.et_product_quantity)
+        units = findViewById(R.id.spinner_product_units)
+        price = findViewById(R.id.et_product_price)
+        btnAdd = findViewById(R.id.bt_add_grocery_item)
+        btnImage = findViewById(R.id.btn_img)
 
     }
 
@@ -88,7 +90,7 @@ class AddGroceryItemFragment : Fragment() {
                     db.itemCategoryDao().getByName(spinnerCategories.text.toString())
 
 
-                val listID = args.listId
+                val listID = listId
                 val categoryId = itemCategory?.categoryId
                 val itemNameTxt = itemName.text.toString().trim()
                 val quantityTxt = quantity.text.toString().trim()
@@ -121,14 +123,10 @@ class AddGroceryItemFragment : Fragment() {
                         itemPhotoUri = imageURI
                             ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
                     )
-                    db.groceryItemDao().add(newItem)
 
-                    withContext(Dispatchers.Main) {
-                        itemName.text?.clear()
-                        quantity.text?.clear()
-                        price.text?.clear()
-                        findNavController().popBackStack()
-                    }
+                    db.groceryItemDao().add(newItem)
+                    setResult(Activity.RESULT_OK)
+                    finish()
                 }
 
 
@@ -149,7 +147,7 @@ class AddGroceryItemFragment : Fragment() {
     }
 
     private fun showAlert(message: String, title: String = "Error") {
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         builder.setMessage(message)
         builder.setPositiveButton("Ok", null)
@@ -165,7 +163,7 @@ class AddGroceryItemFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 spinnerCategories.setAdapter(
                     ArrayAdapter(
-                        requireContext(),
+                        this@AddGroceryItemActivity,
                         android.R.layout.simple_spinner_dropdown_item,
                         categories
                     )
@@ -177,5 +175,6 @@ class AddGroceryItemFragment : Fragment() {
 
 
     }
+
 
 }
