@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <net.nicbell.materiallists.ListItem
+        android:id="@+id/recipeElementItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:headline="Pollo al vino"
+        app:sizeType="THREE_PLUS_LINES"
+        app:supportText="El pollo al vino peruano es una deliciosa fusión de sabores ...">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/recipeElementItemImage"
+            style="@style/MaterialLists.LeadingVideoThumbnail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/product_icon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            style="@style/MaterialLists.TrailingIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_right_24px"
+            tools:layout_editor_absoluteX="371dp"
+            tools:layout_editor_absoluteY="12dp" />
+    </net.nicbell.materiallists.ListItem>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

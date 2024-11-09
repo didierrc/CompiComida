@@ -32,6 +32,9 @@
     <string name="error_valid_numbers_add_grocery_item">El precio y la cantidad deben ser números válidos</string>
     <string name="error_category_not_found_add_grocery_item">Debe proporcionar una categoría para el producto</string>
     <string name="add_grocery_item_title">Añadir Producto\n</string>
+    <string name="content_desc_recipe_list_item">Go to the details of the recipe.</string>
+    <string name="content_description_recipe_image">Imagen receta</string>
+    <string name="recipe_list_name">Pollo de Vino peruano</string>
 
     <string-array name="grocery_item_types">
         <item>Bebida</item>

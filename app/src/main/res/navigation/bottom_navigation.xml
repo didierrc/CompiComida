@@ -19,11 +19,18 @@
             android:id="@+id/action_shoppingListsFragment_to_addGroceryListFragment"
             app:destination="@id/addGroceryListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/recipesFragment"
         android:name="com.example.compicomida.fragment.RecipesFragment"
         android:label="fragment_recipes"
-        tools:layout="@layout/fragment_recipes" />
+        tools:layout="@layout/fragment_recipes">
+        <action
+            android:id="@+id/action_recipesFragment_to_recipesDetailsFragment"
+            app:destination="@id/recipesDetailsFragment" />
+    </fragment>
+
+
     <fragment
         android:id="@+id/addGroceryListFragment"
         android:name="com.example.compicomida.fragment.AddGroceryListFragment"
@@ -34,4 +41,13 @@
         android:name="com.example.compicomida.fragment.PantryFragment"
         android:label="fragment_pantry"
         tools:layout="@layout/fragment_pantry" />
+    <fragment
+        android:id="@+id/recipesDetailsFragment"
+        android:name="com.example.compicomida.fragment.RecipesDetailsFragment"
+        android:label="fragment_recipes_details"
+        tools:layout="@layout/fragment_recipes_details">
+        <argument
+            android:name="recipeId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
