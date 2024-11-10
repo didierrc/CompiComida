@@ -9,16 +9,15 @@ import com.example.compicomida.R
 
 /**
  * Recipes Details Fragment:
- * - Shows the details of a recipe from Firebase.
+ * - Shows the details of a recipe extracted from Firebase.
  */
 class RecipesDetailsFragment : Fragment() {
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_recipes_details, container, false)
     }
-
 }

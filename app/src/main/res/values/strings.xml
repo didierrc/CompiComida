@@ -36,6 +36,9 @@
     <string name="content_description_recipe_image">Imagen receta</string>
     <string name="recipe_list_name">Pollo de Vino peruano</string>
 
+    <string name="fab_recipe_to_shopList_description">Añade los ingredientes de la receta a una nueva lista de la compra.</string>
+    <string name="image_recipe_details_description">Imagen de la receta</string>
+
     <string-array name="grocery_item_types">
         <item>Bebida</item>
         <item>Cítrico</item>
@@ -53,10 +56,11 @@
     </string-array>
 
     <string-array name="grocery_item_units">
-        <item>No especificada</item>
+        <item>Unidades</item>
         <item>kg</item>
         <item>g</item>
         <item>L</item>
         <item>cl</item>
     </string-array>
+
 </resources>

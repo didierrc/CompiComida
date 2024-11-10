@@ -10,4 +10,21 @@
     </style>
 
     <style name="Theme.CompiComida" parent="Base.Theme.CompiComida" />
+
+    <!-- Base application theme. -->
+    <style name="Base.Theme.P3Recycler" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.P3Recycler" parent="Base.Theme.P3Recycler" />
+
+    <style name="Theme.P3Recycler.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.P3Recycler.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.P3Recycler.PopupOverlay" parent="@style/Theme.Material3.DayNight" />
 </resources>
