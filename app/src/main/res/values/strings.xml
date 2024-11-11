@@ -39,6 +39,13 @@
     <string name="fab_recipe_to_shopList_description">Añade los ingredientes de la receta a una nueva lista de la compra.</string>
     <string name="image_recipe_details_description">Imagen de la receta</string>
 
+    <string name="recipe_other_information">%s • %s min • %s persona(s)</string>
+    <string name="recipe_ingredient_detail">%s • %s %s</string>
+    <string name="recipe_details_dificultad_title">Dificultad:</string>
+    <string name="recipes_details_description_title">Descripción</string>
+    <string name="recipes_details_description_text">Descripción de la Receta.</string>
+    <string name="recipes_details_ingredients_title">Ingredientes</string>
+
     <string-array name="grocery_item_types">
         <item>Bebida</item>
         <item>Cítrico</item>

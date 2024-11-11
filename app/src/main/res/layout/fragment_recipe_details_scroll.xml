@@ -9,7 +9,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".fragment.RecipesDetailsFragment">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -28,7 +27,7 @@
                 android:id="@+id/tvOther"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recetas de Pollo • 45 mins • 5 personas"
+                android:text="@string/recipe_other_information"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp" />
 
@@ -45,7 +44,7 @@
                     android:id="@+id/tvDifficultyTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Dificultad: "
+                    android:text="@string/recipe_details_dificultad_title"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="16sp" />
 
@@ -88,7 +87,7 @@
                 android:id="@+id/descriptionRecipeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descripción"
+                android:text="@string/recipes_details_description_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <TextView
@@ -97,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:justificationMode="none"
-                android:text="El pollo al vino peruano es una deliciosa fusión de sabores que combina la riqueza del vino tinto con los ajíes autóctonos de Perú. Este plato, que tiene sus raíces en la cocina europea, ha sido adaptado y perfeccionado en la gastronomía peruana, convirtiéndose en un favorito en muchos hogares y restaurantes populares del país."
+                android:text="@string/recipes_details_description_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         </LinearLayout>
@@ -128,7 +127,7 @@
                 android:id="@+id/ingredientsTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ingredientes"
+                android:text="@string/recipes_details_ingredients_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <LinearLayout
@@ -137,7 +136,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
-
+                <!-- Ingredient Layout
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -161,7 +160,7 @@
                         android:layout_weight="1"
                         android:text="Pollo • 5 piezas"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                </LinearLayout>
+                </LinearLayout>-->
             </LinearLayout>
 
 
@@ -197,6 +196,7 @@
                 android:text="Pasos"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+            <!--
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/stepLayout2"
                 android:layout_width="wrap_content"
@@ -233,45 +233,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/guideline22"
                     app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/stepLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:background="@drawable/circle_background"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="40dp" />
-
-                <TextView
-                    android:id="@+id/description_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="50dp"
-                    android:lineSpacingExtra="2dp"
-                    android:text="Empieza colocando las presas de pollo en un bowl grande y sazónalas con ají panca molido, ajo molido, pimienta negra molida, comino molido y sal. Masajea muy bien cada pieza, cubre con papel film o tapa el bowl y refrigéralo por lo menos media hora."
-                    android:textColor="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/guideline2"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
