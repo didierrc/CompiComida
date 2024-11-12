@@ -24,11 +24,7 @@
         android:id="@+id/recipesFragment"
         android:name="com.example.compicomida.fragment.RecipesFragment"
         android:label="fragment_recipes"
-        tools:layout="@layout/fragment_recipes">
-        <action
-            android:id="@+id/action_recipesFragment_to_recipesDetailsFragment"
-            app:destination="@id/recipesDetailsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_recipes" />
 
 
     <fragment
@@ -41,13 +37,4 @@
         android:name="com.example.compicomida.fragment.PantryFragment"
         android:label="fragment_pantry"
         tools:layout="@layout/fragment_pantry" />
-    <fragment
-        android:id="@+id/recipesDetailsFragment"
-        android:name="com.example.compicomida.fragment.RecipesDetailsFragment"
-        android:label="fragment_recipes_details"
-        tools:layout="@layout/fragment_recipes_details">
-        <argument
-            android:name="recipeId"
-            app:argType="integer" />
-    </fragment>
 </navigation>

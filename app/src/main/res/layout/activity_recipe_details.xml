@@ -5,35 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".fragment.RecipesDetailsFragment">
+    tools:context=".RecipeDetailsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:theme="@style/Theme.P3Recycler.AppBarOverlay">
+        android:theme="@style/Theme.CompiComida.AppBarOverlay">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextColor="@color/white"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleTextColor="@color/white"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Pollo al Vino Peruano"
+            app:title="@string/title_activity_recipe_details"
             app:toolbarId="@+id/toolbar">
 
             <ImageView
                 android:id="@+id/fondoRecipe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/image_recipe_details_description"
                 android:scaleType="centerCrop"
-                android:visibility="visible"
                 app:srcCompat="@drawable/pollo_al_vino"
                 tools:ignore="ImageContrastCheck" />
 
@@ -42,14 +41,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.P3Recycler.PopupOverlay" />
+                app:popupTheme="@style/Theme.CompiComida.PopupOverlay" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include
         android:id="@+id/contentRecipes"
-        layout="@layout/fragment_recipe_details_scroll" />
+        layout="@layout/recipe_details_scroll" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddRecipeToList"

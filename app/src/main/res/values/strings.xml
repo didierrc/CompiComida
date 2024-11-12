@@ -69,5 +69,7 @@
         <item>L</item>
         <item>cl</item>
     </string-array>
+    <string name="title_activity_recipe_details">RecipeDetailsActivity</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

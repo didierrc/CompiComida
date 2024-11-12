@@ -1,82 +1,106 @@
-package com.example.compicomida.fragment
+package com.example.compicomida
 
+import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import coil3.load
-import com.example.compicomida.R
-import com.example.compicomida.databinding.FragmentRecipesDetailsBinding
+import com.example.compicomida.databinding.ActivityRecipeDetailsBinding
 import com.google.firebase.firestore.FirebaseFirestore
 
 /**
- * Recipes Details Fragment:
- * - Shows the details of a recipe extracted from Firebase.
+ * Recipes Details Activity:
+ * - Shows the details of a recipe extract from Firebase.
  */
-class RecipesDetailsFragment : Fragment() {
+class RecipeDetailsActivity : AppCompatActivity() {
 
-    private var _binding: FragmentRecipesDetailsBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: ActivityRecipeDetailsBinding
 
     private val db = FirebaseFirestore.getInstance()
-    private val args: RecipesDetailsFragmentArgs by navArgs()
 
     companion object {
         const val RECIPES_COLLECTION = "recipes"
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentRecipesDetailsBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initialiseView()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Binding de los elementos
+        binding = ActivityRecipeDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Barra de Herramientas con flecha de retroceso
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navigateBackToRecipeFragment()
+            }
+        })
+
+        val recipeId = intent.getIntExtra("recipeId", -1)
+        if (recipeId != -1) initialiseView(recipeId.toString())
+
+
     }
 
-    private fun initialiseView() {
-        db.collection(RECIPES_COLLECTION)
-            .document(args.recipeId.toString())
-            .get().addOnSuccessListener {
+    private fun navigateBackToRecipeFragment() {
+        val intent = Intent(
+            this,
+            MainActivity::class.java
+        )
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        startActivity(intent)
+        finish()
+    }
+
+    private fun initialiseView(recipeId: String) {
+
+        db.collection(RECIPES_COLLECTION).document(recipeId).get()
+            .addOnSuccessListener {
 
                 with(binding) {
+
                     toolbarLayout.title = it.get("name").toString()
                     fondoRecipe.load(it.get("imageUrl").toString())
 
                     with(contentRecipes) {
-                        tvOther.text =
-                            context?.getString(
+                        tvOther?.text =
+                            getString(
                                 R.string.recipe_other_information,
                                 it.get("category"),
                                 it.get("preparation_time"),
                                 it.get("diner")
                             )
-                        difficultyBar.rating = it.get("difficulty").toString().toFloat()
-                        descriptionRecipeText.text = it.get("description").toString()
+                        difficultyBar?.rating = it.get("difficulty").toString().toFloat()
+                        descriptionRecipeText?.text = it.get("description").toString()
 
                         val ingredients = it.get("ingredients") as List<*>
                         ingredients.forEach {
-                            addIngredientView(ingredientsLayout, it as HashMap<*, *>)
+                            if (ingredientsLayout != null) {
+                                addIngredientView(ingredientsLayout, it as HashMap<*, *>)
+                            }
                         }
 
                         val steps = it.get("steps") as List<*>
                         steps.forEachIndexed { index, step ->
-                            addStepsView(stepsUpperLayout, step.toString(), index + 1)
+                            if (stepsUpperLayout != null) {
+                                addStepsView(stepsUpperLayout, step.toString(), index + 1)
+                            }
                         }
                     }
                 }
@@ -89,7 +113,7 @@ class RecipesDetailsFragment : Fragment() {
 
     private fun addIngredientView(container: LinearLayout, ingredient: HashMap<*, *>) {
 
-        val ingredientIcon = ImageView(context).apply {
+        val ingredientIcon = ImageView(this).apply {
             id = View.generateViewId()
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -101,12 +125,12 @@ class RecipesDetailsFragment : Fragment() {
             setImageResource(R.drawable.shopping_basket_24px)
         }
 
-        val ingredientText = TextView(context).apply {
+        val ingredientText = TextView(this).apply {
             id = View.generateViewId()
-            if (ingredient["quantity"] == null && ingredient["unit"] == null)
-                text = ingredient["name"].toString()
+            text = if (ingredient["quantity"] == null && ingredient["unit"] == null)
+                ingredient["name"].toString()
             else
-                text = context?.getString(
+                context?.getString(
                     R.string.recipe_ingredient_detail, ingredient["name"],
                     ingredient["quantity"] ?: "",
                     ingredient["unit"] ?: ""
@@ -122,7 +146,7 @@ class RecipesDetailsFragment : Fragment() {
             }
         }
 
-        val ingredientLayout = LinearLayout(context).apply {
+        val ingredientLayout = LinearLayout(this).apply {
             id = View.generateViewId()
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
@@ -144,7 +168,7 @@ class RecipesDetailsFragment : Fragment() {
 
     private fun addStepsView(container: LinearLayout, step: String, index: Int) {
 
-        val stepGuideline = Guideline(context).apply {
+        val stepGuideline = Guideline(this).apply {
             id = View.generateViewId()
             layoutParams = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
@@ -155,7 +179,7 @@ class RecipesDetailsFragment : Fragment() {
             }
         }
 
-        val stepNumber = TextView(context).apply {
+        val stepNumber = TextView(this).apply {
             id = View.generateViewId()
             layoutParams = ConstraintLayout.LayoutParams(
                 20.dp,
@@ -171,7 +195,7 @@ class RecipesDetailsFragment : Fragment() {
             setTextColor(ContextCompat.getColor(context, R.color.white))
         }
 
-        val stepText = TextView(context).apply {
+        val stepText = TextView(this).apply {
             id = View.generateViewId()
             layoutParams = ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
@@ -187,22 +211,20 @@ class RecipesDetailsFragment : Fragment() {
             setLineSpacing(2.dp.toFloat(), 1.0f)
         }
 
-        val stepLayout = context?.let {
-            ConstraintLayout(it).apply {
-                id = View.generateViewId()
-                layoutParams = ConstraintLayout.LayoutParams(
-                    ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                    ConstraintLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    topMargin = 10.dp
-                }
+        val stepLayout = ConstraintLayout(this).apply {
+            id = View.generateViewId()
+            layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = 10.dp
             }
         }
 
         // Add step number and text to the step layout
-        stepLayout?.addView(stepNumber)
-        stepLayout?.addView(stepGuideline)
-        stepLayout?.addView(stepText)
+        stepLayout.addView(stepNumber)
+        stepLayout.addView(stepGuideline)
+        stepLayout.addView(stepText)
 
         // Add the step layout to the container
         container.addView(stepLayout)

@@ -1,14 +1,15 @@
 package com.example.compicomida.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
+import com.example.compicomida.RecipeDetailsActivity
 import com.example.compicomida.recyclerViews.RecipesListAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -48,11 +49,9 @@ class RecipesFragment : Fragment() {
             .addOnSuccessListener { result ->
                 recyclerRecipesList.adapter = RecipesListAdapter(result.documents) { recipeId ->
                     recipeId?.let {
-                        val action =
-                            RecipesFragmentDirections.actionRecipesFragmentToRecipesDetailsFragment(
-                                recipeId
-                            )
-                        findNavController().navigate(action)
+                        val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
+                        intent.putExtra("recipeId", it)
+                        startActivity(intent)
                     }
                 }
 
