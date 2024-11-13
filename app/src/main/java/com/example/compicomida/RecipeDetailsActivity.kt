@@ -40,7 +40,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPressedDispatcher.onBackPressed()
         return true
     }
 
@@ -135,7 +135,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
                 lifecycleScope.launch(Dispatchers.IO) {
 
                     // Creating and Storing the Grocery List from the Recipe.
-                    var groceryList: GroceryList? = GroceryList(0, recipeName, LocalDateTime.now())
+                    var groceryList: GroceryList? =
+                        GroceryList(0, recipeName, LocalDateTime.now())
                     groceryList?.let { dbLocal.groceryListDao().add(it) }
                     groceryList = dbLocal.groceryListDao().getLastInserted()
 
@@ -147,7 +148,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
                             val ingredient = recipeIngredient as HashMap<*, *>
                             val name = ingredient["name"].toString()
-                            val quantity = ingredient["quantity"].toString().toDoubleOrNull()
+                            val quantity =
+                                ingredient["quantity"].toString().toDoubleOrNull()
                             val unit =
                                 if (ingredient["unit"].toString() == "null") "No especificada" else ingredient["unit"].toString()
 
