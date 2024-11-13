@@ -24,7 +24,7 @@
     <string name="content_desc_grocery_list_image">Grocery List Image</string>
     <string name="recycler_grocery_list_name">Lista 1</string>
     <string name="recycler_grocery_list_date">Creada el %1$s</string>
-    <string name="grocery_items_adapter_cantidad_text">Cantidad: %1$d %2$s</string>
+    <string name="grocery_items_adapter_cantidad_text">Cantidad: %1$s %2$s</string>
     <string name="add_grocery_list_title">Crear Lista de la Compra</string>
     <string name="add_grocery_list_name_hint">Nombre de la lista</string>
     <string name="content_desc_grocery_item_image">ListItem</string>

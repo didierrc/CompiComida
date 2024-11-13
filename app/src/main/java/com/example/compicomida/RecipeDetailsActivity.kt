@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +16,9 @@ import androidx.lifecycle.lifecycleScope
 import coil3.load
 import com.example.compicomida.databinding.ActivityRecipeDetailsBinding
 import com.example.compicomida.db.LocalDatabase
+import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -113,12 +114,13 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
             addToShoppingList(db)
 
-            Toast.makeText(
-                this,
+            Snackbar.make(
+                binding.root,
                 "Receta añadida a la lista de la compra",
-                Toast.LENGTH_SHORT
+                Snackbar.LENGTH_SHORT
             ).show()
 
+            // Way to go directly to Lists? finish()
         }
     }
 
@@ -128,20 +130,45 @@ class RecipeDetailsActivity : AppCompatActivity() {
             .addOnSuccessListener { recipe ->
 
                 val recipeName = recipe["name"].toString()
-
-                // TODO: Build ingredients list from recipe
+                val recipeIngredients = recipe["ingredients"] as List<*>
 
                 lifecycleScope.launch(Dispatchers.IO) {
+
+                    // Creating and Storing the Grocery List from the Recipe.
                     var groceryList: GroceryList? = GroceryList(0, recipeName, LocalDateTime.now())
                     groceryList?.let { dbLocal.groceryListDao().add(it) }
-
-                    // Obtener la lista de la compra guardad en BD.
                     groceryList = dbLocal.groceryListDao().getLastInserted()
 
-                    //TODO: Insert ingredients to grocery list
+                    // Inserting ingredients from Recipe to the Grocery List.
+                    val ingredientsList = mutableListOf<GroceryItem>()
+                    groceryList?.let {
+
+                        recipeIngredients.forEach { recipeIngredient ->
+
+                            val ingredient = recipeIngredient as HashMap<*, *>
+                            val name = ingredient["name"].toString()
+                            val quantity = ingredient["quantity"].toString().toDoubleOrNull()
+                            val unit =
+                                if (ingredient["unit"].toString() == "null") "No especificada" else ingredient["unit"].toString()
+
+                            ingredientsList.add(
+                                GroceryItem(
+                                    itemId = 0,
+                                    listId = groceryList.listId,
+                                    categoryId = null,
+                                    itemName = name,
+                                    quantity = quantity ?: 0.0,
+                                    unit = unit,
+                                    price = 0.0,
+                                    isPurchased = false,
+                                    itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
+                                )
+                            )
+                        }
+                    }
+
+                    dbLocal.groceryItemDao().addAll(*ingredientsList.toTypedArray())
                 }
-
-
             }
     }
 

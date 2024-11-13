@@ -97,7 +97,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
                 val unitTxt = units.text.toString().trim()
                 val priceTxt = price.text.toString().trim()
                 val priceValue = priceTxt.toDoubleOrNull()
-                val quantityValue = quantityTxt.toIntOrNull()
+                val quantityValue = quantityTxt.toDoubleOrNull()
                 if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
                     withContext(Dispatchers.Main) {
                         showAlert(getString(R.string.error_empty_fields_add_grocery_item))
