@@ -28,6 +28,9 @@ interface GroceryListDao {
     )
     suspend fun getAllWithItems(): Map<GroceryList, List<GroceryItem>>
 
+    @Query("SELECT * FROM GroceryList ORDER BY list_id DESC LIMIT 1")
+    suspend fun getLastInserted(): GroceryList?
+
     // Inserts
 
     @Insert

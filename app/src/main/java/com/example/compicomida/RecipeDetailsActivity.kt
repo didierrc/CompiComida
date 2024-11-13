@@ -1,6 +1,5 @@
 package com.example.compicomida
 
-import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.Gravity
@@ -8,14 +7,21 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import coil3.load
 import com.example.compicomida.databinding.ActivityRecipeDetailsBinding
+import com.example.compicomida.db.LocalDatabase
+import com.example.compicomida.db.entities.GroceryList
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 /**
  * Recipes Details Activity:
@@ -24,6 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class RecipeDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecipeDetailsBinding
+    private var recipeId: Int = -1
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -48,24 +55,17 @@ class RecipeDetailsActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                navigateBackToRecipeFragment()
+                finish()
             }
         })
 
-        val recipeId = intent.getIntExtra("recipeId", -1)
+        // Id de la receta a mostrar detalles
+        recipeId = intent.getIntExtra("recipeId", -1)
         if (recipeId != -1) initialiseView(recipeId.toString())
 
-
-    }
-
-    private fun navigateBackToRecipeFragment() {
-        val intent = Intent(
-            this,
-            MainActivity::class.java
-        )
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        startActivity(intent)
-        finish()
+        // Inicializando base de datos local
+        val dbLocal = LocalDatabase.getDB(this)
+        initialiseFab(dbLocal)
     }
 
     private fun initialiseView(recipeId: String) {
@@ -105,10 +105,44 @@ class RecipeDetailsActivity : AppCompatActivity() {
                     }
                 }
             }
+    }
+
+    private fun initialiseFab(db: LocalDatabase) {
 
         binding.fabAddRecipeToList.setOnClickListener {
-            //TODO: add recipe to list
+
+            addToShoppingList(db)
+
+            Toast.makeText(
+                this,
+                "Receta añadida a la lista de la compra",
+                Toast.LENGTH_SHORT
+            ).show()
+
         }
+    }
+
+    private fun addToShoppingList(dbLocal: LocalDatabase) {
+
+        db.collection(RECIPES_COLLECTION).document(recipeId.toString()).get()
+            .addOnSuccessListener { recipe ->
+
+                val recipeName = recipe["name"].toString()
+
+                // TODO: Build ingredients list from recipe
+
+                lifecycleScope.launch(Dispatchers.IO) {
+                    var groceryList: GroceryList? = GroceryList(0, recipeName, LocalDateTime.now())
+                    groceryList?.let { dbLocal.groceryListDao().add(it) }
+
+                    // Obtener la lista de la compra guardad en BD.
+                    groceryList = dbLocal.groceryListDao().getLastInserted()
+
+                    //TODO: Insert ingredients to grocery list
+                }
+
+
+            }
     }
 
     private fun addIngredientView(container: LinearLayout, ingredient: HashMap<*, *>) {
