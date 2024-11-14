@@ -73,18 +73,35 @@ class GroceryItemsAdapter(
             this.groceryItem = groceryItem
 
             tvTitle.text = groceryItem.itemName
-
-            var unit = ""
-            if (groceryItem.unit != "No especificada" && groceryItem.unit != null) {
-                unit = groceryItem.unit.toString()
-            }
-            tvText.text = itemView.context.getString(
-                R.string.grocery_items_adapter_cantidad_text,
-                groceryItem.quantity,
-                unit
-            )
+            tvText.text = parseUnitQuantity(groceryItem.unit, groceryItem.quantity)
             cbPurchased.isChecked = groceryItem.isPurchased
             imageView.load(groceryItem.itemPhotoUri)
         }
+
+        private fun parseUnitQuantity(unit: String?, quantity: Double): String {
+
+            // If unit is "No especificada" or NULL --> ""
+            // If unit is other --> unit
+            val unitParsed = if (unit != "No especificada" && unit != null) unit else ""
+
+            // If quantity has no decimal --> to Integer (except for 0, not shown)
+            // If unit has decimal --> as it is (except for 0.5, shown as 1/2)
+            // other fractions can be considered...
+            val quantityParsed = if (quantity.mod(1.0) == 0.0) {
+                if (quantity.toInt() == 0) "-" else quantity.toInt().toString()
+            } else {
+                if (quantity == 0.5)
+                    "1/2"
+                else
+                    quantity.toString()
+            }
+
+            return itemView.context.getString(
+                R.string.grocery_items_adapter_cantidad_text,
+                quantityParsed,
+                unitParsed
+            )
+        }
+
     }
 }

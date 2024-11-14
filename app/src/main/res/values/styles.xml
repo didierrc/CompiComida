@@ -23,7 +23,5 @@
         <item name="fabSize">mini</item>
         <item name="rippleColor">@color/white</item>
     </style>
-
-
 </resources>
 

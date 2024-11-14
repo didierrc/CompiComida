@@ -24,7 +24,7 @@
     <string name="content_desc_grocery_list_image">Grocery List Image</string>
     <string name="recycler_grocery_list_name">Lista 1</string>
     <string name="recycler_grocery_list_date">Creada el %1$s</string>
-    <string name="grocery_items_adapter_cantidad_text">Cantidad: %1$d %2$s</string>
+    <string name="grocery_items_adapter_cantidad_text">Cantidad: %1$s %2$s</string>
     <string name="add_grocery_list_title">Crear Lista de la Compra</string>
     <string name="add_grocery_list_name_hint">Nombre de la lista</string>
     <string name="content_desc_grocery_item_image">ListItem</string>
@@ -32,6 +32,19 @@
     <string name="error_valid_numbers_add_grocery_item">El precio y la cantidad deben ser números válidos</string>
     <string name="error_category_not_found_add_grocery_item">Debe proporcionar una categoría para el producto</string>
     <string name="add_grocery_item_title">Añadir Producto\n</string>
+    <string name="content_desc_recipe_list_item">Go to the details of the recipe.</string>
+    <string name="content_description_recipe_image">Imagen receta</string>
+    <string name="recipe_list_name">Pollo de Vino peruano</string>
+
+    <string name="fab_recipe_to_shopList_description">Añade los ingredientes de la receta a una nueva lista de la compra.</string>
+    <string name="image_recipe_details_description">Imagen de la receta</string>
+
+    <string name="recipe_other_information">%s • %s min • %s persona(s)</string>
+    <string name="recipe_ingredient_detail">%s • %s %s</string>
+    <string name="recipe_details_dificultad_title">Dificultad:</string>
+    <string name="recipes_details_description_title">Descripción</string>
+    <string name="recipes_details_description_text">Descripción de la Receta.</string>
+    <string name="recipes_details_ingredients_title">Ingredientes</string>
 
     <string-array name="grocery_item_types">
         <item>Bebida</item>
@@ -50,10 +63,13 @@
     </string-array>
 
     <string-array name="grocery_item_units">
-        <item>No especificada</item>
+        <item>Unidades</item>
         <item>kg</item>
         <item>g</item>
         <item>L</item>
         <item>cl</item>
     </string-array>
+    <string name="title_activity_recipe_details">RecipeDetailsActivity</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

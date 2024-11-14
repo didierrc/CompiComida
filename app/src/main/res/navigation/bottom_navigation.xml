@@ -19,11 +19,14 @@
             android:id="@+id/action_shoppingListsFragment_to_addGroceryListFragment"
             app:destination="@id/addGroceryListFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/recipesFragment"
         android:name="com.example.compicomida.fragment.RecipesFragment"
         android:label="fragment_recipes"
         tools:layout="@layout/fragment_recipes" />
+
+
     <fragment
         android:id="@+id/addGroceryListFragment"
         android:name="com.example.compicomida.fragment.AddGroceryListFragment"

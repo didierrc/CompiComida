@@ -37,7 +37,7 @@ data class GroceryItem(
 
     // Other attributes
     @ColumnInfo(name = "item_name") val itemName: String,
-    val quantity: Int,
+    val quantity: Double,
     val unit: String?, // nullable
     val price: Double,
     @ColumnInfo(name = "is_purchased") var isPurchased: Boolean,
