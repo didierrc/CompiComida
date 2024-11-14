@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
 import com.example.compicomida.RecipeDetailsActivity
+import com.example.compicomida.db.entities.recipes.Recipe
 import com.example.compicomida.recyclerViews.RecipesListAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -47,7 +48,12 @@ class RecipesFragment : Fragment() {
 
         db.collection(RECIPES_COLLECTION).get()
             .addOnSuccessListener { result ->
-                recyclerRecipesList.adapter = RecipesListAdapter(result.documents) { recipeId ->
+
+                val recipesList = result.documents.mapNotNull {
+                    it.toObject(Recipe::class.java)?.copy(id = it.id)
+                }
+
+                recyclerRecipesList.adapter = RecipesListAdapter(recipesList) { recipeId ->
                     recipeId?.let {
                         val intent = Intent(requireContext(), RecipeDetailsActivity::class.java)
                         intent.putExtra("recipeId", it)

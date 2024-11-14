@@ -1,6 +1,7 @@
 package com.example.compicomida
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,7 +14,9 @@ import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
 import com.example.compicomida.db.entities.ItemCategory
 import com.example.compicomida.db.entities.PantryItem
+import com.example.compicomida.db.entities.recipes.Recipe
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
@@ -47,6 +50,33 @@ class MainActivity : AppCompatActivity() {
         // Initialize DB
         db = LocalDatabase.getDB(this)
         db?.let { dbTestValues(it) }
+
+        // Generate recipes
+        generateRecipes()
+    }
+
+    private fun generateRecipes() {
+        val firebaseRecipes = FirebaseFirestore.getInstance()
+
+        firebaseRecipes.collection("recipes").document("1").get()
+            .addOnSuccessListener {
+                if (it != null && it.exists()) {
+                    // Map document to Recipe data class
+                    val recipe = it.toObject(Recipe::class.java)?.copy(id = it.id)
+                    onComplete(recipe)
+                } else {
+                    Log.d("Recipe fail", "No such document")
+                    onComplete(null)
+                }
+            }
+
+
+    }
+
+    private fun onComplete(recipe: Recipe?) {
+        recipe?.let {
+            Log.d("Recipe", recipe.toString())
+        }
     }
 
     /*
