@@ -2,6 +2,7 @@ package com.example.compicomida
 
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -18,6 +19,8 @@ import com.example.compicomida.databinding.ActivityRecipeDetailsBinding
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
+import com.example.compicomida.db.entities.recipes.Ingredient
+import com.example.compicomida.db.entities.recipes.Recipe
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
@@ -73,39 +76,51 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
         db.collection(RECIPES_COLLECTION).document(recipeId).get()
             .addOnSuccessListener {
+                if (it != null && it.exists()) {
+                    val recipe = it.toObject(Recipe::class.java)?.copy(id = it.id)
+                    recipeCallback(recipe)
+                } else {
+                    Log.d("Recipe Details FAIL", "No such document")
+                    recipeCallback(null)
+                }
+            }
+    }
 
-                with(binding) {
+    private fun recipeCallback(recipe: Recipe?) {
+        recipe?.let {
 
-                    toolbarLayout.title = it.get("name").toString()
-                    fondoRecipe.load(it.get("imageUrl").toString())
+            with(binding) {
 
-                    with(contentRecipes) {
-                        tvOther?.text =
-                            getString(
-                                R.string.recipe_other_information,
-                                it.get("category"),
-                                it.get("preparation_time"),
-                                it.get("diner")
-                            )
-                        difficultyBar?.rating = it.get("difficulty").toString().toFloat()
-                        descriptionRecipeText?.text = it.get("description").toString()
+                toolbarLayout.title = recipe.name
+                fondoRecipe.load(recipe.imageUrl)
 
-                        val ingredients = it.get("ingredients") as List<*>
-                        ingredients.forEach {
-                            if (ingredientsLayout != null) {
-                                addIngredientView(ingredientsLayout, it as HashMap<*, *>)
-                            }
+                with(contentRecipes) {
+                    tvOther?.text =
+                        getString(
+                            R.string.recipe_other_information,
+                            it.category,
+                            it.preparationTime,
+                            it.diner
+                        )
+                    difficultyBar?.rating = it.difficulty.toFloat()
+                    descriptionRecipeText?.text = it.description
+
+                    it.ingredients.forEach { ingredient ->
+                        if (ingredientsLayout != null) {
+                            addIngredientView(ingredientsLayout, ingredient)
                         }
+                    }
 
-                        val steps = it.get("steps") as List<*>
-                        steps.forEachIndexed { index, step ->
-                            if (stepsUpperLayout != null) {
-                                addStepsView(stepsUpperLayout, step.toString(), index + 1)
-                            }
+                    it.steps.forEachIndexed { index, step ->
+                        if (stepsUpperLayout != null) {
+                            addStepsView(stepsUpperLayout, step, index + 1)
                         }
                     }
                 }
             }
+
+
+        }
     }
 
     private fun initialiseFab(db: LocalDatabase) {
@@ -127,54 +142,57 @@ class RecipeDetailsActivity : AppCompatActivity() {
     private fun addToShoppingList(dbLocal: LocalDatabase) {
 
         db.collection(RECIPES_COLLECTION).document(recipeId.toString()).get()
-            .addOnSuccessListener { recipe ->
+            .addOnSuccessListener {
 
-                val recipeName = recipe["name"].toString()
-                val recipeIngredients = recipe["ingredients"] as List<*>
-
-                lifecycleScope.launch(Dispatchers.IO) {
-
-                    // Creating and Storing the Grocery List from the Recipe.
-                    var groceryList: GroceryList? =
-                        GroceryList(0, recipeName, LocalDateTime.now())
-                    groceryList?.let { dbLocal.groceryListDao().add(it) }
-                    groceryList = dbLocal.groceryListDao().getLastInserted()
-
-                    // Inserting ingredients from Recipe to the Grocery List.
-                    val ingredientsList = mutableListOf<GroceryItem>()
-                    groceryList?.let {
-
-                        recipeIngredients.forEach { recipeIngredient ->
-
-                            val ingredient = recipeIngredient as HashMap<*, *>
-                            val name = ingredient["name"].toString()
-                            val quantity =
-                                ingredient["quantity"].toString().toDoubleOrNull()
-                            val unit =
-                                if (ingredient["unit"].toString() == "null") "No especificada" else ingredient["unit"].toString()
-
-                            ingredientsList.add(
-                                GroceryItem(
-                                    itemId = 0,
-                                    listId = groceryList.listId,
-                                    categoryId = null,
-                                    itemName = name,
-                                    quantity = quantity ?: 0.0,
-                                    unit = unit,
-                                    price = 0.0,
-                                    isPurchased = false,
-                                    itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
-                                )
-                            )
-                        }
-                    }
-
-                    dbLocal.groceryItemDao().addAll(*ingredientsList.toTypedArray())
+                if (it != null && it.exists()) {
+                    val recipe = it.toObject(Recipe::class.java)?.copy(id = it.id)
+                    addToShopListCallback(dbLocal, recipe)
+                } else {
+                    Log.d("Recipe Details FAIL", "No such document")
+                    addToShopListCallback(dbLocal, null)
                 }
+
             }
     }
 
-    private fun addIngredientView(container: LinearLayout, ingredient: HashMap<*, *>) {
+    private fun addToShopListCallback(dbLocal: LocalDatabase, recipe: Recipe?) {
+        recipe?.let {
+            lifecycleScope.launch(Dispatchers.IO) {
+
+                // Creating and Storing the Grocery List from the Recipe.
+                var groceryList: GroceryList? =
+                    GroceryList(0, recipe.name, LocalDateTime.now())
+                groceryList?.let { dbLocal.groceryListDao().add(it) }
+                groceryList = dbLocal.groceryListDao().getLastInserted()
+
+                // Inserting ingredients from Recipe to the Grocery List.
+                val ingredientsList = mutableListOf<GroceryItem>()
+                groceryList?.let {
+
+                    recipe.ingredients.forEach { recipeIngredient ->
+                        
+                        ingredientsList.add(
+                            GroceryItem(
+                                itemId = 0,
+                                listId = groceryList.listId,
+                                categoryId = null,
+                                itemName = recipeIngredient.name,
+                                quantity = recipeIngredient.quantity ?: 0.0,
+                                unit = recipeIngredient.unit ?: "No especificada",
+                                price = 0.0,
+                                isPurchased = false,
+                                itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
+                            )
+                        )
+                    }
+                }
+
+                dbLocal.groceryItemDao().addAll(*ingredientsList.toTypedArray())
+            }
+        }
+    }
+
+    private fun addIngredientView(container: LinearLayout, ingredient: Ingredient) {
 
         val ingredientIcon = ImageView(this).apply {
             id = View.generateViewId()
@@ -184,19 +202,19 @@ class RecipeDetailsActivity : AppCompatActivity() {
             ).apply {
                 weight = 1f
             }
-            contentDescription = "Icono para el ingrediente: ${ingredient["name"]}"
+            contentDescription = "Icono para el ingrediente: ${ingredient.name}"
             setImageResource(R.drawable.shopping_basket_24px)
         }
 
         val ingredientText = TextView(this).apply {
             id = View.generateViewId()
-            text = if (ingredient["quantity"] == null && ingredient["unit"] == null)
-                ingredient["name"].toString()
+            text = if (ingredient.quantity == null && ingredient.unit == null)
+                ingredient.name
             else
                 context?.getString(
-                    R.string.recipe_ingredient_detail, ingredient["name"],
-                    ingredient["quantity"] ?: "",
-                    ingredient["unit"] ?: ""
+                    R.string.recipe_ingredient_detail, ingredient.name,
+                    ingredient.quantity ?: "",
+                    ingredient.unit ?: ""
                 )
 
             setTextAppearance(com.google.android.material.R.style.TextAppearance_AppCompat_Body1)

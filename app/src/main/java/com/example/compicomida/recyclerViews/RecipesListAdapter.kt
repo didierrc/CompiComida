@@ -7,8 +7,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.compicomida.R
+import com.example.compicomida.db.entities.recipes.Recipe
 import com.example.compicomida.recyclerViews.ShoppingListsAdapter.ViewHolder
-import com.google.firebase.firestore.DocumentSnapshot
 import net.nicbell.materiallists.ListItem
 
 /**
@@ -16,7 +16,7 @@ import net.nicbell.materiallists.ListItem
  * in a Recycler View.
  */
 class RecipesListAdapter(
-    private val recipesList: List<DocumentSnapshot>,
+    private val recipesList: List<Recipe>,
     private val onClickGoToDetails: (Int?) -> Unit
 
 ) : RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
@@ -50,13 +50,13 @@ class RecipesListAdapter(
             }
         }
 
-        fun bind(recipe: DocumentSnapshot) {
-            recipeId = recipe.id.toInt()
+        fun bind(recipe: Recipe) {
 
-            listItem.headline.text = recipe.get("name") as String
-            listItem.supportText.text =
-                "${(recipe.get("description") as String).substring(0, 55)} ..."
-            listItemImage.load(recipe.get("imageUrl"))
+            recipeId = recipe.id?.toInt()
+
+            listItem.headline.text = recipe.name
+            listItem.supportText.text = "${recipe.description.substring(0, 55)} ..."
+            listItemImage.load(recipe.imageUrl)
 
 
         }
