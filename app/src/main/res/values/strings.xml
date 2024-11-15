@@ -20,6 +20,7 @@
     <string name="add_grocery_item_image_button_text">Seleccionar imagen</string>
     <string name="add_grocery_item_add_button_text">Añadir Producto</string>
     <string name="add_grocery_list_add_button_text">Añadir Lista</string>
+    <string name="add_pantry_item_add_button_text">Añadir producto a despensa</string>
     <string name="searchbar_hint">Búsqueda de productos</string>
     <string name="content_desc_grocery_list_image">Grocery List Image</string>
     <string name="recycler_grocery_list_name">Lista 1</string>

@@ -1,17 +1,31 @@
 package com.example.compicomida.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
+import com.example.compicomida.databinding.FragmentPantryBinding
+import com.example.compicomida.db.LocalDatabase
+import com.example.compicomida.db.entities.PantryItem
+import com.example.compicomida.recyclerViews.PantryAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * PantryFragment:
  * - Shows a list with all the products from your pantry.
  */
 class PantryFragment : Fragment() {
+    private lateinit var db: LocalDatabase
+    private lateinit var recyclerPantry: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +33,60 @@ class PantryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_pantry, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Shows all the current lists from DB.
+        db = LocalDatabase.getDB(requireContext())
+        db?.let { initializeRecyclerPantry(it) }
+
+        // Initialise the Fab - Add new list.
+       // initFabNewItem(view)
+    }
+
+    /*// Initialise the Fab Click Listener
+    private fun initFabNewItem(view: View) {
+        val fabNewItem: FloatingActionButton = view.findViewById(R.id.fabNewItemInPantry)
+        fabNewItem.setOnClickListener {
+            findNavController().navigate()
+        }
+    }*/
+
+    private fun initializeRecyclerPantry(db: LocalDatabase) {
+        recyclerPantry = requireView().findViewById(R.id.recyclerPantry)
+        recyclerPantry.layoutManager = LinearLayoutManager(requireContext())
+
+        lifecycleScope.launch(Dispatchers.IO) {
+
+            val pantryList = db.pantryItemDao().getAll()
+
+            withContext(Dispatchers.Main) {
+                recyclerPantry.adapter = PantryAdapter(pantryList, { itemId ->
+                    Toast.makeText(requireContext(),
+                        "Item clicked: $itemId",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                },{ pantryItem ->
+                    deletePantryItem(pantryItem, db)
+                }
+                )
+            }
+        }
+    }
+
+    private fun deletePantryItem(pantryItem: PantryItem?, db: LocalDatabase) {
+        if (pantryItem != null) {
+            lifecycleScope.launch(Dispatchers.IO) {
+                db.pantryItemDao().delete(pantryItem)
+                withContext(Dispatchers.Main) {
+                    initializeRecyclerPantry(db)
+                }
+            }
+        } else {
+            Log.e("PantryFragment", "PantryItem is null")
+        }
     }
 
 }

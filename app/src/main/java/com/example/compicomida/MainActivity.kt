@@ -210,8 +210,8 @@ class MainActivity : AppCompatActivity() {
                     null,
                     LocalDateTime.now(),
                     "Peras",
-                    3,
-                    null,
+                    3.0,
+                    "",
                     LocalDateTime.now().plusDays(-1),
                     "peras.jpg"
                 ),
@@ -220,8 +220,8 @@ class MainActivity : AppCompatActivity() {
                     null,
                     LocalDateTime.now().plusDays(5),
                     "Mangos",
-                    2,
-                    null,
+                    3.0,
+                    "kg",
                     LocalDateTime.now().plusDays(-2),
                     "mangos.jpg"
                 ),
@@ -230,8 +230,8 @@ class MainActivity : AppCompatActivity() {
                     null,
                     LocalDateTime.now().plusDays(7),
                     "Fresas",
-                    1,
-                    null,
+                    200.0,
+                    "g",
                     LocalDateTime.now().plusDays(-3),
                     "fresas.jpg"
                 ),
@@ -240,8 +240,8 @@ class MainActivity : AppCompatActivity() {
                     null,
                     LocalDateTime.now().plusDays(10),
                     "Limones",
-                    5,
-                    null,
+                    6.0,
+                    "",
                     LocalDateTime.now().plusDays(-4),
                     "limones.jpg"
                 )
