@@ -15,7 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class GroceryItemDetails : AppCompatActivity() {
+class GroceryItemDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroceryItemDetailsBinding
     private var groceryItemID: Int = 0
     private lateinit var groceryItem: GroceryItem
@@ -39,6 +39,12 @@ class GroceryItemDetails : AppCompatActivity() {
         groceryItemID = intent.getIntExtra(GroceryItemsListActivity.ID_TAG, 0)
         db = LocalDatabase.getDB(applicationContext)
 
+        configureBehaviour()
+
+
+    }
+
+    private fun configureBehaviour() {
         lifecycleScope.launch(Dispatchers.IO) {
             groceryItem = db.groceryItemDao().getById(groceryItemID)!!
             val groceryItemCategory =
@@ -49,9 +55,19 @@ class GroceryItemDetails : AppCompatActivity() {
             }
         }
 
-        binding.itemCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            checkGroceryItem(isChecked)
+        with(binding) {
+            itemCheckbox.setOnCheckedChangeListener { _, isChecked ->
+                checkGroceryItem(isChecked)
+            }
+            btnDelete.setOnClickListener() {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    db.groceryItemDao().delete(groceryItem)
+                    finish()
+                }
+            }
         }
+
+
     }
 
     private fun setUpActionBar() {

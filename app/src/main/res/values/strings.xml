@@ -82,5 +82,6 @@
     <string name="price_per_unit">
         Precio: %1$.2f € / %2$s
     </string>
+    <string name="delete_button">Eliminar</string>
 
 </resources>

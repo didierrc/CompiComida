@@ -15,7 +15,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.CompiComida">
         <activity
-                android:name=".GroceryItemDetails"
+                android:name=".GroceryItemDetailsActivity"
                 android:exported="false"
                 android:parentActivityName=".GroceryItemsListActivity" />
         <activity

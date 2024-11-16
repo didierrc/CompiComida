@@ -42,9 +42,10 @@ class GroceryItemsListActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             groceryItems = db.groceryItemDao().getByListId(listId)
             withContext(Dispatchers.Main) {
-                (recyclerGroceryItem.adapter as GroceryItemsAdapter).updateData(
-                    groceryItems
-                )
+                if (recyclerGroceryItem.adapter != null)
+                    (recyclerGroceryItem.adapter as GroceryItemsAdapter).updateData(
+                        groceryItems
+                    )
             }
         }
     }
@@ -116,7 +117,7 @@ class GroceryItemsListActivity : AppCompatActivity() {
                 val adapter = GroceryItemsAdapter(groceryItems, { itemId ->
                     val intent = Intent(
                         this@GroceryItemsListActivity,
-                        GroceryItemDetails::class.java
+                        GroceryItemDetailsActivity::class.java
                     )
                     intent.putExtra(ID_TAG, itemId)
                     startActivity(intent)
