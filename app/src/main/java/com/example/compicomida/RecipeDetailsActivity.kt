@@ -170,7 +170,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
                 groceryList?.let {
 
                     recipe.ingredients.forEach { recipeIngredient ->
-                        
+
                         ingredientsList.add(
                             GroceryItem(
                                 itemId = 0,
@@ -213,7 +213,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
             else
                 context?.getString(
                     R.string.recipe_ingredient_detail, ingredient.name,
-                    ingredient.quantity ?: "",
+                    parseQuantity(ingredient.quantity),
                     ingredient.unit ?: ""
                 )
 
@@ -247,6 +247,23 @@ class RecipeDetailsActivity : AppCompatActivity() {
         container.addView(ingredientLayout)
     }
 
+    private fun parseQuantity(quantity: Double?): String {
+
+        if (quantity == null)
+            return ""
+
+        val parse = if (quantity.mod(1.0) == 0.0) {
+            quantity.toInt().toString()
+        } else {
+            if (quantity == 0.5)
+                "1/2"
+            else
+                quantity.toString()
+        }
+
+        return parse
+    }
+
     private fun addStepsView(container: LinearLayout, step: String, index: Int) {
 
         val stepGuideline = Guideline(this).apply {
@@ -263,8 +280,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
         val stepNumber = TextView(this).apply {
             id = View.generateViewId()
             layoutParams = ConstraintLayout.LayoutParams(
-                20.dp,
-                20.dp
+                30.dp,
+                27.dp
             ).apply {
                 endToStart = stepGuideline.id
                 startToStart = ConstraintLayout.LayoutParams.PARENT_ID
