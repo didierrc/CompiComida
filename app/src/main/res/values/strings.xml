@@ -14,7 +14,7 @@
     <string name="add_grocery_item_quantity_title">Cantidad</string>
     <string name="add_grocery_item_quantity_hint">Cantidad del producto</string>
     <string name="add_grocery_item_units_title">Unidades</string>
-    <string name="add_grocery_item_price_title">Precio</string>
+    <string name="add_grocery_item_price_title">Precio / Unidad</string>
     <string name="add_grocery_item_price_hint">Precio del producto</string>
     <string name="add_grocery_item_image_title">Imagen</string>
     <string name="add_grocery_item_image_button_hint">Seleccionar imagen</string>
@@ -73,5 +73,14 @@
     <string name="action_settings">Settings</string>
     <string name="add_grocery_item_image_preview">Image Selected for the Grocery Item</string>
     <string name="remove_product_image_hint">Quitar Imagen de Producto</string>
+    <string name="bought_checkbox">Comprado</string>
+    <string name="grocery_item_details_tv_more_info">Más Información</string>
+    <string name="quantity_unit">Cantidad: %1$s %2$s</string>
+    <string name="price_no_unit">
+        Precio: %1$.2f €
+    </string>
+    <string name="price_per_unit">
+        Precio: %1$.2f € / %2$s
+    </string>
 
 </resources>
