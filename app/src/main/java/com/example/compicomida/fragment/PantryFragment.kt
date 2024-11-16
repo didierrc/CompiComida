@@ -1,20 +1,26 @@
 package com.example.compicomida.fragment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.compicomida.AddPantryItemActivity
 import com.example.compicomida.R
 import com.example.compicomida.databinding.FragmentPantryBinding
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.PantryItem
 import com.example.compicomida.recyclerViews.PantryAdapter
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,6 +32,7 @@ import kotlinx.coroutines.withContext
 class PantryFragment : Fragment() {
     private lateinit var db: LocalDatabase
     private lateinit var recyclerPantry: RecyclerView
+    private lateinit var addPantryItemLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,17 +49,31 @@ class PantryFragment : Fragment() {
         db = LocalDatabase.getDB(requireContext())
         db?.let { initializeRecyclerPantry(it) }
 
-        // Initialise the Fab - Add new list.
-       // initFabNewItem(view)
+        initAddGroceryItemLauncher()
+        initFabNewItem(view)
     }
 
-    /*// Initialise the Fab Click Listener
+    // Initialise the Fab Click Listener
     private fun initFabNewItem(view: View) {
         val fabNewItem: FloatingActionButton = view.findViewById(R.id.fabNewItemInPantry)
         fabNewItem.setOnClickListener {
-            findNavController().navigate()
+            addPantryItemLauncher.launch(
+                Intent(
+                    requireView().context,
+                    AddPantryItemActivity::class.java
+                )
+            )
         }
-    }*/
+    }
+
+    private fun initAddGroceryItemLauncher() {
+        addPantryItemLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    initializeRecyclerPantry(db)
+                }
+            }
+    }
 
     private fun initializeRecyclerPantry(db: LocalDatabase) {
         recyclerPantry = requireView().findViewById(R.id.recyclerPantry)

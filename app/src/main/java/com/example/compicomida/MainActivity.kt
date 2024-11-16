@@ -213,7 +213,7 @@ class MainActivity : AppCompatActivity() {
                     3.0,
                     "",
                     LocalDateTime.now().plusDays(-1),
-                    "peras.jpg"
+                    "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_pera-512.png"
                 ),
                 PantryItem(
                     0,
@@ -223,7 +223,7 @@ class MainActivity : AppCompatActivity() {
                     3.0,
                     "kg",
                     LocalDateTime.now().plusDays(-2),
-                    "mangos.jpg"
+                    "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_manga-256.png"
                 ),
                 PantryItem(
                     0,
@@ -233,7 +233,7 @@ class MainActivity : AppCompatActivity() {
                     200.0,
                     "g",
                     LocalDateTime.now().plusDays(-3),
-                    "fresas.jpg"
+                    "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_morango-256.png"
                 ),
                 PantryItem(
                     0,
@@ -243,7 +243,7 @@ class MainActivity : AppCompatActivity() {
                     6.0,
                     "",
                     LocalDateTime.now().plusDays(-4),
-                    "limones.jpg"
+                    "https://cdn0.iconfinder.com/data/icons/fruity-3/512/Lemon-256.png"
                 )
             )
             db.pantryItemDao().addAll(*pantryItems.toTypedArray())
