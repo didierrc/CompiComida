@@ -33,6 +33,7 @@ class PantryFragment : Fragment() {
     private lateinit var db: LocalDatabase
     private lateinit var recyclerPantry: RecyclerView
     private lateinit var addPantryItemLauncher: ActivityResultLauncher<Intent>
+    private lateinit var editPantryItemLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +50,8 @@ class PantryFragment : Fragment() {
         db = LocalDatabase.getDB(requireContext())
         db?.let { initializeRecyclerPantry(it) }
 
-        initAddGroceryItemLauncher()
+        initAddPantryItemLauncher()
+        initEditPantryItemLauncher()
         initFabNewItem(view)
     }
 
@@ -66,8 +68,17 @@ class PantryFragment : Fragment() {
         }
     }
 
-    private fun initAddGroceryItemLauncher() {
+    private fun initAddPantryItemLauncher() {
         addPantryItemLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    initializeRecyclerPantry(db)
+                }
+            }
+    }
+
+    private fun initEditPantryItemLauncher() {
+        editPantryItemLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     initializeRecyclerPantry(db)
@@ -84,15 +95,19 @@ class PantryFragment : Fragment() {
             val pantryList = db.pantryItemDao().getAll()
 
             withContext(Dispatchers.Main) {
-                recyclerPantry.adapter = PantryAdapter(pantryList, { itemId ->
-                    Toast.makeText(requireContext(),
-                        "Item clicked: $itemId",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                },{ pantryItem ->
-                    deletePantryItem(pantryItem, db)
+                recyclerPantry.adapter = PantryAdapter(pantryList
+                ) { pantryItemId ->
+                    pantryItemId?.let {
+                        editPantryItemLauncher.launch(
+                            Intent(
+                                requireView().context,
+                                AddPantryItemActivity::class.java
+                            ).apply {
+                                putExtra("pantryId", it)
+                            }
+                        )
+                    }
                 }
-                )
             }
         }
     }

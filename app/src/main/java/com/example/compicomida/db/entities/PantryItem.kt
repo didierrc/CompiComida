@@ -16,11 +16,11 @@ data class PantryItem(
     @ColumnInfo(name = "item_id") val itemId: Int?,
 
     // Other attributes
-    @ColumnInfo(name = "expiration_date") val expirationDate: LocalDateTime,
-    @ColumnInfo(name = "pantry_name") val pantryName: String,
-    val quantity: Double,
-    val unit: String?, // nullable
-    @ColumnInfo(name = "last_update") val lastUpdate: LocalDateTime,
+    @ColumnInfo(name = "expiration_date") var expirationDate: LocalDateTime,
+    @ColumnInfo(name = "pantry_name") var pantryName: String,
+    var quantity: Double,
+    var unit: String?, // nullable
+    @ColumnInfo(name = "last_update") var lastUpdate: LocalDateTime,
     // Storing photo URI instead of the photo itself as Blob.
-    @ColumnInfo(name = "pantry_photo_uri") val pantryPhotoUri: String?
+    @ColumnInfo(name = "pantry_photo_uri") var pantryPhotoUri: String?
 )

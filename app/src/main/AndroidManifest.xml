@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CompiComida">
         <activity
+            android:name=".EditPantryItemActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddPantryItemActivity"
             android:exported="false" />
         <activity

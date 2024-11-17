@@ -31,6 +31,9 @@
     <string name="add_pantry_item_expiration_date_hint">Fecha de caducidad del producto</string>
     <string name="add_pantry_item_image_title">Imagen</string>
     <string name="add_pantry_item_image_button_text">Seleccionar imagen</string>
+    <string name="edit_pantry_item_image_button_text">Editar imagen</string>
+    <string name="edit_pantry_item_edit_button_text">Confirmar cambios</string>
+    <string name="edit_pantry_item_delete_button_text">Eliminar producto</string>
     <string name="searchbar_hint">Búsqueda de productos</string>
     <string name="content_desc_grocery_list_image">Grocery List Image</string>
     <string name="recycler_grocery_list_name">Lista 1</string>
@@ -46,6 +49,7 @@
     <string name="error_expiration_date_not_found_add_pantry_item">Se tiene que seleccionar una fecha de caducidad</string>
     <string name="add_grocery_item_title">Añadir Producto\n</string>
     <string name="add_pantry_item_title">Añadir producto a despensa\n</string>
+    <string name="edit_pantry_item_title">Editar producto\n</string>
     <string name="content_desc_recipe_list_item">Go to the details of the recipe.</string>
     <string name="content_description_recipe_image">Imagen receta</string>
     <string name="recipe_list_name">Pollo de Vino peruano</string>

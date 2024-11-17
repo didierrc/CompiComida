@@ -16,7 +16,6 @@ class PantryAdapter(
 
     private var pantryItems: List<PantryItem>,
     private val onClickGoToItemDetail: (Int?) -> Unit,
-    private val onDeleteItem: (PantryItem?) -> Unit
 
 ) : RecyclerView.Adapter<PantryAdapter.ViewHolder>() {
 
@@ -24,7 +23,7 @@ class PantryAdapter(
         val itemLayout = R.layout.recycler_pantry
         val view =
             LayoutInflater.from(viewGroup.context).inflate(itemLayout, viewGroup, false)
-        return ViewHolder(view, onClickGoToItemDetail, onDeleteItem)
+        return ViewHolder(view, onClickGoToItemDetail)
     }
 
     override fun getItemCount() = pantryItems.size
@@ -36,7 +35,6 @@ class PantryAdapter(
     class ViewHolder(
         view: View,
         onClickGoToItemDetail: (Int?) -> Unit,
-        onDeleteItem: (PantryItem?) -> Unit,
     ) : RecyclerView.ViewHolder(view) {
 
 
@@ -51,14 +49,6 @@ class PantryAdapter(
 
         init {
             view.setOnClickListener { onClickGoToItemDetail(pantryItem?.itemId) }
-//            with(btnDeleteItem) {
-//                setOnClickListener {
-//                    isEnabled = false // Disable the button to prevent multiple clicks
-//                    animate().alpha(0f).setDuration(400).withEndAction {
-//                        onDeleteItem(groceryItem)
-//                    }.start()
-//                }
-//            }
         }
 
         fun bind(pantryItem: PantryItem) {
