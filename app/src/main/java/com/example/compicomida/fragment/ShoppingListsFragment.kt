@@ -1,5 +1,6 @@
 package com.example.compicomida.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.example.compicomida.recyclerViews.ShoppingListsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 /**
@@ -85,12 +87,30 @@ class ShoppingListsFragment : Fragment() {
                     },
                         { groceryList ->
                             deleteGroceryList(groceryList, db)
+                        }, { groceryList ->
+                            getNumberOfItemsOnList(groceryList, db)
                         })
+
             }
         }
     }
 
+    private fun getNumberOfItemsOnList(
+        groceryList: GroceryList?,
+        db: LocalDatabase
+    ): Int {
+        return if (groceryList != null) {
+            runBlocking {
+                db.groceryListDao().getListSize(groceryList.listId)
+            }
+        } else {
+            Log.e("ShoppingListsFragment", "GroceryList is null")
+            0
+        }
+    }
 
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun deleteGroceryList(groceryList: GroceryList?, db: LocalDatabase) {
         if (groceryList != null) {
             lifecycleScope.launch(Dispatchers.IO) {
