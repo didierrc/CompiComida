@@ -211,27 +211,27 @@ class MainActivity : AppCompatActivity() {
                     LocalDateTime.now(),
                     "Peras",
                     3,
-                    null,
+                    "unidades",
                     LocalDateTime.now().plusDays(-1),
                     "peras.jpg"
                 ),
                 PantryItem(
                     0,
                     null,
-                    LocalDateTime.now().plusDays(5),
+                    LocalDateTime.now().plusDays(1),
                     "Mangos",
                     2,
-                    null,
+                    "unidades",
                     LocalDateTime.now().plusDays(-2),
                     "mangos.jpg"
                 ),
                 PantryItem(
                     0,
                     null,
-                    LocalDateTime.now().plusDays(7),
+                    LocalDateTime.now().plusDays(2),
                     "Fresas",
                     1,
-                    null,
+                    "unidades",
                     LocalDateTime.now().plusDays(-3),
                     "fresas.jpg"
                 ),
@@ -241,7 +241,7 @@ class MainActivity : AppCompatActivity() {
                     LocalDateTime.now().plusDays(10),
                     "Limones",
                     5,
-                    null,
+                    "unidades",
                     LocalDateTime.now().plusDays(-4),
                     "limones.jpg"
                 )
