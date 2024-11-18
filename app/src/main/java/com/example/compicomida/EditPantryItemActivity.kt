@@ -63,6 +63,8 @@ class EditPantryItemActivity : AppCompatActivity() {
             insets
         }
 
+        itemId = intent.getIntExtra("pantryId",-1)
+
         db = LocalDatabase.getDB(this)
 
         initialiseViewElements()
@@ -124,6 +126,7 @@ class EditPantryItemActivity : AppCompatActivity() {
                     expirationDate.setText(parseExpirationDate(pantryItem!!.expirationDate))
                     lastUpdate.text = parseLastUpdate(pantryItem!!.lastUpdate)
                     imageView.load(pantryItem!!.pantryPhotoUri)
+                    imageURI = pantryItem!!.pantryPhotoUri
                 }
             }
         }
@@ -193,6 +196,7 @@ class EditPantryItemActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val uri = result.data?.data
                     imageURI = uri.toString()
+                    imageView.load(imageURI)
                 }
             }
 

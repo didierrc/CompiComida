@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.AddPantryItemActivity
+import com.example.compicomida.EditPantryItemActivity
 import com.example.compicomida.R
 import com.example.compicomida.databinding.FragmentPantryBinding
 import com.example.compicomida.db.LocalDatabase
@@ -95,34 +96,21 @@ class PantryFragment : Fragment() {
             val pantryList = db.pantryItemDao().getAll()
 
             withContext(Dispatchers.Main) {
-                recyclerPantry.adapter = PantryAdapter(pantryList
-                ) { pantryItemId ->
-                    pantryItemId?.let {
-                        editPantryItemLauncher.launch(
-                            Intent(
-                                requireView().context,
-                                AddPantryItemActivity::class.java
-                            ).apply {
-                                putExtra("pantryId", it)
-                            }
-                        )
-                    }
+                recyclerPantry.adapter = PantryAdapter(pantryList) { pantryItemId ->
+                        Log.e("editPantry","Id del pantry $pantryItemId")
+                        pantryItemId?.let {
+                            Log.e("editPantry","Id del pantry post let $pantryItemId")
+                            editPantryItemLauncher.launch(
+                                Intent(
+                                    requireView().context,
+                                    EditPantryItemActivity::class.java
+                                ).apply {
+                                    putExtra("pantryId", it)
+                                }
+                            )
+                        }
                 }
             }
         }
     }
-
-    private fun deletePantryItem(pantryItem: PantryItem?, db: LocalDatabase) {
-        if (pantryItem != null) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                db.pantryItemDao().delete(pantryItem)
-                withContext(Dispatchers.Main) {
-                    initializeRecyclerPantry(db)
-                }
-            }
-        } else {
-            Log.e("PantryFragment", "PantryItem is null")
-        }
-    }
-
 }

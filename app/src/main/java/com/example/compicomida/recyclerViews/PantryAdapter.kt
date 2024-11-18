@@ -1,5 +1,6 @@
 package com.example.compicomida.recyclerViews
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,9 @@ class PantryAdapter(
         private var pantryItem: PantryItem? = null
 
         init {
-            view.setOnClickListener { onClickGoToItemDetail(pantryItem?.itemId) }
+            view.setOnClickListener {
+                Log.e("editPantry","Entra en el clikListener")
+                onClickGoToItemDetail(pantryItem?.pantryId) }
         }
 
         fun bind(pantryItem: PantryItem) {
