@@ -2,10 +2,13 @@ package com.example.compicomida
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -23,17 +26,17 @@ import kotlinx.coroutines.withContext
 
 class AddGroceryItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddGroceryItemBinding
-    private lateinit var db: LocalDatabase
     private lateinit var itemName: TextInputEditText
     private lateinit var spinnerCategories: AutoCompleteTextView
     private lateinit var quantity: TextInputEditText
     private lateinit var units: AutoCompleteTextView
     private lateinit var price: TextInputEditText
     private lateinit var btnAdd: Button
-    private lateinit var btnImage: Button
+    private lateinit var btnImage: ImageButton
     private var imageURI: String? = null
 
     private var listId: Int = 0
+    private lateinit var db: LocalDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -74,7 +77,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
         quantity = findViewById(R.id.et_product_quantity)
         units = findViewById(R.id.spinner_product_units)
         price = findViewById(R.id.et_product_price)
-        btnAdd = findViewById(R.id.bt_add_grocery_item)
+        btnAdd = findViewById(R.id.btn_add_grocery_item)
         btnImage = findViewById(R.id.btn_img)
 
     }
@@ -137,6 +140,8 @@ class AddGroceryItemActivity : AppCompatActivity() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     val uri = result.data?.data
                     imageURI = uri.toString()
+                    showImagePreview(uri)
+
                 }
             }
 
@@ -144,6 +149,29 @@ class AddGroceryItemActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply { type = "image/*" }
             imagePickerLauncher.launch(intent)
         }
+
+        binding.btnRemoveImage.setOnClickListener {
+            binding.btnRemoveImage.animate().alpha(0f).setDuration(250).withEndAction {
+                imageURI = null
+                hideImagePreview()
+            }.start()
+        }
+    }
+
+    private fun showImagePreview(uri: Uri?) {
+        binding.ivImagePreview.setImageURI(uri)
+        val visibility = if (uri != null) View.VISIBLE else View.GONE
+        binding.ivImagePreview.visibility = visibility
+        binding.btnRemoveImage.visibility = visibility
+        if (uri != null) {
+            binding.btnRemoveImage.alpha = 1f // Reset alpha value
+            // This is necessary since it's put to zero in the animation,
+            // otherwise it will not be visible even if it's set to View.VISIBLE
+        }
+    }
+
+    private fun hideImagePreview() {
+        showImagePreview(null)
     }
 
     private fun showAlert(message: String, title: String = "Error") {
