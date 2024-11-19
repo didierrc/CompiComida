@@ -15,18 +15,26 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.CompiComida">
         <activity
-                android:name=".AddGroceryListActivity"
+                android:name=".EditPantryItemActivity"
                 android:exported="false" />
         <activity
-                android:name=".GroceryItemDetailsActivity"
-                android:exported="false"
-                android:parentActivityName=".GroceryItemsListActivity" />
+                android:name=".AddPantryItemActivity"
+                android:exported="false" />
         <activity
                 android:name=".RecipeDetailsActivity"
                 android:exported="false"
                 android:label="@string/title_activity_recipe_details"
                 android:parentActivityName=".fragment.RecipesFragment"
                 android:theme="@style/Theme.CompiComida.NoActionBar" />
+
+        <activity
+                android:name=".AddGroceryListActivity"
+                android:exported="false" />
+        <activity
+                android:name=".GroceryItemDetailsActivity"
+                android:exported="false"
+                android:parentActivityName=".GroceryItemsListActivity" />
+
         <activity
                 android:name=".AddGroceryItemActivity"
                 android:exported="false" />
