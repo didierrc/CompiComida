@@ -2,4 +2,8 @@
     <dimen name="app_bar_height">240dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <!-- Home dimensions -->
+    <dimen name="home_main_content_margin_side">16dp</dimen>
+    <dimen name="home_main_content_margin_top">90dp</dimen>
 </resources>

@@ -6,8 +6,8 @@
     <string name="new_menu">Nuevo</string>
     <string name="pantry_menu">Despensa</string>
     <string name="lists_menu">Listas</string>
-    <string name="home_expire_title">Productos que caducarán pronto</string>
-    <string name="home_list_title">Tu lista de la compra</string>
+    <string name="tv_home_expire_title">Productos que caducarán pronto</string>
+    <string name="tv_home_recent_list_title">Tu lista más reciente: %s</string>
     <string name="add_grocery_item_name_title">Nombre</string>
     <string name="add_grocery_item_name_hint">Nombre del producto</string>
     <string name="add_grocery_item_type_title">Tipo</string>
@@ -20,7 +20,7 @@
     <string name="add_grocery_item_image_button_hint">Seleccionar imagen</string>
     <string name="add_grocery_item_add_button_text">Añadir Producto</string>
     <string name="add_grocery_list_add_button_text">Añadir Lista</string>
-    <string name="searchbar_hint">Búsqueda de productos</string>
+    <string name="home_searchbar_hint">Búsqueda de productos</string>
     <string name="content_desc_grocery_list_image">Grocery List Image</string>
     <string name="recycler_grocery_list_name">Lista 1</string>
     <string name="recycler_grocery_list_date_and_products">Creada el %1$s\n%2$d productos</string>
