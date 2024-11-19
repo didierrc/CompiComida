@@ -68,7 +68,7 @@ class GroceryItemsListActivity : AppCompatActivity() {
         listId = intent.getIntExtra("listId", 0)
         // Shows all the current items inside a shopping list from DB.
         db = LocalDatabase.getDB(this)
-        db.let { initializeRecyclerItemsList(it) }
+        initializeRecyclerItemsList(db)
 
         initAddGroceryItemLauncher()
         initFabNewList()
