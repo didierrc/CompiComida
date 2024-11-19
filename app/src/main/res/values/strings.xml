@@ -7,7 +7,7 @@
     <string name="pantry_menu">Despensa</string>
     <string name="lists_menu">Listas</string>
     <string name="tv_home_expire_title">Productos que caducarán pronto</string>
-    <string name="tv_home_recent_list_title">Lista de la compra más reciente</string>
+    <string name="tv_home_recent_list_title">Tu lista más reciente: %s</string>
     <string name="add_grocery_item_name_title">Nombre</string>
     <string name="add_grocery_item_name_hint">Nombre del producto</string>
     <string name="add_grocery_item_type_title">Tipo</string>

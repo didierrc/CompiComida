@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
                 PantryItem(
                     0,
                     null,
-                    LocalDateTime.now().plusDays(10),
+                    LocalDateTime.now().plusDays(2),
                     "Limones",
                     5,
                     "unidades",
