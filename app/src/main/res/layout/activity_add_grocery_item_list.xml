@@ -3,28 +3,31 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragment.AddGroceryListFragment">
+        android:id="@+id/addGroceryItemList"
+        tools:context=".AddGroceryListActivity">
 
-    <TextView
-            android:id="@+id/tv_add_list_title"
-            android:layout_width="wrap_content"
+
+    <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/add_grocery_list_title"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:title="@string/add_grocery_list_title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="16dp" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="16dp"
             android:id="@+id/et_list_name_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_add_list_title">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_list_name"

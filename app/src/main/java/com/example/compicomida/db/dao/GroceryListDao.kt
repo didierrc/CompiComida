@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.example.compicomida.db.entities.GroceryItem
 import com.example.compicomida.db.entities.GroceryList
 
 @Dao
@@ -23,13 +22,15 @@ interface GroceryListDao {
     suspend fun getByName(name: String): GroceryList?
 
     @Query(
-        "SELECT * FROM GroceryList g " +
-                "INNER JOIN GroceryItem i on g.list_id = i.list_id"
+        "SELECT * FROM GroceryList g ORDER BY g.created_at DESC LIMIT 1"
     )
-    suspend fun getAllWithItems(): Map<GroceryList, List<GroceryItem>>
+    suspend fun getMostRecentList(): GroceryList?
 
     @Query("SELECT * FROM GroceryList ORDER BY list_id DESC LIMIT 1")
     suspend fun getLastInserted(): GroceryList?
+
+    @Query("SELECT COUNT(*) FROM GroceryItem WHERE list_id = :id")
+    suspend fun getListSize(id: Int): Int
 
     // Inserts
 

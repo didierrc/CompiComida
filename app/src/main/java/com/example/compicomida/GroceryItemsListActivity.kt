@@ -3,7 +3,6 @@ package com.example.compicomida
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +28,28 @@ class GroceryItemsListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroceryItemsListBinding
     private lateinit var groceryItems: List<GroceryItem>
     private lateinit var addGroceryItemLauncher: ActivityResultLauncher<Intent>
+
+    companion object {
+        const val ID_TAG = "GroceryItemsListActivity"
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
+
+    private fun refreshData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            groceryItems = db.groceryItemDao().getByListId(listId)
+            withContext(Dispatchers.Main) {
+                if (recyclerGroceryItem.adapter != null)
+                    (recyclerGroceryItem.adapter as GroceryItemsAdapter).updateData(
+                        groceryItems
+                    )
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -47,7 +68,7 @@ class GroceryItemsListActivity : AppCompatActivity() {
         listId = intent.getIntExtra("listId", 0)
         // Shows all the current items inside a shopping list from DB.
         db = LocalDatabase.getDB(this)
-        db.let { initializeRecyclerItemsList(it) }
+        initializeRecyclerItemsList(db)
 
         initAddGroceryItemLauncher()
         initFabNewList()
@@ -94,13 +115,12 @@ class GroceryItemsListActivity : AppCompatActivity() {
             toolbar.title = listName
             withContext(Dispatchers.Main) {
                 val adapter = GroceryItemsAdapter(groceryItems, { itemId ->
-                    Toast.makeText(
+                    val intent = Intent(
                         this@GroceryItemsListActivity,
-                        "Item clicked: $itemId",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }, { groceryItem ->
-                    deleteGroceryItem(groceryItem, db)
+                        GroceryItemDetailsActivity::class.java
+                    )
+                    intent.putExtra(ID_TAG, itemId)
+                    startActivity(intent)
                 },
                     { groceryItem, checkState ->
                         checkGroceryItem(groceryItem, checkState, db)
@@ -124,17 +144,6 @@ class GroceryItemsListActivity : AppCompatActivity() {
             }
         }
 
-    }
-
-    private fun deleteGroceryItem(groceryItem: GroceryItem?, db: LocalDatabase) {
-        if (groceryItem != null) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                db.groceryItemDao().delete(groceryItem)
-                withContext(Dispatchers.Main) {
-                    initializeRecyclerItemsList(db)
-                }
-            }
-        }
     }
 
 

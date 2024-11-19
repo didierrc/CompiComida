@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="30dp"
-        android:layout_marginEnd="10dp">
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="30dp">
 
         <LinearLayout
             android:id="@+id/mainRecipeDescriptionLayout"
@@ -195,7 +196,7 @@
                 android:id="@+id/stepsRecipeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pasos"
+                android:text="@string/steps_recipe_title_text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <!--

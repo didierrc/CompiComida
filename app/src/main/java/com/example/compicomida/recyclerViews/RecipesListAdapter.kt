@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.compicomida.R
 import com.example.compicomida.db.entities.recipes.Recipe
-import com.example.compicomida.recyclerViews.ShoppingListsAdapter.ViewHolder
 import net.nicbell.materiallists.ListItem
 
 /**

@@ -210,6 +210,7 @@ class MainActivity : AppCompatActivity() {
                     null,
                     LocalDateTime.now(),
                     "Peras",
+
                     3.0,
                     "",
                     LocalDateTime.now().plusDays(-1),
@@ -218,17 +219,18 @@ class MainActivity : AppCompatActivity() {
                 PantryItem(
                     0,
                     null,
-                    LocalDateTime.now().plusDays(5),
+                    LocalDateTime.now().plusDays(1),
                     "Mangos",
                     3.0,
                     "kg",
+
                     LocalDateTime.now().plusDays(-2),
                     "https://cdn3.iconfinder.com/data/icons/fruits-52/150/icon_fruit_manga-256.png"
                 ),
                 PantryItem(
                     0,
                     null,
-                    LocalDateTime.now().plusDays(7),
+                    LocalDateTime.now().plusDays(2),
                     "Fresas",
                     200.0,
                     "g",
@@ -238,7 +240,7 @@ class MainActivity : AppCompatActivity() {
                 PantryItem(
                     0,
                     null,
-                    LocalDateTime.now().plusDays(10),
+                    LocalDateTime.now().plusDays(2),
                     "Limones",
                     6.0,
                     "",
