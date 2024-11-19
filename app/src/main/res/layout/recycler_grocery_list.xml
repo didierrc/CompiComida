@@ -1,60 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list_element"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="3dp"
-    android:background="@drawable/rounded_border"
-    android:padding="16dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent">
-    <!--app:layout_constraintTop_toBottomOf="@id/shopping_list_title"-->
-
-    <ImageView
-        android:id="@+id/recycler_grocery_list_image"
-        android:layout_width="96dp"
-        android:layout_height="54dp"
-        android:contentDescription="@string/content_desc_grocery_list_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/product_icon" />
-
-    <TextView
-        android:id="@+id/recycler_grocery_list_name"
-        android:layout_width="wrap_content"
+<?xml version="1.0" encoding="utf-8"?><!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/recycler_grocery_list_name"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/recycler_grocery_list_image"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical">
 
+    <net.nicbell.materiallists.ListItem
+            android:id="@+id/recycler_grocery_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:headline="Lista 1"
+            app:sizeType="THREE_PLUS_LINES"
+            app:supportText="15 productos\nCreada el 25/11/2024">
 
-    <TextView
-        android:id="@+id/recycler_grocery_list_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/recycler_grocery_list_date"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@id/recycler_grocery_list_image"
-        app:layout_constraintTop_toBottomOf="@+id/recycler_grocery_list_name" />
+        <androidx.appcompat.widget.AppCompatImageButton
+                style="@style/CustomImageButtonStyleForList"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/recycler_grocery_list_btn_delete"
+                android:src="@drawable/baseline_delete_24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" />
 
-    <Button
-        android:id="@+id/recycler_grocery_list_btn_delete"
-        style="@style/CustomMaterialIconButtonOutlinedStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:icon="@drawable/baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </net.nicbell.materiallists.ListItem>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

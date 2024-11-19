@@ -48,23 +48,13 @@
                 android:id="@+id/recycler_grocery_item_checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comprado"
+                android:text="@string/bought_checkbox"
                 android:textSize="11sp"
                 android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/recycler_grocery_item_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0" />
-
-        <!--        <Button-->
-        <!--                android:id="@+id/recycler_grocery_item_btn_delete"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_marginTop="8dp"-->
-        <!--                style="@style/CustomMaterialIconButtonOutlinedStyle"-->
-        <!--                app:icon="@drawable/baseline_delete_24"-->
-        <!--                app:layout_constraintStart_toStartOf="parent"-->
-        <!--                app:layout_constraintTop_toBottomOf="@id/recycler_grocery_item_checkBox" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

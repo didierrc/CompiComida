@@ -29,6 +29,9 @@ interface GroceryListDao {
     @Query("SELECT * FROM GroceryList ORDER BY list_id DESC LIMIT 1")
     suspend fun getLastInserted(): GroceryList?
 
+    @Query("SELECT COUNT(*) FROM GroceryItem WHERE list_id = :id")
+    suspend fun getListSize(id: Int): Int
+
     // Inserts
 
     @Insert

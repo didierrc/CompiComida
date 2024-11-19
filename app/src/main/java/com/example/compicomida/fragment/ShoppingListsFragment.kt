@@ -1,16 +1,20 @@
 package com.example.compicomida.fragment
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.compicomida.AddGroceryListActivity
 import com.example.compicomida.GroceryItemsListActivity
 import com.example.compicomida.R
 import com.example.compicomida.db.LocalDatabase
@@ -19,6 +23,7 @@ import com.example.compicomida.recyclerViews.ShoppingListsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 /**
@@ -29,6 +34,7 @@ class ShoppingListsFragment : Fragment() {
 
     private lateinit var recyclerGroceryList: RecyclerView
     private var db: LocalDatabase? = null
+    private lateinit var addGroceryListLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,10 +58,18 @@ class ShoppingListsFragment : Fragment() {
     // Initialise the Fab Click Listener
     private fun initFabNewList(view: View) {
         val fabNewList: FloatingActionButton = view.findViewById(R.id.fabNewlist)
+        addGroceryListLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    db?.let { initializeRecyclerGroceryList(it) }
+                }
+            }
         fabNewList.setOnClickListener {
-            findNavController().navigate(
-                ShoppingListsFragmentDirections
-                    .actionShoppingListsFragmentToAddGroceryListFragment()
+            addGroceryListLauncher.launch(
+                Intent(
+                    requireContext(),
+                    AddGroceryListActivity::class.java
+                )
             )
         }
     }
@@ -85,12 +99,30 @@ class ShoppingListsFragment : Fragment() {
                     },
                         { groceryList ->
                             deleteGroceryList(groceryList, db)
+                        }, { groceryList ->
+                            getNumberOfItemsOnList(groceryList, db)
                         })
+
             }
         }
     }
 
+    private fun getNumberOfItemsOnList(
+        groceryList: GroceryList?,
+        db: LocalDatabase
+    ): Int {
+        return if (groceryList != null) {
+            runBlocking {
+                db.groceryListDao().getListSize(groceryList.listId)
+            }
+        } else {
+            Log.e("ShoppingListsFragment", "GroceryList is null")
+            0
+        }
+    }
 
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun deleteGroceryList(groceryList: GroceryList?, db: LocalDatabase) {
         if (groceryList != null) {
             lifecycleScope.launch(Dispatchers.IO) {

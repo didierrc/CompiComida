@@ -16,6 +16,10 @@
         <item name="android:background">@drawable/custom_button_background</item>
     </style>
 
+    <style name="CustomImageButtonStyleForList" parent="Widget.Material3.MaterialTimePicker.ImageButton">
+        <item name="android:background">@drawable/custom_button_background_for_list</item>
+    </style>
+
     <style name="CustomMaterialIconButtonOutlinedStyle" parent="Widget.Material3.Button.IconButton.Outlined">
         <item name="iconTint">@color/black</item>
         <item name="strokeColor">@color/green</item>
@@ -28,6 +32,10 @@
         <item name="rippleColor">@color/white</item>
     </style>
 
+    <style name="RoundedImage" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
     <style name="HomeTitleTextStyle">
         <item name="fontFamily">@font/default_font_family</item>
         <item name="android:textSize">18sp</item>
