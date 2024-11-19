@@ -32,7 +32,7 @@
         <item name="rippleColor">@color/white</item>
     </style>
 
-    <style name="RoundedImage" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+    <style name="RoundedImage" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>

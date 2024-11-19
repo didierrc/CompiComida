@@ -52,7 +52,9 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 setUpActionBar()
                 fillItemDetails(groceryItemCategory)
+                binding.itemImage.load(groceryItem.itemPhotoUri)
             }
+
         }
 
         with(binding) {
@@ -100,7 +102,6 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
                 groceryItem.unit
             )
         }
-        binding.itemImage.load(groceryItem.itemPhotoUri)
         binding.itemCheckbox.isChecked = groceryItem.isPurchased
     }
 
