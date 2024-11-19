@@ -10,7 +10,6 @@ import coil3.load
 import com.example.compicomida.databinding.ActivityGroceryItemDetailsBinding
 import com.example.compicomida.db.LocalDatabase
 import com.example.compicomida.db.entities.GroceryItem
-import com.example.compicomida.db.entities.ItemCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,10 +47,11 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             groceryItem = db.groceryItemDao().getById(groceryItemID)!!
             val groceryItemCategory =
-                db.itemCategoryDao().getById(groceryItem.categoryId!!)
+                groceryItem.categoryId?.let { db.itemCategoryDao().getById(it) }
+            val category = groceryItemCategory?.categoryName ?: "Sin categoría"
             withContext(Dispatchers.Main) {
                 setUpActionBar()
-                fillItemDetails(groceryItemCategory)
+                fillItemDetails(category)
                 binding.itemImage.load(groceryItem.itemPhotoUri)
             }
 
@@ -82,9 +82,9 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun fillItemDetails(groceryItemCategory: ItemCategory?) {
+    private fun fillItemDetails(category: String) {
         binding.itemName.text = groceryItem.itemName
-        binding.itemCategory.text = groceryItemCategory?.categoryName ?: "Sin categoría"
+        binding.itemCategory.text = category
         binding.itemQuantity.text = getString(
             R.string.quantity_unit,
             groceryItem.quantity.toString(),
