@@ -27,5 +27,13 @@
         <item name="fabSize">mini</item>
         <item name="rippleColor">@color/white</item>
     </style>
+
+    <style name="HomeTitleTextStyle">
+        <item name="fontFamily">@font/default_font_family</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>
 

@@ -18,6 +18,9 @@ interface PantryItemDao {
     @Query("SELECT * FROM PantryItem WHERE pantry_id = :id")
     suspend fun getById(id: Int): PantryItem?
 
+    @Query("SELECT * FROM PantryItem WHERE expiration_date < DATE('now', '+5 day')")
+    suspend fun getCloseExpireItems(): List<PantryItem>
+
     // Inserts
 
     @Insert
