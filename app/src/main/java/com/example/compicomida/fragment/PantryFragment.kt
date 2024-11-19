@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.AddPantryItemActivity
@@ -89,7 +90,7 @@ class PantryFragment : Fragment() {
 
     private fun initializeRecyclerPantry(db: LocalDatabase) {
         recyclerPantry = requireView().findViewById(R.id.recyclerPantry)
-        recyclerPantry.layoutManager = LinearLayoutManager(requireContext())
+        recyclerPantry.layoutManager = GridLayoutManager(requireContext(),2)
 
         lifecycleScope.launch(Dispatchers.IO) {
 

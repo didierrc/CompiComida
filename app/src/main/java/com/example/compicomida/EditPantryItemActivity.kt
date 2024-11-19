@@ -178,16 +178,22 @@ class EditPantryItemActivity : AppCompatActivity() {
                     }
                 } else {
                     val expirationDateValue = DateConverter().fromTimestampWithOutHours(expirationDateTxt)
-                    pantryItem!!.pantryName = itemNameTxt
-                    pantryItem!!.expirationDate = expirationDateValue!!
-                    pantryItem!!.quantity = quantityValue
-                    pantryItem!!.unit = unitTxt
-                    pantryItem!!.lastUpdate = LocalDateTime.now()
-                    pantryItem!!.pantryPhotoUri = imageURI ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
+                    if(expirationDateValue!!.isBefore(LocalDateTime.now())){
+                        withContext(Dispatchers.Main) {
+                            showAlert(getString(R.string.error_valid_expiration_date_add_pantry_item))
+                        }
+                    }else{
+                        pantryItem!!.pantryName = itemNameTxt
+                        pantryItem!!.expirationDate = expirationDateValue!!
+                        pantryItem!!.quantity = quantityValue
+                        pantryItem!!.unit = unitTxt
+                        pantryItem!!.lastUpdate = LocalDateTime.now()
+                        pantryItem!!.pantryPhotoUri = imageURI ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
 
-                    db.pantryItemDao().update(pantryItem!!)
-                    setResult(Activity.RESULT_OK)
-                    finish()
+                        db.pantryItemDao().update(pantryItem!!)
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
                 }
             }
         }

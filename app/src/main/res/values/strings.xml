@@ -45,6 +45,7 @@
     <string name="error_empty_fields_add_grocery_item">Debe cumplimentar todos los campos</string>
     <string name="error_valid_numbers_add_grocery_item">El precio y la cantidad deben ser números válidos</string>
     <string name="error_valid_numbers_add_pantry_item">La cantidad debe ser un número válido</string>
+    <string name="error_valid_expiration_date_add_pantry_item">La fecha de caducidad no puede ser una fecha pasada</string>
     <string name="error_category_not_found_add_grocery_item">Debe proporcionar una categoría para el producto</string>
     <string name="error_expiration_date_not_found_add_pantry_item">Se tiene que seleccionar una fecha de caducidad</string>
     <string name="add_grocery_item_title">Añadir Producto\n</string>

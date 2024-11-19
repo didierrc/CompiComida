@@ -118,21 +118,27 @@ class AddPantryItemActivity : AppCompatActivity() {
                     }
                 } else {
                     val expirationDateValue = DateConverter().fromTimestampWithOutHours(expirationDateTxt)
-                    val newItem = PantryItem(
-                        pantryId =  0,
-                        itemId = null,
-                        expirationDate = expirationDateValue!!,
-                        pantryName =  itemNameTxt,
-                        quantity = quantityValue,
-                        unit = unitTxt,
-                        lastUpdate = LocalDateTime.now(),
-                        pantryPhotoUri = imageURI
-                            ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
-                    )
+                    if(expirationDateValue!!.isBefore(LocalDateTime.now())){
+                        withContext(Dispatchers.Main) {
+                            showAlert(getString(R.string.error_valid_expiration_date_add_pantry_item))
+                        }
+                    }else{
+                        val newItem = PantryItem(
+                            pantryId =  0,
+                            itemId = null,
+                            expirationDate = expirationDateValue!!,
+                            pantryName =  itemNameTxt,
+                            quantity = quantityValue,
+                            unit = unitTxt,
+                            lastUpdate = LocalDateTime.now(),
+                            pantryPhotoUri = imageURI
+                                ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
+                        )
 
-                    db.pantryItemDao().add(newItem)
-                    setResult(Activity.RESULT_OK)
-                    finish()
+                        db.pantryItemDao().add(newItem)
+                        setResult(Activity.RESULT_OK)
+                        finish()
+                    }
                 }
 
 

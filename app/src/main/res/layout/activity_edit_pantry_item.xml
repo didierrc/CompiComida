@@ -20,44 +20,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardViewEditPantry"
+    <ImageView
+        android:id="@+id/editPantryItemImage"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:layout_margin="8dp"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@drawable/product_icon"
+        android:contentDescription="@string/content_desc_grocery_item_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEditPantry"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvEditPantryItemLastUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="4dp"
-        android:layout_margin="8dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbarEditPantry"
+        android:layout_margin="4dp"
+        android:text="Ultima Actualizacion: 15/02/2024"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/editPantryItemImage"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
-                android:id="@+id/editPantryItemImage"
-                android:layout_width="wrap_content"
-                android:layout_height="75dp"
-                android:scaleType="fitCenter"
-                tools:srcCompat="@drawable/product_icon"
-                android:contentDescription="@string/content_desc_grocery_item_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <TextView
-                android:id="@+id/tvEditPantryItemLastUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:text="Ultima Actualizacion: 15/02/2024"
-                android:textSize="12sp"
-                app:layout_constraintTop_toBottomOf="@id/editPantryItemImage"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btnImgEditPantry"
@@ -70,7 +54,7 @@
         app:icon="@drawable/baseline_photo_camera_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardViewEditPantry" />
+        app:layout_constraintTop_toBottomOf="@id/tvEditPantryItemLastUpdate" />
 
     <TextView
         android:id="@+id/tvNameEditPantry"
