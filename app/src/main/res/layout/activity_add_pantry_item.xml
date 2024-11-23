@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addPantryItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    android:id="@+id/addPantryItem"
-    tools:context=".AddPantryItemActivity">
+    tools:context=".views.activities.AddPantryItemActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarAddPantry"
@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-        app:title="@string/add_pantry_item_title"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="@string/add_pantry_item_title" />
 
     <TextView
         android:id="@+id/tvNameAddPantry"
@@ -46,7 +46,6 @@
             android:hint="@string/add_pantry_item_name_hint"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <TextView
@@ -128,8 +127,8 @@
             android:id="@+id/etProductExpirationDateAddPantry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/add_pantry_item_expiration_date_hint"
             android:focusable="false"
+            android:hint="@string/add_pantry_item_expiration_date_hint"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 

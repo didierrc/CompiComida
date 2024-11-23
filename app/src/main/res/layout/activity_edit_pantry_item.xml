@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    tools:context=".EditPantryItemActivity">
+    tools:context=".views.activities.EditPantryItemActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarEditPantry"
@@ -14,23 +14,23 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-        app:title="@string/edit_pantry_item_title"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="@string/edit_pantry_item_title" />
 
     <ImageView
         android:id="@+id/editPantryItemImage"
         android:layout_width="wrap_content"
         android:layout_height="75dp"
         android:layout_margin="8dp"
-        android:scaleType="fitCenter"
-        tools:srcCompat="@drawable/product_icon"
         android:contentDescription="@string/content_desc_grocery_item_image"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarEditPantry"
-        app:layout_constraintEnd_toEndOf="parent" />
+        tools:srcCompat="@drawable/product_icon" />
 
     <TextView
         android:id="@+id/tvEditPantryItemLastUpdate"
@@ -39,9 +39,9 @@
         android:layout_margin="4dp"
         android:text="Ultima Actualizacion: 15/02/2024"
         android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@id/editPantryItemImage"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/editPantryItemImage" />
 
     <Button
         android:id="@+id/btnImgEditPantry"
@@ -162,8 +162,8 @@
             android:id="@+id/etProductExpirationDateEditPantry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/add_pantry_item_expiration_date_hint"
             android:focusable="false"
+            android:hint="@string/add_pantry_item_expiration_date_hint"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,10 +175,10 @@
         android:layout_marginTop="3dp"
         android:drawableStart="@drawable/baseline_photo_camera_24"
         android:text="@string/edit_pantry_item_edit_button_text"
-        app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btDeletePantryItem"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry" />
 
     <Button
         android:id="@+id/btDeletePantryItem"
@@ -188,11 +188,10 @@
         android:layout_marginTop="3dp"
         android:drawableStart="@drawable/baseline_photo_camera_24"
         android:text="@string/edit_pantry_item_delete_button_text"
-        app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btEditPantryItem" />
-
+        app:layout_constraintStart_toEndOf="@id/btEditPantryItem"
+        app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

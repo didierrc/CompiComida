@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/bottom_navigation"
-        app:startDestination="@id/homeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_navigation"
+    app:startDestination="@id/homeFragment">
 
     <fragment
-            android:id="@+id/homeFragment"
-            android:name="com.example.compicomida.fragment.HomeFragment"
-            android:label="fragment_home"
-            tools:layout="@layout/fragment_home" />
+        android:id="@+id/homeFragment"
+        android:name="com.example.compicomida.views.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
     <fragment
-            android:id="@+id/shoppingListsFragment"
-            android:name="com.example.compicomida.fragment.ShoppingListsFragment"
-            android:label="fragment_shopping_list"
-            tools:layout="@layout/fragment_shopping_lists" />
+        android:id="@+id/shoppingListsFragment"
+        android:name="com.example.compicomida.views.fragments.ShoppingListsFragment"
+        android:label="fragment_shopping_list"
+        tools:layout="@layout/fragment_shopping_lists" />
 
     <fragment
-            android:id="@+id/recipesFragment"
-            android:name="com.example.compicomida.fragment.RecipesFragment"
-            android:label="fragment_recipes"
-            tools:layout="@layout/fragment_recipes" />
+        android:id="@+id/recipesFragment"
+        android:name="com.example.compicomida.views.fragments.RecipesFragment"
+        android:label="fragment_recipes"
+        tools:layout="@layout/fragment_recipes" />
 
 
     <fragment
-            android:id="@+id/pantryFragment"
-            android:name="com.example.compicomida.fragment.PantryFragment"
-            android:label="fragment_pantry"
-            tools:layout="@layout/fragment_pantry" />
+        android:id="@+id/pantryFragment"
+        android:name="com.example.compicomida.views.fragments.PantryFragment"
+        android:label="fragment_pantry"
+        tools:layout="@layout/fragment_pantry" />
 </navigation>
