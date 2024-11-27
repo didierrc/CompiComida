@@ -15,7 +15,7 @@ import net.nicbell.materiallists.ListItem
  * in a Recycler View.
  */
 class RecipesListAdapter(
-    private val recipesList: List<Recipe>,
+    private var recipesList: List<Recipe>,
     private val onClickGoToDetails: (Int?) -> Unit
 
 ) : RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
@@ -32,6 +32,11 @@ class RecipesListAdapter(
     }
 
     override fun getItemCount() = recipesList.size
+
+    fun updateList(recipesList: List<Recipe>) {
+        this.recipesList = recipesList
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(
         view: View,
