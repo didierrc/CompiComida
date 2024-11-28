@@ -1,99 +1,70 @@
 package com.example.compicomida.views.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
+import com.example.compicomida.AppModule
+import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.entities.PantryItem
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.example.compicomida.views.adapters.diff.PantryDiffCallback
 
 class PantryAdapter(
-
     private var pantryItems: List<PantryItem>,
-    private val onClickGoToItemDetail: (Int?) -> Unit,
-
-    ) : RecyclerView.Adapter<PantryAdapter.ViewHolder>() {
+    private val onClickGoToEditItem: (Int?) -> Unit,
+) : RecyclerView.Adapter<PantryAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val itemLayout = R.layout.recycler_pantry
-        val view =
-            LayoutInflater.from(viewGroup.context).inflate(itemLayout, viewGroup, false)
-        return ViewHolder(view, onClickGoToItemDetail)
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.recycler_pantry, viewGroup, false)
+        return ViewHolder(view, onClickGoToEditItem)
     }
 
     override fun getItemCount() = pantryItems.size
 
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) =
         viewHolder.bind(pantryItems[position])
+
+    fun updateList(newPantryList: List<PantryItem>) {
+        val diffCallback = PantryDiffCallback(pantryItems, newPantryList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        pantryItems = newPantryList
+        diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(
         view: View,
-        onClickGoToItemDetail: (Int?) -> Unit,
+        onClickGoToEditItem: (Int?) -> Unit,
     ) : RecyclerView.ViewHolder(view) {
 
+        private val app: AppModule = CompiComidaApp.appModule
 
         private val tvTitle: TextView = view.findViewById(R.id.recycler_pantry_item_title)
         private val tvText: TextView = view.findViewById(R.id.recycler_pantry_item_text)
         private val tvExpirationDate: TextView =
             view.findViewById(R.id.recycler_pantry_item_expiration_date)
         private val imageView: ImageView = view.findViewById(R.id.recycler_pantry_item_image)
-//        private val btnDeleteItem: Button =
-//            view.findViewById(R.id.recycler_pantry_item_btn_delete)
+//      private val btnDeleteItem: Button = view.findViewById(R.id.recycler_pantry_item_btn_delete)
 
-        private var pantryItem: PantryItem? = null
+        private lateinit var pantryItem: PantryItem
 
         init {
             view.setOnClickListener {
-                Log.e("editPantry", "Entra en el clikListener")
-                onClickGoToItemDetail(pantryItem?.pantryId)
+                onClickGoToEditItem(pantryItem.pantryId)
             }
         }
 
         fun bind(pantryItem: PantryItem) {
             this.pantryItem = pantryItem
-
             tvTitle.text = pantryItem.pantryName
-            tvText.text = parseUnitQuantity(pantryItem.unit, pantryItem.quantity)
-            tvExpirationDate.text = parseDate(pantryItem.expirationDate)
+            tvText.text = app.parseUnitQuantity(pantryItem.unit, pantryItem.quantity)
+            tvExpirationDate.text = app.parseExpirationDate(pantryItem.expirationDate)
             imageView.load(pantryItem.pantryPhotoUri)
-        }
-
-        private fun parseDate(expirationDate: LocalDateTime): String {
-            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-            val formattedDate = expirationDate.format(formatter)
-            return "Caduca el $formattedDate"
-        }
-
-        private fun parseUnitQuantity(unit: String?, quantity: Double): String {
-
-            // If unit is "No especificada" or NULL --> ""
-            // If unit is other --> unit
-            val unitParsed = if (unit != "No especificada" && unit != null) unit else ""
-
-            // If quantity has no decimal --> to Integer (except for 0, not shown)
-            // If unit has decimal --> as it is (except for 0.5, shown as 1/2)
-            // other fractions can be considered...
-            val quantityParsed = if (quantity.mod(1.0) == 0.0) {
-                if (quantity.toInt() == 0) "-" else quantity.toInt().toString()
-            } else {
-                if (quantity == 0.5)
-                    "1/2"
-                else
-                    quantity.toString()
-            }
-
-            return itemView.context.getString(
-                R.string.grocery_items_adapter_cantidad_text,
-                quantityParsed,
-                unitParsed
-            )
         }
 
     }

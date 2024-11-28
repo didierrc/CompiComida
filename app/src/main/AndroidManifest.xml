@@ -16,31 +16,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CompiComida">
         <activity
-            android:name=".views.activities.EditPantryItemActivity"
+            android:name=".views.activities.pantry.EditPantryItemActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.AddPantryItemActivity"
+            android:name=".views.activities.pantry.AddPantryItemActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.RecipeDetailsActivity"
+            android:name=".views.activities.recipe.RecipeDetailsActivity"
             android:exported="false"
             android:label="@string/title_activity_recipe_details"
             android:parentActivityName=".views.fragments.RecipesFragment"
             android:theme="@style/Theme.CompiComida.NoActionBar" />
 
         <activity
-            android:name=".views.activities.AddGroceryListActivity"
+            android:name=".views.activities.grocery.AddGroceryListActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.GroceryItemDetailsActivity"
+            android:name=".views.activities.grocery.GroceryItemDetailsActivity"
             android:exported="false"
-            android:parentActivityName=".views.activities.GroceryItemsListActivity" />
+            android:parentActivityName=".views.activities.grocery.GroceryItemsListActivity" />
 
         <activity
-            android:name=".views.activities.AddGroceryItemActivity"
+            android:name=".views.activities.grocery.AddGroceryItemActivity"
             android:exported="false" />
         <activity
-            android:name=".views.activities.GroceryItemsListActivity"
+            android:name=".views.activities.grocery.GroceryItemsListActivity"
             android:exported="false"
             android:parentActivityName=".views.MainActivity" />
         <activity

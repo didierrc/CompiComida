@@ -9,4 +9,8 @@ class PantryRepository(
 
     suspend fun getCloseExpireItems(): List<PantryItem>? = db.pantryItemDao.getCloseExpireItems()
 
+    suspend fun getPantryItems(): List<PantryItem>? = db.pantryItemDao.getAll()
+
+    suspend fun addPantryItem(newPantryItem: PantryItem) = db.pantryItemDao.add(newPantryItem)
+    
 }

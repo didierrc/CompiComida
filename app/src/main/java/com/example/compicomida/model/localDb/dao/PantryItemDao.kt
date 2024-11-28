@@ -13,7 +13,7 @@ interface PantryItemDao {
     // Queries
 
     @Query("SELECT * FROM PantryItem")
-    suspend fun getAll(): List<PantryItem>
+    suspend fun getAll(): List<PantryItem>?
 
     @Query("SELECT * FROM PantryItem WHERE pantry_id = :id")
     suspend fun getById(id: Int): PantryItem?
@@ -27,7 +27,7 @@ interface PantryItemDao {
     suspend fun addAll(vararg pantryItems: PantryItem)
 
     @Insert
-    suspend fun add(pantryItem: PantryItem)
+    suspend fun add(pantryItem: PantryItem): Long?
 
     // Updates
 

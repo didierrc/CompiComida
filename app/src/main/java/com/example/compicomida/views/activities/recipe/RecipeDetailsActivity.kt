@@ -1,6 +1,5 @@
-package com.example.compicomida.views.activities
+package com.example.compicomida.views.activities.recipe
 
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -17,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import coil3.load
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityRecipeDetailsBinding
+import com.example.compicomida.dp
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.GroceryList
@@ -330,6 +330,3 @@ class RecipeDetailsActivity : AppCompatActivity() {
     }
 
 }
-
-val Int.dp: Int
-    get() = (this * Resources.getSystem().displayMetrics.density).toInt()

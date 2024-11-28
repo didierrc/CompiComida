@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryList
-import com.example.compicomida.views.activities.AddGroceryListActivity
-import com.example.compicomida.views.activities.GroceryItemsListActivity
+import com.example.compicomida.views.activities.grocery.AddGroceryListActivity
+import com.example.compicomida.views.activities.grocery.GroceryItemsListActivity
 import com.example.compicomida.views.adapters.ShoppingListsAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers

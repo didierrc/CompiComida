@@ -13,7 +13,7 @@ import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.viewmodels.RecipesViewModel
 import com.example.compicomida.viewmodels.factories.RecipesViewModelFactory
-import com.example.compicomida.views.activities.RecipeDetailsActivity
+import com.example.compicomida.views.activities.recipe.RecipeDetailsActivity
 import com.example.compicomida.views.adapters.RecipesListAdapter
 
 /**

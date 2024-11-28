@@ -1,4 +1,4 @@
-package com.example.compicomida.views.activities
+package com.example.compicomida.views.activities.grocery
 
 import android.app.Activity
 import android.content.Intent

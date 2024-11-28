@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    tools:context=".views.activities.EditPantryItemActivity">
+    tools:context=".views.activities.pantry.EditPantryItemActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarEditPantry"
