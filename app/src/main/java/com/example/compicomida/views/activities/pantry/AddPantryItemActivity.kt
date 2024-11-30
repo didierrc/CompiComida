@@ -7,29 +7,25 @@ import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddPantryItemBinding
 import com.example.compicomida.model.localDb.converters.DateConverter
 import com.example.compicomida.model.localDb.entities.PantryItem
-import com.example.compicomida.viewmodels.PantryViewModel
-import com.example.compicomida.viewmodels.factories.PantryViewModelFactory
+import com.example.compicomida.viewmodels.AddPantryItemViewModel
+import com.example.compicomida.viewmodels.factories.AddPantryItemViewModelFactory
 import java.time.LocalDateTime
 import java.util.Locale
 
 class AddPantryItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPantryItemBinding
-    private var selectedImageUri = CompiComidaApp.DEFAULT_GROCERY_URI
-
-    private val pantryModel: PantryViewModel by viewModels {
-        PantryViewModelFactory(CompiComidaApp.appModule.pantryRepo)
-    }
+    private lateinit var addPantryItemViewModel: AddPantryItemViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,6 +44,12 @@ class AddPantryItemActivity : AppCompatActivity() {
         binding.toolbarAddPantry.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+
+        // Initialising the view model
+        addPantryItemViewModel = ViewModelProvider(
+            this,
+            AddPantryItemViewModelFactory(CompiComidaApp.appModule.pantryRepo)
+        )[AddPantryItemViewModel::class.java]
 
         initialiseCalendarElement()
         initialiseAddOnClick()
@@ -112,10 +114,10 @@ class AddPantryItemActivity : AppCompatActivity() {
                         quantity = quantityValue!!, // Already validated
                         unit = unitTxt,
                         lastUpdate = LocalDateTime.now(),
-                        pantryPhotoUri = selectedImageUri
+                        pantryPhotoUri = addPantryItemViewModel.image.value
                     )
 
-                    pantryModel.addPantryItem(newItem)
+                    addPantryItemViewModel.addPantryItem(newItem)
 
                     // Notifying fragment up
                     val resultIntent = Intent()
@@ -129,7 +131,7 @@ class AddPantryItemActivity : AppCompatActivity() {
             val imagePickerLauncher =
                 registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                     if (result.resultCode == Activity.RESULT_OK) {
-                        selectedImageUri = result.data?.data.toString()
+                        addPantryItemViewModel.updateImage(result.data?.data.toString())
                     }
                 }
 

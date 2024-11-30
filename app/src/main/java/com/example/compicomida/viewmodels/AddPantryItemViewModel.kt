@@ -4,29 +4,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.localDb.entities.PantryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class PantryViewModel(
+class AddPantryItemViewModel(
     private val pantryRepo: PantryRepository
 ) : ViewModel() {
 
-    private val _pantryList = MutableLiveData<List<PantryItem>>()
-    val pantryList: LiveData<List<PantryItem>>
-        get() = _pantryList
+    private val _image = MutableLiveData(CompiComidaApp.DEFAULT_GROCERY_URI)
+    val image: LiveData<String?>
+        get() = _image
 
-    init {
-        refreshPantryList()
+    fun updateImage(newImage: String?) {
+        _image.value = newImage
     }
 
-    fun refreshPantryList() {
+    fun addPantryItem(newPantry: PantryItem) {
         viewModelScope.launch(Dispatchers.IO) {
-            pantryRepo.getPantryItems()?.let {
-                _pantryList.postValue(it)
-            }
+            pantryRepo.addPantryItem(newPantry)
         }
     }
-    
+
+
 }
