@@ -42,7 +42,7 @@ abstract class LocalDatabase : RoomDatabase() {
                 context!!.applicationContext,
                 LocalDatabase::class.java,
                 "LocalAppDB"
-            ).build()
+            ).createFromAsset("LocalAppDB.db").build()
 
             SINGLETON = instance
             return SINGLETON as LocalDatabase

@@ -1,7 +1,8 @@
 package com.example.compicomida.model
 
-import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.LocalDatabase
+import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.model.localDb.entities.GroceryList
 
 class GroceryRepository(
     private val db: LocalDatabase
@@ -12,7 +13,24 @@ class GroceryRepository(
         return recentGroceryList?.let { db.groceryItemDao.getByListId(it.listId) }
     }
 
-    suspend fun getMostRecentListName(): String? = db.groceryListDao.getMostRecentList()?.listName
+    suspend fun getMostRecentListName(): String? =
+        db.groceryListDao.getMostRecentList()?.listName
+
+    suspend fun getListSize(listId: Int): Int {
+        return db.groceryListDao.getListSize(listId)
+    }
+
+    suspend fun getAllLists(): List<GroceryList> {
+        return db.groceryListDao.getAll()
+    }
+
+    suspend fun deleteGroceryList(it: GroceryList) {
+        db.groceryListDao.delete(it)
+    }
+
+    suspend fun getGroceryItemsByListId(listId: Int): List<GroceryItem> {
+        return db.groceryItemDao.getByListId(listId)
+    }
 
 
 }
