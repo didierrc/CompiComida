@@ -2,25 +2,22 @@ package com.example.compicomida.views.activities.grocery
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
+import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddGroceryItemListBinding
 import com.example.compicomida.model.localDb.LocalDatabase
-import com.example.compicomida.model.localDb.entities.GroceryList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.time.LocalDateTime
+import com.example.compicomida.viewmodels.AddGroceryListViewModel
+import com.example.compicomida.viewmodels.factories.AddGroceryListViewModelFactory
 
 class AddGroceryListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddGroceryItemListBinding
     private lateinit var db: LocalDatabase
+    private lateinit var viewModel: AddGroceryListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,12 +33,15 @@ class AddGroceryListActivity : AppCompatActivity() {
             )
             insets
         }
-
-        // Init db
-        db = LocalDatabase.getDB(this)
+        // Initialise the view model
+        viewModel = ViewModelProvider(
+            this,
+            AddGroceryListViewModelFactory(
+                CompiComidaApp.appModule.groceryRepo
+            )
+        )[AddGroceryListViewModel::class.java]
         setUpActionBar()
         addOnClickListener()
-
     }
 
     private fun setUpActionBar() {
@@ -56,40 +56,14 @@ class AddGroceryListActivity : AppCompatActivity() {
         binding
             .btnAddList.setOnClickListener {
                 val listName = binding.etListName.text.toString().trim()
-                if (listName.isBlank()) {
-                    val message = "El nombre de la lista no puede estar vacío"
-                    showAlert(message)
-                } else {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        if (db.groceryListDao.getByName(listName) != null) {
-                            withContext(Dispatchers.Main) {
-                                showAlert("La lista ya existe")
-                            }
-                        } else {
-                            db.groceryListDao
-                                .add(GroceryList(0, listName, LocalDateTime.now()))
-                            binding.etListName.text?.clear()
-                            Log.e(
-                                "AddGroceryListFragment",
-                                "List added: $listName"
-                            )
-                            withContext(Dispatchers.Main) {
-                                setResult(Activity.RESULT_OK)
-                                finish()
-                            }
-                        }
-                    }
-                }
+                viewModel.addGroceryList(listName, {
+                    binding.etListName.text?.clear()
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }, { errorMessage ->
+                    CompiComidaApp.appModule.showAlert(this, errorMessage)
+                })
             }
-    }
-
-    private fun showAlert(message: String, title: String = "Error") {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        builder.setPositiveButton("Ok", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
     }
 
 }

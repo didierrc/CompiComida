@@ -4,8 +4,8 @@ import android.app.Application
 import android.app.DatePickerDialog
 import android.content.Context
 import android.content.res.Resources
-import androidx.appcompat.app.AlertDialog
 import android.icu.util.Calendar
+import androidx.appcompat.app.AlertDialog
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.RecipeRepository
@@ -39,8 +39,11 @@ interface AppModule {
     val recipesRepo: RecipeRepository
     fun parseExpirationDate(expirationDate: LocalDateTime): String
     fun parseUnitQuantity(unit: String?, quantity: Double): String
-    fun showInfoAlert(message: String, title: String = "Error")
-    fun createDatePicker(context: Context, dateTInput: TextInputEditText): DatePickerDialog
+    fun createDatePicker(
+        context: Context,
+        dateTInput: TextInputEditText
+    ): DatePickerDialog
+
     fun parseLastUpdate(lastUpdate: LocalDateTime): String
     fun showAlert(context: Context, message: String, title: String = "Error")
 }
@@ -139,15 +142,6 @@ class AppModuleImpl(
 
     // Shows a generic alert message
     override fun showAlert(context: Context, message: String, title: String) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        builder.setPositiveButton("Ok", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
-    override fun showInfoAlert(message: String, title: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(title)
         builder.setMessage(message)

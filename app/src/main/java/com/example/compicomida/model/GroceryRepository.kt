@@ -3,6 +3,7 @@ package com.example.compicomida.model
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.GroceryList
+import java.time.LocalDateTime
 
 class GroceryRepository(
     private val db: LocalDatabase
@@ -30,6 +31,14 @@ class GroceryRepository(
 
     suspend fun getGroceryItemsByListId(listId: Int): List<GroceryItem> {
         return db.groceryItemDao.getByListId(listId)
+    }
+
+    suspend fun addGroceryList(value: String) {
+        db.groceryListDao.add(GroceryList(0, value, LocalDateTime.now()))
+    }
+
+    suspend fun getGroceryListByName(listName: String): GroceryList? {
+        return db.groceryListDao.getByName(listName)
     }
 
 
