@@ -62,7 +62,9 @@ class AddGroceryListActivity : AppCompatActivity() {
                 } else {
                     lifecycleScope.launch(Dispatchers.IO) {
                         if (db.groceryListDao.getByName(listName) != null) {
-                            showAlert("La lista ya existe")
+                            withContext(Dispatchers.Main) {
+                                showAlert("La lista ya existe")
+                            }
                         } else {
                             db.groceryListDao
                                 .add(GroceryList(0, listName, LocalDateTime.now()))

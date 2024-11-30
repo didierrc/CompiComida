@@ -3,6 +3,7 @@ package com.example.compicomida
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
+import androidx.appcompat.app.AlertDialog
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.RecipeRepository
@@ -14,7 +15,8 @@ import java.time.format.DateTimeFormatter
 class CompiComidaApp : Application() {
 
     companion object {
-        const val DEFAULT_GROCERY_URI = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
+        const val DEFAULT_GROCERY_URI =
+            "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
         lateinit var appModule: AppModule
         const val RECIPES_COLLECTION = "recipes"
     }
@@ -33,13 +35,14 @@ interface AppModule {
     val recipesRepo: RecipeRepository
     fun parseExpirationDate(expirationDate: LocalDateTime): String
     fun parseUnitQuantity(unit: String?, quantity: Double): String
+    fun showInfoAlert(message: String, title: String = "Error")
 }
 
 class AppModuleImpl(
     private val context: Context
 ) : AppModule {
 
-    // Repository - Pantry, Grocery, Recipes
+    // Repository - Pantry, Grocery, Recipes, GroceryLists
     override val pantryRepo: PantryRepository by lazy {
         PantryRepository(localDb)
     }
@@ -95,6 +98,15 @@ class AppModuleImpl(
             quantityParsed,
             unitParsed
         )
+    }
+
+    override fun showInfoAlert(message: String, title: String) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton("Ok", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
 }

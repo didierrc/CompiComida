@@ -1,5 +1,6 @@
 package com.example.compicomida.views.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,31 +17,42 @@ import java.time.format.DateTimeFormatter
  */
 class ShoppingListsAdapter(
 
-    private val shoppingLists: List<GroceryList>,
+    private val shoppingLists: HashMap<GroceryList, Int>,
     private val onClickGoToItems: (Int?) -> Unit,
     private val onDeleteList: (GroceryList?) -> Unit,
-    private val numElementsOnList: (GroceryList?) -> Int
-
 ) : RecyclerView.Adapter<ShoppingListsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutItem = R.layout.recycler_grocery_list
         val view =
             LayoutInflater.from(viewGroup.context).inflate(layoutItem, viewGroup, false)
-        return ViewHolder(view, onClickGoToItems, onDeleteList, numElementsOnList)
+        return ViewHolder(view, onClickGoToItems, onDeleteList, ::numElementsOnList)
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.bind(shoppingLists[position])
+        viewHolder.bind(shoppingLists.keys.sortedBy { it.createdAt }[position])
     }
 
     override fun getItemCount() = shoppingLists.size
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateList(it: Map<GroceryList, Int>?) {
+        if (it != null) {
+            shoppingLists.clear()
+            shoppingLists.putAll(it)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun numElementsOnList(groceryList: GroceryList?): Int {
+        return shoppingLists[groceryList] ?: 0
+    }
+
 
     class ViewHolder(
         view: View,
-        onClickGoToItems: (Int?) -> Unit,
-        onDeleteList: (GroceryList?) -> Unit,
+        private val onClickGoToItems: (Int?) -> Unit,
+        private val onDeleteList: (GroceryList?) -> Unit,
         private val numElementsOnList: (GroceryList?) -> Int
     ) : RecyclerView.ViewHolder(view) {
 
@@ -79,6 +91,17 @@ class ShoppingListsAdapter(
                         groceryList.createdAt.format(dateTimeFormatterTime),
                 numElementsOnList(groceryList)
             )
+
+            /**
+             * This is a bug of our implementation probably
+             * When we delete an item, the button is no longer visible
+             * However, the ViewHolder may be reused for another list, leaving the
+             * button invisible.
+             */
+
+            btnDeleteList.isEnabled = true
+            btnDeleteList.alpha = 1f
+            btnDeleteList.colorFilter = null
 
         }
     }
