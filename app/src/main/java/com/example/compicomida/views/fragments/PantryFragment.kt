@@ -36,8 +36,8 @@ class PantryFragment : Fragment() {
     // Adapter Lists
     private lateinit var pantryAdapter: PantryAdapter
 
-    // Launchers
-    private lateinit var addPantryItemLauncher: ActivityResultLauncher<Intent>
+    // Activity launcher
+    private lateinit var activityLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,7 +56,12 @@ class PantryFragment : Fragment() {
             PantryViewModelFactory(CompiComidaApp.appModule.pantryRepo)
         )[PantryViewModel::class.java]
 
-        initialiseLaunchers() // TODO: FOR THE MOMENT, USING LAUNCHERS. ROOM CAN BE USED WITH LIVEDATA SO WE DO NOT HAVE TO MANUALLY REFRESH DATA.
+
+        activityLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) pantryModel.refreshPantryList()
+            }
+
         initialisePantryRecyclerView()
 
         return root
@@ -67,18 +72,11 @@ class PantryFragment : Fragment() {
         initFabNewPantryItem(view)
     }
 
-    private fun initialiseLaunchers() {
-        addPantryItemLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) pantryModel.refreshPantryList()
-            }
-    }
-
     // Initialise the Fab Click Listener
     private fun initFabNewPantryItem(view: View) {
         val fabNewItem = view.findViewById<FloatingActionButton>(R.id.fabNewItemInPantry)
         fabNewItem.setOnClickListener {
-            addPantryItemLauncher.launch(
+            activityLauncher.launch(
                 Intent(
                     context,
                     AddPantryItemActivity::class.java
@@ -91,9 +89,15 @@ class PantryFragment : Fragment() {
     private fun initialisePantryRecyclerView() {
         pantryAdapter = PantryAdapter(listOf()) { pantryItemId ->
             pantryItemId?.let {
-                val intent = Intent(requireView().context, EditPantryItemActivity::class.java)
-                intent.putExtra("pantryId", it)
-                startActivity(intent)
+
+                activityLauncher.launch(
+                    Intent(
+                        context,
+                        EditPantryItemActivity::class.java
+                    ).apply {
+                        putExtra("pantryId", it)
+                    }
+                )
             }
         }
         recyclerPantry.adapter = pantryAdapter
@@ -103,7 +107,6 @@ class PantryFragment : Fragment() {
             pantryAdapter.updateList(pantryList)
         }
 
-        // Fetch data
         pantryModel.refreshPantryList()
     }
 

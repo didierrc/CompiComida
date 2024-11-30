@@ -28,6 +28,11 @@ class HomeViewModel(
     val recentListName: LiveData<String?>
         get() = _recentListName
 
+    init {
+        refreshExpireList()
+        refreshRecentList()
+    }
+
     /**
      * Updating the items near to expire from the pantry.
      */

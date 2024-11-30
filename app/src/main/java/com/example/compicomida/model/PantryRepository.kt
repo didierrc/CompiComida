@@ -12,5 +12,11 @@ class PantryRepository(
     suspend fun getPantryItems(): List<PantryItem>? = db.pantryItemDao.getAll()
 
     suspend fun addPantryItem(newPantryItem: PantryItem) = db.pantryItemDao.add(newPantryItem)
-    
+
+    suspend fun getPantryItemById(id: Int): PantryItem? = db.pantryItemDao.getById(id)
+
+    suspend fun deletePantryItem(pantryItem: PantryItem) = db.pantryItemDao.delete(pantryItem)
+
+    suspend fun updatePantryItem(pantryItem: PantryItem) = db.pantryItemDao.update(pantryItem)
+
 }

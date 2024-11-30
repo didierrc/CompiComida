@@ -1,197 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/editPantryItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    tools:context=".views.activities.pantry.EditPantryItemActivity">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarEditPantry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-        app:title="@string/edit_pantry_item_title" />
-
-    <ImageView
-        android:id="@+id/editPantryItemImage"
-        android:layout_width="wrap_content"
-        android:layout_height="75dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/editPantryItem"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:contentDescription="@string/content_desc_grocery_item_image"
-        android:scaleType="fitCenter"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarEditPantry"
-        tools:srcCompat="@drawable/product_icon" />
+        tools:context=".views.activities.pantry.EditPantryItemActivity">
 
-    <TextView
-        android:id="@+id/tvEditPantryItemLastUpdate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:text="Ultima Actualizacion: 15/02/2024"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editPantryItemImage" />
-
-    <Button
-        android:id="@+id/btnImgEditPantry"
-        style="@style/CustomButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:drawableStart="@drawable/baseline_photo_camera_24"
-        android:text="@string/edit_pantry_item_image_button_text"
-        app:icon="@drawable/baseline_photo_camera_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvEditPantryItemLastUpdate" />
-
-    <TextView
-        android:id="@+id/tvNameEditPantry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/add_pantry_item_name_title"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnImgEditPantry" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etEditPantryNameLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNameEditPantry">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEditPantryName"
-            android:layout_width="match_parent"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarEditPantry"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="@string/add_pantry_item_name_hint"
-            android:inputType="text" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:title="@string/edit_pantry_item_title" />
 
-    <TextView
-        android:id="@+id/tvQuantityEditPantry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/add_pantry_item_quantity_title"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEditPantryNameLayout" />
+        <ImageView
+            android:id="@+id/editPantryItemImage"
+            android:layout_width="wrap_content"
+            android:layout_height="75dp"
+            android:layout_margin="8dp"
+            android:contentDescription="@string/content_desc_grocery_item_image"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbarEditPantry"
+            tools:srcCompat="@drawable/product_icon" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etEditPantryQuantityLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvQuantityEditPantry">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEditPantryQuantity"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvEditPantryItemLastUpdate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/add_pantry_item_quantity_hint"
-            android:inputType="number" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="4dp"
+            android:text="Ultima Actualizacion: 15/02/2024"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editPantryItemImage" />
 
-    <TextView
-        android:id="@+id/tvUnitsEditPantry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/add_pantry_item_units_title"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etEditPantryQuantityLayout" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/spinnerProductUnitsLayoutEditPantry"
-        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUnitsEditPantry">
-
-        <AutoCompleteTextView
-            android:id="@+id/spinnerProductUnitsEditPantry"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btnImgEditPantry"
+            style="@style/CustomButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            app:simpleItems="@array/grocery_item_units"
-            tools:ignore="LabelFor" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="5dp"
+            android:drawableStart="@drawable/baseline_photo_camera_24"
+            android:text="@string/edit_pantry_item_image_button_text"
+            app:icon="@drawable/baseline_photo_camera_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvEditPantryItemLastUpdate" />
 
-    <TextView
-        android:id="@+id/tvExpirationDateEditPantry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/add_pantry_item_expiration_date_title"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerProductUnitsLayoutEditPantry" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/etProductExpirationDateLayoutEditPantry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvExpirationDateEditPantry">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etProductExpirationDateEditPantry"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvNameEditPantry"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:hint="@string/add_pantry_item_expiration_date_hint"
-            android:inputType="none" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_margin="5dp"
+            android:text="@string/add_pantry_item_name_title"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnImgEditPantry" />
 
-    <Button
-        android:id="@+id/btEditPantryItem"
-        style="@style/CustomButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:drawableStart="@drawable/baseline_photo_camera_24"
-        android:text="@string/edit_pantry_item_edit_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btDeletePantryItem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etEditPantryNameLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNameEditPantry">
 
-    <Button
-        android:id="@+id/btDeletePantryItem"
-        style="@style/CustomButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:drawableStart="@drawable/baseline_photo_camera_24"
-        android:text="@string/edit_pantry_item_delete_button_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btEditPantryItem"
-        app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditPantryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_pantry_item_name_hint"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvQuantityEditPantry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/add_pantry_item_quantity_title"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etEditPantryNameLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etEditPantryQuantityLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvQuantityEditPantry">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEditPantryQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/add_pantry_item_quantity_hint"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvUnitsEditPantry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/add_pantry_item_units_title"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etEditPantryQuantityLayout" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/spinnerProductUnitsLayoutEditPantry"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUnitsEditPantry">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerProductUnitsEditPantry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                app:simpleItems="@array/grocery_item_units"
+                tools:ignore="LabelFor" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tvExpirationDateEditPantry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/add_pantry_item_expiration_date_title"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinnerProductUnitsLayoutEditPantry" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etProductExpirationDateLayoutEditPantry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvExpirationDateEditPantry">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etProductExpirationDateEditPantry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/add_pantry_item_expiration_date_hint"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btEditPantryItem"
+            style="@style/CustomButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:drawableStart="@drawable/baseline_photo_camera_24"
+            android:text="@string/edit_pantry_item_edit_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btDeletePantryItem"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry" />
+
+        <Button
+            android:id="@+id/btDeletePantryItem"
+            style="@style/CustomButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:drawableStart="@drawable/baseline_photo_camera_24"
+            android:text="@string/edit_pantry_item_delete_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btEditPantryItem"
+            app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutEditPantry" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.core.widget.NestedScrollView>
+
+

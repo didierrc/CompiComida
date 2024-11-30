@@ -1,15 +1,20 @@
 package com.example.compicomida
 
 import android.app.Application
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.res.Resources
+import android.icu.util.Calendar
+import androidx.appcompat.app.AlertDialog
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.RecipeRepository
 import com.example.compicomida.model.localDb.LocalDatabase
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class CompiComidaApp : Application() {
 
@@ -33,6 +38,9 @@ interface AppModule {
     val recipesRepo: RecipeRepository
     fun parseExpirationDate(expirationDate: LocalDateTime): String
     fun parseUnitQuantity(unit: String?, quantity: Double): String
+    fun createDatePicker(context: Context, dateTInput: TextInputEditText): DatePickerDialog
+    fun parseLastUpdate(lastUpdate: LocalDateTime): String
+    fun showAlert(context: Context, message: String, title: String = "Error")
 }
 
 class AppModuleImpl(
@@ -68,7 +76,7 @@ class AppModuleImpl(
     override fun parseExpirationDate(expirationDate: LocalDateTime): String {
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val formattedDate = expirationDate.format(formatter)
-        return "Caduca el $formattedDate"
+        return formattedDate
     }
 
     // Transform a unit and a quantity to "Cantidad: quantity unidad"
@@ -95,6 +103,46 @@ class AppModuleImpl(
             quantityParsed,
             unitParsed
         )
+    }
+
+    override fun createDatePicker(
+        context: Context,
+        dateTInput: TextInputEditText
+    ): DatePickerDialog {
+        val calendar = Calendar.getInstance()
+        val datePicker = DatePickerDialog(
+            context,
+            { _, year, month, dayOfMonth ->
+                val formattedDate = String.format(
+                    Locale.getDefault(),
+                    "%02d/%02d/%04d",
+                    dayOfMonth,
+                    month + 1,
+                    year
+                )
+                dateTInput.setText(formattedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        return datePicker
+    }
+
+    override fun parseLastUpdate(lastUpdate: LocalDateTime): String {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val formattedDate = lastUpdate.format(formatter)
+        return "Última actualización el $formattedDate"
+    }
+
+    // Shows a generic alert message
+    override fun showAlert(context: Context, message: String, title: String) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton("Ok", null)
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
 }

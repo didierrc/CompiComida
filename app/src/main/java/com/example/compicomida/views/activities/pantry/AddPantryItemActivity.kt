@@ -1,13 +1,10 @@
 package com.example.compicomida.views.activities.pantry
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,12 +17,12 @@ import com.example.compicomida.model.localDb.entities.PantryItem
 import com.example.compicomida.viewmodels.AddPantryItemViewModel
 import com.example.compicomida.viewmodels.factories.AddPantryItemViewModelFactory
 import java.time.LocalDateTime
-import java.util.Locale
 
 class AddPantryItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddPantryItemBinding
     private lateinit var addPantryItemViewModel: AddPantryItemViewModel
+    private val appModule = CompiComidaApp.appModule
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,39 +45,21 @@ class AddPantryItemActivity : AppCompatActivity() {
         // Initialising the view model
         addPantryItemViewModel = ViewModelProvider(
             this,
-            AddPantryItemViewModelFactory(CompiComidaApp.appModule.pantryRepo)
+            AddPantryItemViewModelFactory(appModule.pantryRepo)
         )[AddPantryItemViewModel::class.java]
 
-        initialiseCalendarElement()
-        initialiseAddOnClick()
-    }
-
-    private fun initialiseCalendarElement() {
-
-        val calendar = Calendar.getInstance()
-
+        // Initialising DatePicker
         with(binding) {
-
-            val datePicker = DatePickerDialog(
-                root.context,
-                { _, year, month, dayOfMonth ->
-                    val formattedDate = String.format(
-                        Locale.getDefault(),
-                        "%02d/%02d/%04d", dayOfMonth, month + 1, year
-                    )
-                    etProductExpirationDateAddPantry.setText(formattedDate) // setText of expiration date Text View
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-
             etProductExpirationDateAddPantry.setOnClickListener {
-                datePicker.show()
+                appModule.createDatePicker(
+                    this@AddPantryItemActivity,
+                    etProductExpirationDateAddPantry
+                ).show()
+
             }
-
-
         }
+
+        initialiseAddOnClick()
     }
 
     private fun initialiseAddOnClick() {
@@ -118,10 +97,8 @@ class AddPantryItemActivity : AppCompatActivity() {
                     )
 
                     addPantryItemViewModel.addPantryItem(newItem)
-
-                    // Notifying fragment up
-                    val resultIntent = Intent()
-                    setResult(Activity.RESULT_OK, resultIntent)
+                    val intent = Intent()
+                    setResult(Activity.RESULT_OK, intent)
                     finish()
                 }
 
@@ -155,20 +132,26 @@ class AddPantryItemActivity : AppCompatActivity() {
         var add = true
 
         if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
-            showAlert(getString(R.string.error_empty_fields_add_grocery_item))
+            appModule.showAlert(this, getString(R.string.error_empty_fields_add_grocery_item))
             add = false
         } else if (quantityValue == null) {
-            showAlert(getString(R.string.error_valid_numbers_add_pantry_item))
+            appModule.showAlert(this, getString(R.string.error_valid_numbers_add_pantry_item))
             add = false
         } else if (expirationDateTxt.isBlank()) {
-            showAlert(getString(R.string.error_expiration_date_not_found_add_pantry_item))
+            appModule.showAlert(
+                this,
+                getString(R.string.error_expiration_date_not_found_add_pantry_item)
+            )
             add = false
         } else {
             val expirationDateValue =
                 DateConverter().fromTimestampWithOutHours(expirationDateTxt)
 
             if (expirationDateValue!!.isBefore(LocalDateTime.now())) {
-                showAlert(getString(R.string.error_valid_expiration_date_add_pantry_item))
+                appModule.showAlert(
+                    this,
+                    getString(R.string.error_valid_expiration_date_add_pantry_item)
+                )
                 add = false
             }
         }
@@ -176,13 +159,5 @@ class AddPantryItemActivity : AppCompatActivity() {
         return add
     }
 
-    // Shows a generic alert message
-    private fun showAlert(message: String, title: String = "Error") {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        builder.setPositiveButton("Ok", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
+
 }
