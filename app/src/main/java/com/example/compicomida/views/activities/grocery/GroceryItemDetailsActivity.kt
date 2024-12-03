@@ -5,21 +5,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import coil3.load
+import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityGroceryItemDetailsBinding
-import com.example.compicomida.model.localDb.LocalDatabase
-import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.viewmodels.factories.GroceryItemDetailsViewModelFactory
+import com.example.compicomida.viewmodels.grocery.GroceryItemDetailsViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class GroceryItemDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityGroceryItemDetailsBinding
     private var groceryItemID: Int = 0
-    private lateinit var groceryItem: GroceryItem
-    private lateinit var db: LocalDatabase
+    private lateinit var groceryItemDetailsViewModel: GroceryItemDetailsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +37,13 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
             insets
         }
         groceryItemID = intent.getIntExtra(GroceryItemsListActivity.ID_TAG, 0)
-        db = LocalDatabase.getDB(applicationContext)
+
+        groceryItemDetailsViewModel = ViewModelProvider(
+            this,
+            GroceryItemDetailsViewModelFactory(
+                CompiComidaApp.appModule.groceryRepo
+            )
+        )[GroceryItemDetailsViewModel::class.java]
 
         configureBehaviour()
 
@@ -45,26 +51,31 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
     }
 
     private fun configureBehaviour() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            groceryItem = db.groceryItemDao.getById(groceryItemID)!!
-            val groceryItemCategory =
-                groceryItem.categoryId?.let { db.itemCategoryDao.getById(it) }
-            val category = groceryItemCategory?.categoryName ?: "Sin categoría"
-            withContext(Dispatchers.Main) {
-                setUpActionBar()
-                fillItemDetails(category)
-                binding.itemImage.load(groceryItem.itemPhotoUri)
-            }
+        setUpActionBar()
+        groceryItemDetailsViewModel.refreshGroceryItemDetails(groceryItemID, this)
 
+        groceryItemDetailsViewModel.groceryItemUIState.observe(this) { groceryItemDetailsUI ->
+            with(binding) {
+                itemName.text = groceryItemDetailsUI.itemNameTxt
+                itemCategory.text = groceryItemDetailsUI.itemCategory
+                itemQuantity.text = groceryItemDetailsUI.unitsTxt
+                itemPrice.text = groceryItemDetailsUI.priceTxt
+                itemCheckbox.isChecked = groceryItemDetailsUI.checkState
+                itemImage.load(groceryItemDetailsUI.imageURI)
+                toolbar.title = groceryItemDetailsUI.itemNameTxt + " - Detalles"
+            }
         }
 
         with(binding) {
-            itemCheckbox.setOnCheckedChangeListener { _, isChecked ->
-                checkGroceryItem(isChecked)
+            itemCheckbox.setOnClickListener {
+                groceryItemDetailsViewModel.checkItem(
+                    binding.itemCheckbox.isChecked,
+                    groceryItemID
+                )
             }
             btnDelete.setOnClickListener {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    db.groceryItemDao.delete(groceryItem)
+                    groceryItemDetailsViewModel.removeGroceryItem(groceryItemID)
                     finish()
                 }
             }
@@ -79,40 +90,5 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        toolbar.title = groceryItem.itemName + " - Detalles"
-
-    }
-
-    private fun fillItemDetails(category: String) {
-        binding.itemName.text = groceryItem.itemName
-        binding.itemCategory.text = category
-        binding.itemQuantity.text = getString(
-            R.string.quantity_unit,
-            groceryItem.quantity.toString(),
-            groceryItem.unit ?: "Unidades"
-        )
-        binding.itemPrice.text = if (groceryItem.unit.isNullOrEmpty()) {
-            getString(
-                R.string.price_no_unit,
-                groceryItem.price
-            )
-        } else {
-            getString(
-                R.string.price_per_unit,
-                groceryItem.price,
-                groceryItem.unit
-            )
-        }
-        binding.itemCheckbox.isChecked = groceryItem.isPurchased
-    }
-
-    private fun checkGroceryItem(
-        checkState: Boolean,
-    ) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            groceryItem.isPurchased = checkState
-            db.groceryItemDao.update(groceryItem)
-        }
-
     }
 }

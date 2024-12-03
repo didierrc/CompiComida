@@ -50,9 +50,28 @@ class GroceryRepository(
         return db.itemCategoryDao.getByName(newCategoryName)
     }
 
+    suspend fun getGroceryItemCategoryByID(categoryID: Int): ItemCategory? {
+        return db.itemCategoryDao.getById(categoryID)
+    }
+
     suspend fun getAllCategories(): List<ItemCategory> {
         return db.itemCategoryDao.getAll()
 
+    }
+
+    suspend fun checkItem(checkState: Boolean, itemID: Int) {
+        db.groceryItemDao.update(
+            db.groceryItemDao.getById(itemID)!!.copy(isPurchased = checkState)
+        )
+
+    }
+
+    suspend fun getGroceryItemByID(itemID: Int): GroceryItem? {
+        return db.groceryItemDao.getById(itemID)
+    }
+
+    suspend fun deleteGroceryItem(itemID: Int) {
+        db.groceryItemDao.delete(db.groceryItemDao.getById(itemID)!!)
     }
 
 
