@@ -11,19 +11,19 @@ import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
+import com.example.compicomida.CompiComidaApp.Companion.DEFAULT_GROCERY_URI
+import com.example.compicomida.CompiComidaApp.Companion.appModule
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddGroceryItemBinding
-import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.viewmodels.AddGroceryItemViewModel
+import com.example.compicomida.viewmodels.factories.AddGroceryItemViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AddGroceryItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddGroceryItemBinding
@@ -36,8 +36,9 @@ class AddGroceryItemActivity : AppCompatActivity() {
     private lateinit var btnImage: ImageButton
     private var imageURI: String? = null
 
+    private lateinit var addGroceryItemViewModel: AddGroceryItemViewModel
+
     private var listId: Int = 0
-    private lateinit var db: LocalDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -54,20 +55,27 @@ class AddGroceryItemActivity : AppCompatActivity() {
             insets
         }
         listId = intent.getIntExtra("listId", 0)
-        db = LocalDatabase.getDB(this)
 
+        // Initialising the view model
+        addGroceryItemViewModel = ViewModelProvider(
+            this,
+            AddGroceryItemViewModelFactory(appModule.groceryRepo)
+        )[AddGroceryItemViewModel::class.java]
 
+        // Initialising the view elements
         initialiseViewElements()
-
-        // Init db
-        db.let {
-            // Initialise Spinner of Categories
-            initSpinnerCategories(it)
-            addOnClickListener(it)
-        }
+        initSpinnerCategories()
+        addOnClickListener()
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+
+        addGroceryItemViewModel.image.observe(this) {
+            if (it == null)
+                showImagePreview(null)
+            else
+                showImagePreview(Uri.parse(it))
         }
 
     }
@@ -83,66 +91,59 @@ class AddGroceryItemActivity : AppCompatActivity() {
 
     }
 
-    private fun addOnClickListener(db: LocalDatabase) {
+    private fun addOnClickListener() {
         btnAdd.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
+            val itemCategory = addGroceryItemViewModel.itemCategory.value
 
-                // TODO: Here the category is found by the name in the spinner
-                //  Research if there's a way of storing both ID and the Name in the Spinner
-                //  so this is not necessary
-                val itemCategory =
-                    db.itemCategoryDao.getByName(spinnerCategories.text.toString())
+            val listID = listId
+            val categoryId = itemCategory?.categoryId
+            val itemNameTxt = itemName.text.toString().trim()
+            val quantityTxt = quantity.text.toString().trim()
+            val unitTxt = units.text.toString().trim()
+            val priceTxt = price.text.toString().trim()
+            val priceValue = priceTxt.toDoubleOrNull()
+            val quantityValue = quantityTxt.toDoubleOrNull()
+            if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
+                appModule.showAlert(
+                    this@AddGroceryItemActivity,
+                    getString(R.string.error_empty_fields_add_grocery_item)
+                )
+            } else if (itemCategory == null) {
+                appModule.showAlert(
+                    this@AddGroceryItemActivity,
+                    getString(R.string.error_category_not_found_add_grocery_item)
+                )
+            } else if (priceValue == null || quantityValue == null) {
+                appModule.showAlert(
+                    this@AddGroceryItemActivity,
+                    getString(R.string.error_valid_numbers_add_grocery_item)
+                )
+            } else {
+                val newItem = GroceryItem(
+                    itemId = 0,
+                    listId = listID,
+                    categoryId = categoryId,
+                    itemName = itemNameTxt,
+                    quantity = quantityValue,
+                    unit = unitTxt,
+                    price = priceValue,
+                    isPurchased = false,
+                    itemPhotoUri = imageURI
+                        ?: DEFAULT_GROCERY_URI
+                )
 
-
-                val listID = listId
-                val categoryId = itemCategory?.categoryId
-                val itemNameTxt = itemName.text.toString().trim()
-                val quantityTxt = quantity.text.toString().trim()
-                val unitTxt = units.text.toString().trim()
-                val priceTxt = price.text.toString().trim()
-                val priceValue = priceTxt.toDoubleOrNull()
-                val quantityValue = quantityTxt.toDoubleOrNull()
-                if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
-                    withContext(Dispatchers.Main) {
-                        showAlert(getString(R.string.error_empty_fields_add_grocery_item))
-                    }
-                } else if (itemCategory == null) {
-                    withContext(Dispatchers.Main) {
-                        showAlert(getString(R.string.error_category_not_found_add_grocery_item))
-                    }
-                } else if (priceValue == null || quantityValue == null) {
-                    withContext(Dispatchers.Main) {
-                        showAlert(getString(R.string.error_valid_numbers_add_grocery_item))
-                    }
-                } else {
-                    val newItem = GroceryItem(
-                        itemId = 0,
-                        listId = listID,
-                        categoryId = categoryId,
-                        itemName = itemNameTxt,
-                        quantity = quantityValue,
-                        unit = unitTxt,
-                        price = priceValue,
-                        isPurchased = false,
-                        itemPhotoUri = imageURI
-                            ?: "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
-                    )
-
-                    db.groceryItemDao.add(newItem)
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
-
-
+                addGroceryItemViewModel.addGroceryItem(newItem)
+                setResult(Activity.RESULT_OK)
+                finish()
             }
+
         }
         val imagePickerLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val uri = result.data?.data
                     imageURI = uri.toString()
-                    showImagePreview(uri)
-
+                    addGroceryItemViewModel.updateImage(imageURI)
                 }
             }
 
@@ -153,9 +154,12 @@ class AddGroceryItemActivity : AppCompatActivity() {
 
         binding.btnRemoveImage.setOnClickListener {
             binding.btnRemoveImage.animate().alpha(0f).setDuration(250).withEndAction {
-                imageURI = null
-                hideImagePreview()
+                addGroceryItemViewModel.updateImage(null)
             }.start()
+        }
+
+        binding.spinnerProductUnits.setOnClickListener {
+            addGroceryItemViewModel.updateItemCategory(spinnerCategories.text.toString())
         }
     }
 
@@ -164,45 +168,51 @@ class AddGroceryItemActivity : AppCompatActivity() {
         val visibility = if (uri != null) View.VISIBLE else View.GONE
         binding.ivImagePreview.visibility = visibility
         binding.btnRemoveImage.visibility = visibility
+        rearrangeElements(uri)
+    }
+
+    private fun rearrangeElements(uri: Uri?) {
+        val constraintLayout = binding.addGroceryItem
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+
         if (uri != null) {
-            binding.btnRemoveImage.alpha = 1f // Reset alpha value
+            // Reset alpha value
             // This is necessary since it's put to zero in the animation,
             // otherwise it will not be visible even if it's set to View.VISIBLE
+            binding.btnRemoveImage.alpha = 1f
+
+            constraintSet.connect(
+                R.id.btn_add_grocery_item,
+                ConstraintSet.TOP,
+                R.id.iv_image_preview,
+                ConstraintSet.BOTTOM,
+                16
+            )
+        } else {
+            constraintSet.connect(
+                R.id.btn_add_grocery_item,
+                ConstraintSet.TOP,
+                R.id.btn_img,
+                ConstraintSet.BOTTOM,
+                16
+            )
         }
+
+        constraintSet.applyTo(constraintLayout)
     }
 
-    private fun hideImagePreview() {
-        showImagePreview(null)
-    }
-
-    private fun showAlert(message: String, title: String = "Error") {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(title)
-        builder.setMessage(message)
-        builder.setPositiveButton("Ok", null)
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
-
-    private fun initSpinnerCategories(db: LocalDatabase) {
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            val categories = db.itemCategoryDao.getAll().map { it.categoryName }
-
-            withContext(Dispatchers.Main) {
-                spinnerCategories.setAdapter(
-                    ArrayAdapter(
-                        this@AddGroceryItemActivity,
-                        android.R.layout.simple_spinner_dropdown_item,
-                        categories
-                    )
+    private fun initSpinnerCategories() {
+        addGroceryItemViewModel.updateCategories()
+        addGroceryItemViewModel.categories.observe(this) {
+            spinnerCategories.setAdapter(
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
                 )
-            }
-
-
+            )
         }
-
-
     }
 
 

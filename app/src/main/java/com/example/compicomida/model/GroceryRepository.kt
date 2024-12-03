@@ -3,6 +3,7 @@ package com.example.compicomida.model
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.GroceryList
+import com.example.compicomida.model.localDb.entities.ItemCategory
 import java.time.LocalDateTime
 
 class GroceryRepository(
@@ -39,6 +40,19 @@ class GroceryRepository(
 
     suspend fun getGroceryListByName(listName: String): GroceryList? {
         return db.groceryListDao.getByName(listName)
+    }
+
+    suspend fun addGroceryItem(newGrocery: GroceryItem) {
+        db.groceryItemDao.add(newGrocery)
+    }
+
+    suspend fun getItemCategory(newCategoryName: String): ItemCategory? {
+        return db.itemCategoryDao.getByName(newCategoryName)
+    }
+
+    suspend fun getAllCategories(): List<ItemCategory> {
+        return db.itemCategoryDao.getAll()
+
     }
 
 
