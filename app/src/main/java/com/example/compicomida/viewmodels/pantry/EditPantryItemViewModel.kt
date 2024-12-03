@@ -1,4 +1,4 @@
-package com.example.compicomida.viewmodels
+package com.example.compicomida.viewmodels.pantry
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.localDb.entities.PantryItem
-import com.example.compicomida.viewmodels.uiData.PantryItemUI
+import com.example.compicomida.viewmodels.pantry.uiData.PantryItemUI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

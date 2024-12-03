@@ -1,4 +1,4 @@
-package com.example.compicomida.viewmodels
+package com.example.compicomida.viewmodels.recipe
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

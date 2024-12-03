@@ -1,4 +1,4 @@
-package com.example.compicomida.viewmodels
+package com.example.compicomida.viewmodels.grocery
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

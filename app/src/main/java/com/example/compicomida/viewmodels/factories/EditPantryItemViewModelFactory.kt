@@ -3,7 +3,7 @@ package com.example.compicomida.viewmodels.factories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.PantryRepository
-import com.example.compicomida.viewmodels.EditPantryItemViewModel
+import com.example.compicomida.viewmodels.pantry.EditPantryItemViewModel
 
 class EditPantryItemViewModelFactory(
     private val pantryRepo: PantryRepository,
@@ -18,5 +18,5 @@ class EditPantryItemViewModelFactory(
         throw IllegalArgumentException("Unknown ViewModel class")
 
     }
-    
+
 }

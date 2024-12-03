@@ -10,13 +10,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddGroceryItemListBinding
-import com.example.compicomida.model.localDb.LocalDatabase
-import com.example.compicomida.viewmodels.AddGroceryListViewModel
 import com.example.compicomida.viewmodels.factories.AddGroceryListViewModelFactory
+import com.example.compicomida.viewmodels.grocery.AddGroceryListViewModel
 
 class AddGroceryListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddGroceryItemListBinding
-    private lateinit var db: LocalDatabase
     private lateinit var viewModel: AddGroceryListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

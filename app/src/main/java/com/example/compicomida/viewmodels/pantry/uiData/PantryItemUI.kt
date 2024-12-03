@@ -1,4 +1,4 @@
-package com.example.compicomida.viewmodels.uiData
+package com.example.compicomida.viewmodels.pantry.uiData
 
 import java.time.LocalDateTime
 

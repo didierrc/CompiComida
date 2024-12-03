@@ -3,7 +3,7 @@ package com.example.compicomida.viewmodels.factories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.PantryRepository
-import com.example.compicomida.viewmodels.PantryViewModel
+import com.example.compicomida.viewmodels.pantry.PantryViewModel
 
 class PantryViewModelFactory(
     private val pantryRepo: PantryRepository

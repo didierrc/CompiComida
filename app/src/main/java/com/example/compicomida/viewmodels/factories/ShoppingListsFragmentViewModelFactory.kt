@@ -1,9 +1,9 @@
 package com.example.compicomida.viewmodels.factories
 
-import ShoppingListsFragmentViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.GroceryRepository
+import com.example.compicomida.viewmodels.grocery.ShoppingListsFragmentViewModel
 
 class ShoppingListsFragmentViewModelFactory(
     private val groceryRepo: GroceryRepository

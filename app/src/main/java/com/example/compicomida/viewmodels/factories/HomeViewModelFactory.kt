@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.PantryRepository
-import com.example.compicomida.viewmodels.HomeViewModel
+import com.example.compicomida.viewmodels.home.HomeViewModel
 
 class HomeViewModelFactory(
     private val repoPantry: PantryRepository,

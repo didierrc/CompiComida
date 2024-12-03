@@ -3,7 +3,7 @@ package com.example.compicomida.viewmodels.factories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.RecipeRepository
-import com.example.compicomida.viewmodels.RecipesViewModel
+import com.example.compicomida.viewmodels.recipe.RecipesViewModel
 
 class RecipesViewModelFactory(
     private val recipesRepo: RecipeRepository

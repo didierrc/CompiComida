@@ -15,9 +15,9 @@ import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityEditPantryItemBinding
 import com.example.compicomida.model.localDb.converters.DateConverter
-import com.example.compicomida.viewmodels.EditPantryItemViewModel
 import com.example.compicomida.viewmodels.factories.EditPantryItemViewModelFactory
-import com.example.compicomida.viewmodels.uiData.PantryItemUI
+import com.example.compicomida.viewmodels.pantry.EditPantryItemViewModel
+import com.example.compicomida.viewmodels.pantry.uiData.PantryItemUI
 import java.time.LocalDateTime
 
 class EditPantryItemActivity : AppCompatActivity() {
@@ -33,7 +33,12 @@ class EditPantryItemActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editPantryItem)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                systemBars.left,
+                systemBars.top,
+                systemBars.right,
+                systemBars.bottom
+            )
             insets
         }
 
@@ -109,7 +114,8 @@ class EditPantryItemActivity : AppCompatActivity() {
                 }
 
             btnImgEditPantry.setOnClickListener {
-                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply { type = "image/*" }
+                val intent =
+                    Intent(Intent.ACTION_OPEN_DOCUMENT).apply { type = "image/*" }
                 imagePickerLauncher.launch(intent)
             }
         }
@@ -132,10 +138,17 @@ class EditPantryItemActivity : AppCompatActivity() {
                 val itemNameTxt = etEditPantryName.text.toString().trim()
                 val quantityTxt = etEditPantryQuantity.text.toString().trim()
                 val unitTxt = spinnerProductUnitsEditPantry.text.toString().trim()
-                val expirationDateTxt = etProductExpirationDateEditPantry.text.toString().trim()
+                val expirationDateTxt =
+                    etProductExpirationDateEditPantry.text.toString().trim()
                 val quantityValue = quantityTxt.toDoubleOrNull()
 
-                if (canEditPantry(itemNameTxt, unitTxt, quantityValue, expirationDateTxt)) {
+                if (canEditPantry(
+                        itemNameTxt,
+                        unitTxt,
+                        quantityValue,
+                        expirationDateTxt
+                    )
+                ) {
 
                     val expirationDateValue =
                         DateConverter().fromTimestampWithOutHours(expirationDateTxt)
@@ -172,10 +185,16 @@ class EditPantryItemActivity : AppCompatActivity() {
         var add = true
 
         if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
-            appModule.showAlert(this, getString(R.string.error_empty_fields_add_grocery_item))
+            appModule.showAlert(
+                this,
+                getString(R.string.error_empty_fields_add_grocery_item)
+            )
             add = false
         } else if (quantityValue == null) {
-            appModule.showAlert(this, getString(R.string.error_valid_numbers_add_pantry_item))
+            appModule.showAlert(
+                this,
+                getString(R.string.error_valid_numbers_add_pantry_item)
+            )
             add = false
         } else if (expirationDateTxt.isBlank()) {
             appModule.showAlert(

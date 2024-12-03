@@ -21,8 +21,8 @@ import com.example.compicomida.CompiComidaApp.Companion.appModule
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddGroceryItemBinding
 import com.example.compicomida.model.localDb.entities.GroceryItem
-import com.example.compicomida.viewmodels.AddGroceryItemViewModel
 import com.example.compicomida.viewmodels.factories.AddGroceryItemViewModelFactory
+import com.example.compicomida.viewmodels.grocery.AddGroceryItemViewModel
 import com.google.android.material.textfield.TextInputEditText
 
 class AddGroceryItemActivity : AppCompatActivity() {
