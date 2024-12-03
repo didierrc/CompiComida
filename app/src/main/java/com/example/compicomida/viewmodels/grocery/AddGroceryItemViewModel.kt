@@ -16,6 +16,7 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : View
         MutableLiveData(listOf<String>().toMutableList())
     private val _itemCategory = MutableLiveData<ItemCategory?>(null)
     private val _image = MutableLiveData<String?>(null)
+
     val image: LiveData<String?>
         get() = _image
 
@@ -29,6 +30,7 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : View
         _image.value = newImage
     }
 
+    // Updating the category of the item
     fun updateItemCategory(newCategoryName: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             if (newCategoryName != null) {
@@ -39,6 +41,7 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : View
         }
     }
 
+    // Updating the categories list
     fun updateCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             _categories.postValue(groceryRepo.getAllCategories().map { it.categoryName }
@@ -46,6 +49,7 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : View
         }
     }
 
+    // Adding a new grocery item
     fun addGroceryItem(newGrocery: GroceryItem) {
         viewModelScope.launch(Dispatchers.IO) {
             groceryRepo.addGroceryItem(newGrocery)

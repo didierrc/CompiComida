@@ -13,10 +13,12 @@ import kotlinx.coroutines.withContext
 class ShoppingListsFragmentViewModel(
     private val groceryRepo: GroceryRepository,
 ) : ViewModel() {
+
     private val _groceryLists = MutableLiveData<Map<GroceryList, Int>>()
     val groceryLists: LiveData<Map<GroceryList, Int>>
         get() = _groceryLists
 
+    // Obtain all the grocery lists
     fun refreshGroceryLists() {
         viewModelScope.launch(Dispatchers.IO) {
             val lists = groceryRepo.getAllLists()
@@ -31,6 +33,7 @@ class ShoppingListsFragmentViewModel(
         }
     }
 
+    // Delete a grocery list
     fun deleteGroceryList(groceryList: GroceryList?) {
         viewModelScope.launch(Dispatchers.IO) {
             groceryList?.let {

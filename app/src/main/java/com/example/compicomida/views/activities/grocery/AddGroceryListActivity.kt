@@ -15,7 +15,7 @@ import com.example.compicomida.viewmodels.grocery.factory.AddGroceryListViewMode
 
 class AddGroceryListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddGroceryItemListBinding
-    private lateinit var viewModel: AddGroceryListViewModel
+    private lateinit var addGroceryListViewModel: AddGroceryListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,7 +32,7 @@ class AddGroceryListActivity : AppCompatActivity() {
             insets
         }
         // Initialise the view model
-        viewModel = ViewModelProvider(
+        addGroceryListViewModel = ViewModelProvider(
             this,
             AddGroceryListViewModelFactory(
                 CompiComidaApp.appModule.groceryRepo
@@ -54,7 +54,7 @@ class AddGroceryListActivity : AppCompatActivity() {
         binding
             .btnAddList.setOnClickListener {
                 val listName = binding.etListName.text.toString().trim()
-                viewModel.addGroceryList(listName, {
+                addGroceryListViewModel.addGroceryList(listName, {
                     binding.etListName.text?.clear()
                     setResult(Activity.RESULT_OK)
                     finish()

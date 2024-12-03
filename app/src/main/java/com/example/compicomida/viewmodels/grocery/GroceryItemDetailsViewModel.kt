@@ -30,18 +30,20 @@ class GroceryItemDetailsViewModel(
     val groceryItemUIState: LiveData<GroceryItemDetailsUI>
         get() = _groceryItem
 
+    // Puts the isPurchased attribute of the item to the specified value
     fun checkItem(value: Boolean, itemID: Int) {
         _groceryItem.value = _groceryItem.value!!.copy(checkState = value)
         viewModelScope.launch(Dispatchers.IO) {
-            groceryRepo.checkItem(_groceryItem.value!!.checkState, itemID)
+            groceryRepo.checkGroceryItem(_groceryItem.value!!.checkState, itemID)
         }
     }
 
+    // Refreshes the details of the grocery item
     fun refreshGroceryItemDetails(itemID: Int, context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
             val groceryItem = groceryRepo.getGroceryItemByID(itemID) ?: return@launch
             val category =
-                groceryRepo.getGroceryItemCategoryByID(groceryItem.categoryId!!)?.categoryName
+                groceryItem.categoryId?.let { groceryRepo.getGroceryItemCategoryByID(it)?.categoryName }
                     ?: "Sin Categoría"
             _groceryItem.postValue(
                 GroceryItemDetailsUI(
@@ -71,9 +73,10 @@ class GroceryItemDetailsViewModel(
         }
     }
 
+    // Removes the grocery item from the list
     fun removeGroceryItem(itemID: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            groceryRepo.deleteGroceryItem(itemID)
+            groceryRepo.deleteGroceryItemByID(itemID)
         }
     }
 }

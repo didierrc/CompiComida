@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 
 class AddGroceryListViewModel(private val groceryRepo: GroceryRepository) : ViewModel() {
 
+    // Adding a new grocery list
     fun addGroceryList(
         listName: String,
         onSuccess: () -> Unit,

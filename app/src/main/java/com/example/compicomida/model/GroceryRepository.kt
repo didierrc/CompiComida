@@ -59,19 +59,22 @@ class GroceryRepository(
 
     }
 
-    suspend fun checkItem(checkState: Boolean, itemID: Int) {
+    suspend fun checkGroceryItem(checkState: Boolean, itemID: Int) {
         db.groceryItemDao.update(
             db.groceryItemDao.getById(itemID)!!.copy(isPurchased = checkState)
         )
-
     }
 
     suspend fun getGroceryItemByID(itemID: Int): GroceryItem? {
         return db.groceryItemDao.getById(itemID)
     }
 
-    suspend fun deleteGroceryItem(itemID: Int) {
+    suspend fun deleteGroceryItemByID(itemID: Int) {
         db.groceryItemDao.delete(db.groceryItemDao.getById(itemID)!!)
+    }
+
+    suspend fun getGroceryListByID(listID: Int): GroceryList? {
+        return db.groceryListDao.getById(listID)
     }
 
 

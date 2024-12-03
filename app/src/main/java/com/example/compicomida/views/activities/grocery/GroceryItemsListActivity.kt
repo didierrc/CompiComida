@@ -9,46 +9,25 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityGroceryItemsListBinding
-import com.example.compicomida.model.localDb.LocalDatabase
-import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.viewmodels.grocery.GroceryItemsListViewModel
+import com.example.compicomida.viewmodels.grocery.factory.GroceryItemsListViewModelFactory
 import com.example.compicomida.views.adapters.GroceryItemsAdapter
-import com.google.android.material.appbar.MaterialToolbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class GroceryItemsListActivity : AppCompatActivity() {
-    private lateinit var db: LocalDatabase
     private lateinit var recyclerGroceryItem: RecyclerView
     private var listId: Int = 0
     private lateinit var binding: ActivityGroceryItemsListBinding
-    private lateinit var groceryItems: List<GroceryItem>
     private lateinit var addGroceryItemLauncher: ActivityResultLauncher<Intent>
+    private lateinit var listGroceryItemsViewModel: GroceryItemsListViewModel
 
     companion object {
         const val ID_TAG = "GroceryItemsListActivity"
-    }
-
-    override fun onResume() {
-        super.onResume()
-        refreshData()
-    }
-
-    private fun refreshData() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            groceryItems = db.groceryItemDao.getByListId(listId)
-            withContext(Dispatchers.Main) {
-                if (recyclerGroceryItem.adapter != null)
-                    (recyclerGroceryItem.adapter as GroceryItemsAdapter).updateData(
-                        groceryItems
-                    )
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,21 +46,25 @@ class GroceryItemsListActivity : AppCompatActivity() {
             insets
         }
         listId = intent.getIntExtra("listId", 0)
-        // Shows all the current items inside a shopping list from DB.
-        db = LocalDatabase.getDB(this)
-        initializeRecyclerItemsList(db)
+        listGroceryItemsViewModel = ViewModelProvider(
+            this,
+            GroceryItemsListViewModelFactory(CompiComidaApp.appModule.groceryRepo, listId)
+        )[GroceryItemsListViewModel::class.java]
+        initialiseView()
+    }
 
+    private fun initialiseView() {
         initAddGroceryItemLauncher()
-        initFabNewList()
+        initFabNewItem()
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-
+        initializeRecyclerGroceryItems()
     }
 
     // Initialise the Fab Click Listener
-    private fun initFabNewList() {
+    private fun initFabNewItem() {
         val fabNewItem = binding.fabNewItem
 
         fabNewItem.setOnClickListener {
@@ -100,52 +83,53 @@ class GroceryItemsListActivity : AppCompatActivity() {
         addGroceryItemLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    initializeRecyclerItemsList(db)
+                    listGroceryItemsViewModel.refreshGroceryItems()
                 }
             }
     }
 
-    private fun initializeRecyclerItemsList(db: LocalDatabase) {
+    override fun onResume() {
+        super.onResume()
+        listGroceryItemsViewModel.refreshGroceryItems()
+    }
+
+
+    private fun initializeRecyclerGroceryItems() {
+        // Initialise the recycler views to empty lists.
         recyclerGroceryItem = findViewById(R.id.recyclerGroceryItems)
         recyclerGroceryItem.layoutManager = GridLayoutManager(this, 2)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            groceryItems = db.groceryItemDao.getByListId(listId)
-            val listName = db.groceryListDao.getById(listId)?.listName
-            val toolbar: MaterialToolbar = findViewById(R.id.toolbar)
-            toolbar.title = listName
-            withContext(Dispatchers.Main) {
-                val adapter = GroceryItemsAdapter(groceryItems, { itemId ->
-                    val intent = Intent(
-                        this@GroceryItemsListActivity,
-                        GroceryItemDetailsActivity::class.java
-                    )
-                    intent.putExtra(ID_TAG, itemId)
-                    startActivity(intent)
-                },
-                    { groceryItem, checkState ->
-                        checkGroceryItem(groceryItem, checkState, db)
-                    })
-
-                recyclerGroceryItem.adapter = adapter
+        // Adapter for the recycler view.
+        val groceryItemListAdapter = GroceryItemsAdapter(
+            listOf(),
+            { itemId ->
+                val intent = Intent(
+                    this,
+                    GroceryItemDetailsActivity::class.java
+                )
+                intent.putExtra(ID_TAG, itemId)
+                startActivity(intent)
+            },
+            { groceryItem, checkState ->
+                listGroceryItemsViewModel.checkItem(checkState, groceryItem!!.itemId)
             }
+        )
 
-        }
-    }
+        // Set the adapter to the recycler view.
+        recyclerGroceryItem.adapter = groceryItemListAdapter
 
-    private fun checkGroceryItem(
-        groceryItem: GroceryItem?,
-        checkState: Boolean,
-        db: LocalDatabase
-    ) {
-        if (groceryItem != null) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                groceryItem.isPurchased = checkState
-                db.groceryItemDao.update(groceryItem)
-            }
+        // Observer for the grocery items
+        listGroceryItemsViewModel.groceryItems.observe(this) {
+            groceryItemListAdapter.updateData(it)
         }
 
+        // Observer for the grocery list name
+        listGroceryItemsViewModel.groceryListName.observe(this) {
+            binding.toolbar.title = it
+        }
+
+        // Fetching the data.
+        listGroceryItemsViewModel.refreshGroceryItems()
+        listGroceryItemsViewModel.refreshGroceryListName()
     }
-
-
 }

@@ -61,8 +61,8 @@ class GroceryItemsAdapter(
             view.setOnClickListener {
                 onClickGoToItemDetail(groceryItem?.itemId)
             }
-            cbPurchased.setOnCheckedChangeListener { _, isChecked ->
-                onCheckItem(groceryItem, isChecked)
+            cbPurchased.setOnClickListener {
+                onCheckItem(groceryItem, cbPurchased.isChecked)
             }
         }
 
