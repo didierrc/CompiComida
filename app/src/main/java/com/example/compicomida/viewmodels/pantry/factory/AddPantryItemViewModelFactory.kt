@@ -1,20 +1,19 @@
-package com.example.compicomida.viewmodels.factories
+package com.example.compicomida.viewmodels.pantry.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.PantryRepository
-import com.example.compicomida.viewmodels.pantry.PantryViewModel
+import com.example.compicomida.viewmodels.pantry.AddPantryItemViewModel
 
-class PantryViewModelFactory(
+class AddPantryItemViewModelFactory(
     private val pantryRepo: PantryRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(PantryViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(AddPantryItemViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return PantryViewModel(pantryRepo) as T
+            return AddPantryItemViewModel(pantryRepo) as T
         }
-
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }

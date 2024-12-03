@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddGroceryItemListBinding
-import com.example.compicomida.viewmodels.factories.AddGroceryListViewModelFactory
 import com.example.compicomida.viewmodels.grocery.AddGroceryListViewModel
+import com.example.compicomida.viewmodels.grocery.factory.AddGroceryListViewModelFactory
 
 class AddGroceryListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddGroceryItemListBinding

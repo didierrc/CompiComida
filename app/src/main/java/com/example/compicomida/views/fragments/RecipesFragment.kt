@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
-import com.example.compicomida.viewmodels.factories.RecipesViewModelFactory
 import com.example.compicomida.viewmodels.recipe.RecipesViewModel
+import com.example.compicomida.viewmodels.recipe.factory.RecipesViewModelFactory
 import com.example.compicomida.views.activities.recipe.RecipeDetailsActivity
 import com.example.compicomida.views.adapters.RecipesListAdapter
 

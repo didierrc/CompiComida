@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.LocalDatabase
-import com.example.compicomida.viewmodels.factories.ShoppingListsFragmentViewModelFactory
 import com.example.compicomida.viewmodels.grocery.ShoppingListsFragmentViewModel
+import com.example.compicomida.viewmodels.grocery.factory.ShoppingListsFragmentViewModelFactory
 import com.example.compicomida.views.activities.grocery.AddGroceryListActivity
 import com.example.compicomida.views.activities.grocery.GroceryItemsListActivity
 import com.example.compicomida.views.adapters.ShoppingListsAdapter

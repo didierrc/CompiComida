@@ -1,18 +1,18 @@
-package com.example.compicomida.viewmodels.factories
+package com.example.compicomida.viewmodels.grocery.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.GroceryRepository
-import com.example.compicomida.viewmodels.grocery.AddGroceryItemViewModel
+import com.example.compicomida.viewmodels.grocery.AddGroceryListViewModel
 
-class AddGroceryItemViewModelFactory(
+class AddGroceryListViewModelFactory(
     private val groceryRepo: GroceryRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddGroceryItemViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(AddGroceryListViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return AddGroceryItemViewModel(groceryRepo) as T
+            return AddGroceryListViewModel(groceryRepo) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
-import com.example.compicomida.viewmodels.factories.PantryViewModelFactory
 import com.example.compicomida.viewmodels.pantry.PantryViewModel
+import com.example.compicomida.viewmodels.pantry.factory.PantryViewModelFactory
 import com.example.compicomida.views.activities.pantry.AddPantryItemActivity
 import com.example.compicomida.views.activities.pantry.EditPantryItemActivity
 import com.example.compicomida.views.adapters.PantryAdapter

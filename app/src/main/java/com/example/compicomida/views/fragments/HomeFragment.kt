@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
-import com.example.compicomida.viewmodels.factories.HomeViewModelFactory
 import com.example.compicomida.viewmodels.home.HomeViewModel
+import com.example.compicomida.viewmodels.home.factory.HomeViewModelFactory
 import com.example.compicomida.views.adapters.ExpireItemsAdapter
 import com.example.compicomida.views.adapters.RecentListItemsAdapter
 

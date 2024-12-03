@@ -15,8 +15,8 @@ import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityEditPantryItemBinding
 import com.example.compicomida.model.localDb.converters.DateConverter
-import com.example.compicomida.viewmodels.factories.EditPantryItemViewModelFactory
 import com.example.compicomida.viewmodels.pantry.EditPantryItemViewModel
+import com.example.compicomida.viewmodels.pantry.factory.EditPantryItemViewModelFactory
 import com.example.compicomida.viewmodels.pantry.uiData.PantryItemUI
 import java.time.LocalDateTime
 

@@ -11,8 +11,8 @@ import coil3.load
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityGroceryItemDetailsBinding
-import com.example.compicomida.viewmodels.factories.GroceryItemDetailsViewModelFactory
 import com.example.compicomida.viewmodels.grocery.GroceryItemDetailsViewModel
+import com.example.compicomida.viewmodels.grocery.factory.GroceryItemDetailsViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
