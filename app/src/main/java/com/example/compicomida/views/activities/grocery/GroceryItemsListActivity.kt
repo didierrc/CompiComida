@@ -18,6 +18,7 @@ import com.example.compicomida.databinding.ActivityGroceryItemsListBinding
 import com.example.compicomida.viewmodels.grocery.GroceryItemsListViewModel
 import com.example.compicomida.viewmodels.grocery.factory.GroceryItemsListViewModelFactory
 import com.example.compicomida.views.adapters.GroceryItemsAdapter
+import com.google.android.material.snackbar.Snackbar
 
 class GroceryItemsListActivity : AppCompatActivity() {
     private lateinit var recyclerGroceryItem: RecyclerView
@@ -125,11 +126,11 @@ class GroceryItemsListActivity : AppCompatActivity() {
             { groceryItem, checkState ->
                 listGroceryItemsViewModel.checkItem(checkState, groceryItem!!.itemId)
                 if(checkState){
-                    CompiComidaApp.appModule.showAlert(
-                        this,
-                        getString(R.string.grocery_list_confirm_alert_text),
-                        getString(R.string.grocery_list_confirm_alert_title)
-                    )
+                    Snackbar.make(
+                        binding.root,
+                        "Recuerda añadir la caducidad al producto en la despensa",
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
         )
