@@ -47,5 +47,11 @@
         <item name="android:textColor">@color/white_variant</item>
     </style>
 
+    <style name="CustomActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <!-- Background color of the active indicator -->
+        <item name="android:color">@color/white_variant</item>
+    </style>
+
+
 </resources>
 

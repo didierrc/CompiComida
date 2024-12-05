@@ -6,7 +6,7 @@
         <item name="colorPrimaryVariant">@color/green_variant</item>
         <item name="colorSecondary">@color/white</item>
         <item name="colorSecondaryVariant">@color/white_variant</item>
-        <item name="colorSecondaryContainer">@color/white_variant</item>
+        <item name="colorSecondaryContainer">@color/green</item>
         <item name="colorOnPrimary">@color/white_variant</item>
         <item name="colorOutlineVariant">?attr/colorOutline</item>
         <item name="colorSurface">#141218</item>
