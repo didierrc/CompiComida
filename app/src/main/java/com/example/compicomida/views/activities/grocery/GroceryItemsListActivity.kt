@@ -61,6 +61,7 @@ class GroceryItemsListActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
         initializeRecyclerGroceryItems()
+        confirmOnClickListener()
     }
 
     // Initialise the Fab Click Listener
@@ -91,6 +92,18 @@ class GroceryItemsListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         listGroceryItemsViewModel.refreshGroceryItems()
+    }
+
+    private fun confirmOnClickListener(){
+        binding.btFinishGroceryList.setOnClickListener(){
+            listGroceryItemsViewModel.addListToPantry(CompiComidaApp.appModule.pantryRepo)
+            CompiComidaApp.appModule.showAlert(
+                this,
+                getString(R.string.grocery_list_confirm_alert_text),
+                getString(R.string.grocery_list_confirm_alert_title)
+            )
+            listGroceryItemsViewModel.refreshGroceryItems()
+        }
     }
 
 

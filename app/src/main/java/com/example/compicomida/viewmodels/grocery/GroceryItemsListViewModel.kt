@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compicomida.model.GroceryRepository
+import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,6 +41,13 @@ class GroceryItemsListViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             groceryRepo.checkGroceryItem(value, itemID)
             refreshGroceryItems()
+        }
+    }
+
+    fun addListToPantry(repo: PantryRepository){
+        viewModelScope.launch(Dispatchers.Default) {
+            repo.addPantryItemsFromGroceryLists(groceryItems.value!!.toList())
+            groceryRepo.deletePurcharedItems(listID)
         }
     }
 }

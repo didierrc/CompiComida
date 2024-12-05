@@ -60,7 +60,6 @@ class AddPantryItemActivity : AppCompatActivity() {
                     this@AddPantryItemActivity,
                     etProductExpirationDateAddPantry
                 ).show()
-
             }
         }
 

@@ -66,6 +66,10 @@
     <string name="recipes_details_description_text">Descripción de la Receta.</string>
     <string name="recipes_details_ingredients_title">Ingredientes</string>
 
+    <string name="grocery_list_confirm_button_text">Confirmar compra</string>
+    <string name="grocery_list_confirm_alert_text">Recuerda añadir las fechas de caducidad a los productos en la despensa</string>
+    <string name="grocery_list_confirm_alert_title">Alerta</string>
+
     <string-array name="grocery_item_types">
         <item>Bebida</item>
         <item>Cítrico</item>
