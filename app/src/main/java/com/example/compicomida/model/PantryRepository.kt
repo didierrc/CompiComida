@@ -17,26 +17,28 @@ class PantryRepository(
 
     suspend fun getPantryItemById(id: Int): PantryItem? = db.pantryItemDao.getById(id)
 
+    suspend fun getPantryItemByGroceryId(id: Int): PantryItem? = db.pantryItemDao.getByGroceryId(id)
+
     suspend fun deletePantryItem(pantryItem: PantryItem) = db.pantryItemDao.delete(pantryItem)
 
     suspend fun updatePantryItem(pantryItem: PantryItem) = db.pantryItemDao.update(pantryItem)
 
-    suspend fun addPantryItemsFromGroceryLists(list: List<GroceryItem>) {
-        list.forEach{ item ->
-            if(item.isPurchased){
-                val pantriItem = PantryItem(
-                    pantryId = 0,
-                    itemId = null,
-                    expirationDate = LocalDateTime.now(),
-                    pantryName = item.itemName,
-                    quantity = item.quantity,
-                    unit = item.unit,
-                    lastUpdate = LocalDateTime.now(),
-                    pantryPhotoUri = item.itemPhotoUri
-                )
-                addPantryItem(pantriItem)
-            }
-        }
+    suspend fun addPantryItemsFromGroceryLists(groceryItem: GroceryItem) {
+        val pantriItem = PantryItem(
+            pantryId = 0,
+            itemId = groceryItem.itemId,
+            expirationDate = LocalDateTime.now(),
+            pantryName = groceryItem.itemName,
+            quantity = groceryItem.quantity,
+            unit = groceryItem.unit,
+            lastUpdate = LocalDateTime.now(),
+            pantryPhotoUri = groceryItem.itemPhotoUri
+        )
+        addPantryItem(pantriItem)
+    }
+
+    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem){
+        deletePantryItem(getPantryItemByGroceryId(groceryItem.itemId)!!)
     }
 
 }

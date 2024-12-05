@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 class GroceryItemsListViewModel(
     private val groceryRepo: GroceryRepository,
+    private val pantryRepo: PantryRepository,
     private val listID: Int
 ) : ViewModel() {
 
@@ -40,14 +41,12 @@ class GroceryItemsListViewModel(
     fun checkItem(value: Boolean, itemID: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             groceryRepo.checkGroceryItem(value, itemID)
+            if(groceryRepo.getGroceryItemByID(itemID)!!.isPurchased){
+                pantryRepo.addPantryItemsFromGroceryLists(groceryRepo.getGroceryItemByID(itemID)!!)
+            }else{
+                pantryRepo.deletePantryItemsFromGroceryLists(groceryRepo.getGroceryItemByID(itemID)!!)
+            }
             refreshGroceryItems()
-        }
-    }
-
-    fun addListToPantry(repo: PantryRepository){
-        viewModelScope.launch(Dispatchers.Default) {
-            repo.addPantryItemsFromGroceryLists(groceryItems.value!!.toList())
-            groceryRepo.deletePurcharedItems(listID)
         }
     }
 }
