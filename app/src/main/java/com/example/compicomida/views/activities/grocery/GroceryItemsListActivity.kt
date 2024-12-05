@@ -124,6 +124,13 @@ class GroceryItemsListActivity : AppCompatActivity() {
             },
             { groceryItem, checkState ->
                 listGroceryItemsViewModel.checkItem(checkState, groceryItem!!.itemId)
+                if(checkState){
+                    CompiComidaApp.appModule.showAlert(
+                        this,
+                        getString(R.string.grocery_list_confirm_alert_text),
+                        getString(R.string.grocery_list_confirm_alert_title)
+                    )
+                }
             }
         )
 
