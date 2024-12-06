@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="textColor">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lessWhite">#C7C1C1</color>
     <color name="green">#047704</color>
+    <color name="green_variant">#03632B</color>
+    <color name="white_variant">#E6E6E6</color>
     <color name="red">#CD1919</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bottom_nav_inactive_color">#888888</color>
-
+    <color name="background_color">#FFFFFFFF</color>
+    <color name="dark_grey">#3b383e</color>
 </resources>

@@ -18,6 +18,7 @@ import com.example.compicomida.databinding.ActivityGroceryItemsListBinding
 import com.example.compicomida.viewmodels.grocery.GroceryItemsListViewModel
 import com.example.compicomida.viewmodels.grocery.factory.GroceryItemsListViewModelFactory
 import com.example.compicomida.views.adapters.GroceryItemsAdapter
+import com.google.android.material.snackbar.Snackbar
 
 class GroceryItemsListActivity : AppCompatActivity() {
     private lateinit var recyclerGroceryItem: RecyclerView
@@ -48,7 +49,7 @@ class GroceryItemsListActivity : AppCompatActivity() {
         listId = intent.getIntExtra("listId", 0)
         listGroceryItemsViewModel = ViewModelProvider(
             this,
-            GroceryItemsListViewModelFactory(CompiComidaApp.appModule.groceryRepo, listId)
+            GroceryItemsListViewModelFactory(CompiComidaApp.appModule.groceryRepo, CompiComidaApp.appModule.pantryRepo, listId)
         )[GroceryItemsListViewModel::class.java]
         initialiseView()
     }
@@ -94,6 +95,7 @@ class GroceryItemsListActivity : AppCompatActivity() {
     }
 
 
+
     private fun initializeRecyclerGroceryItems() {
         // Initialise the recycler views to empty lists.
         recyclerGroceryItem = findViewById(R.id.recyclerGroceryItems)
@@ -112,6 +114,13 @@ class GroceryItemsListActivity : AppCompatActivity() {
             },
             { groceryItem, checkState ->
                 listGroceryItemsViewModel.checkItem(checkState, groceryItem!!.itemId)
+                if(checkState){
+                    Snackbar.make(
+                        binding.root,
+                        "Recuerda añadir la caducidad al producto en la despensa",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
             }
         )
 

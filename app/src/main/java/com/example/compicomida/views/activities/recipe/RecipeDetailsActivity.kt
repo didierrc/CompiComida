@@ -241,7 +241,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
                 topToTop = ConstraintLayout.LayoutParams.PARENT_ID
             }
             text = step
-            setTextColor(ContextCompat.getColor(context, R.color.black))
+            setTextColor(ContextCompat.getColor(context, R.color.textColor))
             setLineSpacing(2.dp.toFloat(), 1.0f)
         }
 
