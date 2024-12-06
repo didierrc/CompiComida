@@ -77,7 +77,7 @@ class GroceryRepository(
         return db.groceryListDao.getById(listID)
     }
 
-    suspend fun deletePurcharedItems(listId: Int){
+    suspend fun deletePurchasedItems(listId: Int){
         val auxList: MutableList<GroceryItem> = mutableListOf()
         db.groceryItemDao.getByListId(listId).forEach{ item ->
             if(item.isPurchased){
