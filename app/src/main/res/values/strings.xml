@@ -109,4 +109,8 @@
     <string name="expire_items_headline_text">%s • %s %s</string>
     <string name="recent_list_items_headline_text">%s • %s %s</string>
 
+    <string name="recipe_details_add_to_shopping_list_success">Receta añadida a la lista de la compra :)</string>
+    <string name="recipe_details_add_to_shopping_list_fail">Lo siento, no hemos podido añadir la receta a una nueva lista de la compra. Inténtelo de nuevo, más tarde.</string>
+    "
+
 </resources>

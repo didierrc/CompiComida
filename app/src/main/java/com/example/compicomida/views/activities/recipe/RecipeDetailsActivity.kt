@@ -1,7 +1,6 @@
 package com.example.compicomida.views.activities.recipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.ImageView
@@ -12,21 +11,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.Guideline
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import coil3.load
+import com.example.compicomida.CompiComidaApp.Companion.appModule
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityRecipeDetailsBinding
 import com.example.compicomida.dp
-import com.example.compicomida.model.localDb.LocalDatabase
-import com.example.compicomida.model.localDb.entities.GroceryItem
-import com.example.compicomida.model.localDb.entities.GroceryList
 import com.example.compicomida.model.recipeEntities.Ingredient
 import com.example.compicomida.model.recipeEntities.Recipe
+import com.example.compicomida.viewmodels.recipe.RecipesDetailsViewModel
+import com.example.compicomida.viewmodels.recipe.factory.RecipesDetailsViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 
 /**
  * Recipes Details Activity:
@@ -34,14 +29,11 @@ import java.time.LocalDateTime
  */
 class RecipeDetailsActivity : AppCompatActivity() {
 
+    // Binding
     private lateinit var binding: ActivityRecipeDetailsBinding
-    private var recipeId: Int = -1
 
-    private val db = FirebaseFirestore.getInstance()
-
-    companion object {
-        const val RECIPES_COLLECTION = "recipes"
-    }
+    // ViewModel
+    private lateinit var recipesDetailsModel: RecipesDetailsViewModel
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressedDispatcher.onBackPressed()
@@ -64,135 +56,93 @@ class RecipeDetailsActivity : AppCompatActivity() {
             }
         })
 
-        // Id de la receta a mostrar detalles
-        recipeId = intent.getIntExtra("recipeId", -1)
-        if (recipeId != -1) initialiseView(recipeId.toString())
+        // Initialising the view model
+        recipesDetailsModel = ViewModelProvider(
+            this,
+            RecipesDetailsViewModelFactory(appModule.recipesRepo, appModule.groceryRepo)
+        )[RecipesDetailsViewModel::class.java]
 
-        // Inicializando base de datos local
-        val dbLocal = LocalDatabase.getDB(this)
-        initialiseFab(dbLocal)
+        // Initialising view elements
+        recipesDetailsModel.getRecipe(intent.getIntExtra("recipeId", -1))
+        initialiseFab()
+        observeRecipe()
     }
 
-    private fun initialiseView(recipeId: String) {
+    private fun observeRecipe() {
+        recipesDetailsModel.recipe.observe(this) { recipe ->
+            // If error while fetching the recipe (either id from parent -1 or non-existing document),
+            // finish the activity.
+            if (recipe != null)
+                updateUI(recipe)
+            else
+                finish()
 
-        db.collection(RECIPES_COLLECTION).document(recipeId).get()
-            .addOnSuccessListener {
-                if (it != null && it.exists()) {
-                    val recipe = it.toObject(Recipe::class.java)?.copy(id = it.id)
-                    recipeCallback(recipe)
+        }
+    }
+
+    private fun initialiseFab() {
+        with(binding) {
+            fabAddRecipeToList.setOnClickListener {
+
+                // Adding Recipe to a GroceryList
+                if (recipesDetailsModel.recipe.value != null) {
+
+                    recipesDetailsModel.addRecipeToGroceryList()
+
+                    // Showing notification of success
+                    Snackbar.make(
+                        root,
+                        getString(R.string.recipe_details_add_to_shopping_list_success),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Log.d("Recipe Details FAIL", "No such document")
-                    recipeCallback(null)
+                    Snackbar.make(
+                        root,
+                        getString(R.string.recipe_details_add_to_shopping_list_fail),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                 }
+
             }
+        }
+
     }
 
-    private fun recipeCallback(recipe: Recipe?) {
-        recipe?.let {
+    private fun updateUI(recipe: Recipe) {
 
-            with(binding) {
+        with(binding) {
+            toolbarLayout.title = recipe.name
+            fondoRecipe.load(recipe.imageUrl)
 
-                toolbarLayout.title = recipe.name
-                fondoRecipe.load(recipe.imageUrl)
+            with(contentRecipes) {
+                tvOther?.text =
+                    getString(
+                        R.string.recipe_other_information,
+                        recipe.category,
+                        recipe.preparationTime,
+                        recipe.diner
+                    )
+                difficultyBar?.rating = recipe.difficulty.toFloat()
+                descriptionRecipeText?.text = recipe.description
 
-                with(contentRecipes) {
-                    tvOther?.text =
-                        getString(
-                            R.string.recipe_other_information,
-                            it.category,
-                            it.preparationTime,
-                            it.diner
-                        )
-                    difficultyBar?.rating = it.difficulty.toFloat()
-                    descriptionRecipeText?.text = it.description
-
-                    it.ingredients.forEach { ingredient ->
-                        if (ingredientsLayout != null) {
-                            addIngredientView(ingredientsLayout, ingredient)
-                        }
+                recipe.ingredients.forEach { ingredient ->
+                    if (ingredientsLayout != null) {
+                        addIngredientView(ingredientsLayout, ingredient)
                     }
+                }
 
-                    it.steps.forEachIndexed { index, step ->
-                        if (stepsUpperLayout != null) {
-                            addStepsView(stepsUpperLayout, step, index + 1)
-                        }
+                recipe.steps.forEachIndexed { index, step ->
+                    if (stepsUpperLayout != null) {
+                        addStepsView(stepsUpperLayout, step, index + 1)
                     }
                 }
             }
 
 
         }
+
     }
-
-    private fun initialiseFab(db: LocalDatabase) {
-
-        binding.fabAddRecipeToList.setOnClickListener {
-
-            addToShoppingList(db)
-
-            Snackbar.make(
-                binding.root,
-                "Receta añadida a la lista de la compra",
-                Snackbar.LENGTH_SHORT
-            ).show()
-
-            // Way to go directly to Lists? finish()
-        }
-    }
-
-    private fun addToShoppingList(dbLocal: LocalDatabase) {
-
-        db.collection(RECIPES_COLLECTION).document(recipeId.toString()).get()
-            .addOnSuccessListener {
-
-                if (it != null && it.exists()) {
-                    val recipe = it.toObject(Recipe::class.java)?.copy(id = it.id)
-                    addToShopListCallback(dbLocal, recipe)
-                } else {
-                    Log.d("Recipe Details FAIL", "No such document")
-                    addToShopListCallback(dbLocal, null)
-                }
-
-            }
-    }
-
-    private fun addToShopListCallback(dbLocal: LocalDatabase, recipe: Recipe?) {
-        recipe?.let {
-            lifecycleScope.launch(Dispatchers.IO) {
-
-                // Creating and Storing the Grocery List from the Recipe.
-                var groceryList: GroceryList? =
-                    GroceryList(0, recipe.name, LocalDateTime.now())
-                groceryList?.let { dbLocal.groceryListDao.add(it) }
-                groceryList = dbLocal.groceryListDao.getLastInserted()
-
-                // Inserting ingredients from Recipe to the Grocery List.
-                val ingredientsList = mutableListOf<GroceryItem>()
-                groceryList?.let {
-
-                    recipe.ingredients.forEach { recipeIngredient ->
-
-                        ingredientsList.add(
-                            GroceryItem(
-                                itemId = 0,
-                                listId = groceryList.listId,
-                                categoryId = null,
-                                itemName = recipeIngredient.name,
-                                quantity = recipeIngredient.quantity ?: 0.0,
-                                unit = recipeIngredient.unit ?: "No especificada",
-                                price = 0.0,
-                                isPurchased = false,
-                                itemPhotoUri = "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
-                            )
-                        )
-                    }
-                }
-
-                dbLocal.groceryItemDao.addAll(*ingredientsList.toTypedArray())
-            }
-        }
-    }
-
+    
     private fun addIngredientView(container: LinearLayout, ingredient: Ingredient) {
 
         val ingredientIcon = ImageView(this).apply {
@@ -214,7 +164,9 @@ class RecipeDetailsActivity : AppCompatActivity() {
             else
                 context?.getString(
                     R.string.recipe_ingredient_detail, ingredient.name,
-                    parseQuantity(ingredient.quantity),
+                    if (ingredient.quantity == null) "" else appModule.parseQuantity(
+                        ingredient.quantity
+                    ),
                     ingredient.unit ?: ""
                 )
 
@@ -246,23 +198,6 @@ class RecipeDetailsActivity : AppCompatActivity() {
 
         // Add the ingredient layout to the container
         container.addView(ingredientLayout)
-    }
-
-    private fun parseQuantity(quantity: Double?): String {
-
-        if (quantity == null)
-            return ""
-
-        val parse = if (quantity.mod(1.0) == 0.0) {
-            quantity.toInt().toString()
-        } else {
-            if (quantity == 0.5)
-                "1/2"
-            else
-                quantity.toString()
-        }
-
-        return parse
     }
 
     private fun addStepsView(container: LinearLayout, step: String, index: Int) {

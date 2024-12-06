@@ -1,14 +1,13 @@
 package com.example.compicomida.views.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.entities.GroceryList
-import com.example.compicomida.views.adapters.diff.ShopListDiffCallback
 import net.nicbell.materiallists.ListItem
 import java.time.format.DateTimeFormatter
 
@@ -36,13 +35,12 @@ class ShoppingListsAdapter(
 
     override fun getItemCount() = shoppingLists.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(it: Map<GroceryList, Int>?) {
-        it?.let {
-            val diffCallback = ShopListDiffCallback(shoppingLists, it)
-            val diffResult = DiffUtil.calculateDiff(diffCallback)
+        if (it != null) {
             shoppingLists.clear()
             shoppingLists.putAll(it)
-            diffResult.dispatchUpdatesTo(this)
+            notifyDataSetChanged()
         }
     }
 
