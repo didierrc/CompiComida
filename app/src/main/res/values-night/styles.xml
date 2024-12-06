@@ -4,16 +4,18 @@
     <!-- Custom style for BottomNavigationView -->
     <style name="CustomBottomNavigationViewStyle" parent="Widget.Material3.BottomNavigationView">
         <item name="android:background">?attr/colorPrimary</item>
-        <item name="itemTextColor">@color/white</item>
+        <item name="itemTextColor">@color/white_variant</item>
         <item name="itemIconTint">@color/bottom_nav_item_color</item>
     </style>
 
     <style name="CustomButtonStyle" parent="Widget.Material3.Button">
         <item name="android:background">@drawable/custom_button_background</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="CustomImageButtonStyle" parent="Widget.Material3.MaterialTimePicker.ImageButton">
         <item name="android:background">@drawable/custom_button_background</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
     <style name="CustomImageButtonStyleForList" parent="Widget.Material3.MaterialTimePicker.ImageButton">
@@ -29,7 +31,8 @@
     <style name="CustomFabStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/green</item>
         <item name="fabSize">mini</item>
-        <item name="rippleColor">@color/white</item>
+        <item name="rippleColor">@color/white_variant</item>
+        <item name="tint">@color/white_variant</item>
     </style>
 
     <style name="RoundedImage" parent="ShapeAppearance.MaterialComponents.MediumComponent">
@@ -41,34 +44,14 @@
         <item name="fontFamily">@font/default_font_family</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/textColor</item>
-    </style>
-
-    <!-- Custom DatePicker Theme -->
-    <style name="CustomDatePickerTheme" parent="Widget.Material3.MaterialTimePicker">
-        <!-- Background color of the DatePicker dialog -->
-        <item name="materialCalendarStyle">@style/CustomCalendarStyle</item>
-        <item name="materialCalendarFullscreenTheme">
-            @style/CustomFullscreenCalendarTheme
-        </item>
-    </style>
-
-    <!-- Style for the calendar appearance -->
-    <style name="CustomCalendarStyle" parent="Widget.Material3.MaterialCalendar">
-        <!-- Background color of the calendar -->
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <!-- Fullscreen calendar theme -->
-    <style name="CustomFullscreenCalendarTheme" parent="Theme.Material3.DayNight">
-        <item name="android:background">@color/white</item>
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="android:textColor">@color/white_variant</item>
     </style>
 
     <style name="CustomActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <!-- Background color of the active indicator -->
-        <item name="android:color">@color/white</item>
+        <item name="android:color">@color/white_variant</item>
     </style>
+
+
 </resources>
 
