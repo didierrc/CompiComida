@@ -73,6 +73,13 @@ class RecipesFragment : Fragment() {
         // Observe recipes from Firestore
         recipesModel.recipesList.observe(viewLifecycleOwner) { recipesList ->
             recipesAdapter.updateList(recipesList)
+
+            val progressBar = root.findViewById<View>(R.id.progressBarRecipes)
+
+            if (recipesList.isNotEmpty()) progressBar.visibility = View.GONE
+            else progressBar.visibility = View.VISIBLE
+
+
         }
 
         // Fetching data
