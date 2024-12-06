@@ -65,5 +65,10 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
+
+    <style name="CustomActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <!-- Background color of the active indicator -->
+        <item name="android:color">@color/white</item>
+    </style>
 </resources>
 
