@@ -3,9 +3,11 @@ package com.example.compicomida.views.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.views.adapters.diff.GroceryDiffCallback
 import net.nicbell.materiallists.ListItem
 
 class RecentListItemsAdapter(
@@ -26,8 +28,10 @@ class RecentListItemsAdapter(
     override fun getItemCount() = groceryItemList.size
 
     fun updateList(recentList: List<GroceryItem>) {
+        val diffCallback = GroceryDiffCallback(groceryItemList, recentList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         groceryItemList = recentList
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(
