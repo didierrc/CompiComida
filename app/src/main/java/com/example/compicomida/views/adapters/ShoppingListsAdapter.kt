@@ -34,8 +34,7 @@ class ShoppingListsAdapter(
     }
 
     override fun getItemCount() = shoppingLists.size
-
-    @SuppressLint("NotifyDataSetChanged")
+    
     fun updateList(it: Map<GroceryList, Int>?) {
         if (it != null) {
             shoppingLists.clear()

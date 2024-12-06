@@ -33,8 +33,7 @@ class GroceryItemsAdapter(
     }
 
     override fun getItemCount() = groceryItems.size
-
-    @SuppressLint("NotifyDataSetChanged")
+    
     fun updateData(newGroceryItems: List<GroceryItem>) {
         groceryItems = newGroceryItems
         notifyDataSetChanged()

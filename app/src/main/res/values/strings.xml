@@ -104,4 +104,7 @@
     </string>
     <string name="delete_button">Eliminar</string>
     <string name="steps_recipe_title_text">Pasos</string>
+
+    <string name="recipe_description_sneak_peek">%s…</string>
+
 </resources>

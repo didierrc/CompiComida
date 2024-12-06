@@ -7,5 +7,4 @@ data class GroceryItemDetailsUI(
     val unitsTxt: String?,
     val checkState: Boolean,
     val imageURI: String?
-) {
-}
+)
