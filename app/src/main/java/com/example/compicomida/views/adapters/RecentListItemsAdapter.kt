@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.views.adapters.diff.GroceryDiffCallback
@@ -42,21 +43,12 @@ class RecentListItemsAdapter(
 
         fun bind(groceryItem: GroceryItem) {
 
-            with(groceryItem) {
-                val quantityParse = if (quantity.mod(1.0) == 0.0) {
-                    quantity.toInt().toString()
-                } else {
-                    if (quantity == 0.5)
-                        "1/2"
-                    else
-                        quantity.toString()
-                }
+            val quantityParse = CompiComidaApp.appModule.parseQuantity(groceryItem.quantity)
 
-                groceryElement.headline.text =
-                    "${groceryItem.itemName} • $quantityParse ${groceryItem.unit ?: ""}"
-            }
-
-
+            groceryElement.headline.text = itemView.context.getString(
+                R.string.recent_list_items_headline_text,
+                groceryItem.itemName, quantityParse, groceryItem.unit ?: ""
+            )
         }
     }
 }
