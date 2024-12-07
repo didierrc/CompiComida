@@ -19,6 +19,8 @@ class PantryRepository(
 
     suspend fun getPantryItemByGroceryId(id: Int): PantryItem? = db.pantryItemDao.getByGroceryId(id)
 
+    suspend fun getPantryItemByName(name: String): PantryItem? = db.pantryItemDao.getByName(name)
+
     suspend fun deletePantryItem(pantryItem: PantryItem) = db.pantryItemDao.delete(pantryItem)
 
     suspend fun updatePantryItem(pantryItem: PantryItem) = db.pantryItemDao.update(pantryItem)
