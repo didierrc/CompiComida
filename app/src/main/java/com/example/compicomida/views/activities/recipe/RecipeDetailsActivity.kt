@@ -59,7 +59,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         // Initialising the view model
         recipesDetailsModel = ViewModelProvider(
             this,
-            RecipesDetailsViewModelFactory(appModule.recipesRepo, appModule.groceryRepo)
+            RecipesDetailsViewModelFactory(appModule.recipesRepo, appModule.groceryRepo, appModule.pantryRepo)
         )[RecipesDetailsViewModel::class.java]
 
         // Initialising view elements

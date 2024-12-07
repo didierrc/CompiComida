@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.model.GroceryRepository
+import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.RecipeRepository
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.recipeEntities.Recipe
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class RecipesDetailsViewModel(
     private val recipesRepo: RecipeRepository,
-    private val groceryRepo: GroceryRepository
+    private val groceryRepo: GroceryRepository,
+    private val pantryRepo: PantryRepository
 ) : ViewModel() {
 
     private val _recipe = MutableLiveData<Recipe?>()
@@ -44,19 +46,54 @@ class RecipesDetailsViewModel(
                 val ingredientsList = mutableListOf<GroceryItem>()
                 groceryList?.let {
                     recipe.ingredients.forEach { recipeIngredient ->
-                        ingredientsList.add(
-                            GroceryItem(
-                                itemId = 0,
-                                listId = groceryList.listId,
-                                categoryId = null,
-                                itemName = recipeIngredient.name,
-                                quantity = recipeIngredient.quantity ?: 0.0,
-                                unit = recipeIngredient.unit ?: "No especificada",
-                                price = 0.0,
-                                isPurchased = false,
-                                itemPhotoUri = CompiComidaApp.DEFAULT_GROCERY_URI
+                        var pantryItem = pantryRepo.getPantryItemByName(recipeIngredient.name)
+                        var isInPantry = false
+                        var finalQuantity = 0.0
+
+                        if(pantryItem != null){
+                            isInPantry = true
+                            finalQuantity = (recipeIngredient.quantity ?: 0.0) - pantryItem.quantity
+
+                        }else {
+                            // En caso de tener el ingrediente añadido en singular y en la receta en plural elimina la ultima letra para volver a buscarlo
+                            pantryItem = pantryRepo.getPantryItemByName(recipeIngredient.name.dropLast(1))
+                            if(pantryItem != null){
+                                isInPantry = true
+                                finalQuantity = (recipeIngredient.quantity ?: 0.0) - pantryItem.quantity
+                            }
+                        }
+
+                        if(isInPantry){
+                            if(finalQuantity > 0.0){
+                                ingredientsList.add(
+                                    GroceryItem(
+                                        itemId = 0,
+                                        listId = groceryList.listId,
+                                        categoryId = null,
+                                        itemName = recipeIngredient.name,
+                                        quantity = finalQuantity,
+                                        unit = recipeIngredient.unit ?: "No especificada",
+                                        price = 0.0,
+                                        isPurchased = false,
+                                        itemPhotoUri = CompiComidaApp.DEFAULT_GROCERY_URI
+                                    )
+                                )
+                            }
+                        }else{
+                            ingredientsList.add(
+                                GroceryItem(
+                                    itemId = 0,
+                                    listId = groceryList.listId,
+                                    categoryId = null,
+                                    itemName = recipeIngredient.name,
+                                    quantity = recipeIngredient.quantity ?: 0.0,
+                                    unit = recipeIngredient.unit ?: "No especificada",
+                                    price = 0.0,
+                                    isPurchased = false,
+                                    itemPhotoUri = CompiComidaApp.DEFAULT_GROCERY_URI
+                                )
                             )
-                        )
+                        }
                     }
                 }
 
@@ -66,6 +103,4 @@ class RecipesDetailsViewModel(
 
         }
     }
-
-
 }
