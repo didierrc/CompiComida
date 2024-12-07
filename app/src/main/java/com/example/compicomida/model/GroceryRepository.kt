@@ -22,6 +22,10 @@ class GroceryRepository(
         return db.groceryListDao.getListSize(listId)
     }
 
+    suspend fun getLastInsertedList(): GroceryList? {
+        return db.groceryListDao.getLastInserted()
+    }
+
     suspend fun getAllLists(): List<GroceryList> {
         return db.groceryListDao.getAll()
     }
@@ -75,6 +79,10 @@ class GroceryRepository(
 
     suspend fun getGroceryListByID(listID: Int): GroceryList? {
         return db.groceryListDao.getById(listID)
+    }
+
+    suspend fun addGroceryItems(groceryItems: List<GroceryItem>) {
+        db.groceryItemDao.addAll(*groceryItems.toTypedArray())
     }
 
     suspend fun deletePurchasedItems(listId: Int){

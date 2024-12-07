@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.compicomida.R
 import com.example.compicomida.model.recipeEntities.Recipe
+import com.example.compicomida.views.adapters.diff.RecipesDiffCallback
 import net.nicbell.materiallists.ListItem
 
 /**
@@ -34,12 +36,14 @@ class RecipesListAdapter(
     override fun getItemCount() = recipesList.size
 
     fun updateList(recipesList: List<Recipe>) {
+        val diffCallback = RecipesDiffCallback(this.recipesList, recipesList)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.recipesList = recipesList
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     class ViewHolder(
-        view: View,
+        private val view: View,
         onClickGoToDetails: (Int?) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
@@ -57,9 +61,12 @@ class RecipesListAdapter(
         fun bind(recipe: Recipe) {
 
             recipeId = recipe.id?.toInt()
-
             listItem.headline.text = recipe.name
-            listItem.supportText.text = "${recipe.description.substring(0, 55)} ..."
+            listItem.supportText.text =
+                view.context.getString(
+                    R.string.recipe_description_sneak_peek,
+                    recipe.description.substring(0..60)
+                )
             listItemImage.load(recipe.imageUrl)
 
 

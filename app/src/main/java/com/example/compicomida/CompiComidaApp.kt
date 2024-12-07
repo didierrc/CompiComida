@@ -44,6 +44,7 @@ interface AppModule {
         dateTInput: TextInputEditText
     ): DatePickerDialog
 
+    fun parseQuantity(quantity: Double): String
     fun parseLastUpdate(lastUpdate: LocalDateTime): String
     fun showAlert(context: Context, message: String, title: String = "Error")
 }
@@ -90,7 +91,15 @@ class AppModuleImpl(
         // If unit is "No especificada" or NULL --> ""
         // If unit is other --> unit
         val unitParsed = if (unit != "No especificada" && unit != null) unit else ""
+        val quantityParsed = parseQuantity(quantity)
+        return context.getString(
+            R.string.grocery_items_adapter_cantidad_text,
+            quantityParsed,
+            unitParsed
+        )
+    }
 
+    override fun parseQuantity(quantity: Double): String {
         // If quantity has no decimal --> to Integer (except for 0, not shown)
         // If unit has decimal --> as it is (except for 0.5, shown as 1/2)
         // other fractions can be considered...
@@ -102,12 +111,7 @@ class AppModuleImpl(
             else
                 quantity.toString()
         }
-
-        return context.getString(
-            R.string.grocery_items_adapter_cantidad_text,
-            quantityParsed,
-            unitParsed
-        )
+        return quantityParsed
     }
 
     override fun createDatePicker(

@@ -1,16 +1,17 @@
 package com.example.compicomida.views.adapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.views.adapters.diff.GroceryDiffCallback
 
 class GroceryItemsAdapter(
 
@@ -34,10 +35,11 @@ class GroceryItemsAdapter(
 
     override fun getItemCount() = groceryItems.size
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newGroceryItems: List<GroceryItem>) {
+        val diffCallback = GroceryDiffCallback(groceryItems, newGroceryItems)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         groceryItems = newGroceryItems
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
 
