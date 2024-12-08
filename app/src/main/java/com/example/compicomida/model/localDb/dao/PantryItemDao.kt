@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.example.compicomida.model.localDb.entities.PantryItem
+import java.time.LocalDateTime
 
 @Dao
 interface PantryItemDao {
@@ -18,8 +19,15 @@ interface PantryItemDao {
     @Query("SELECT * FROM PantryItem WHERE pantry_id = :id")
     suspend fun getById(id: Int): PantryItem?
 
-    @Query("SELECT * FROM PantryItem WHERE expiration_date < DATE('now', '+5 day')")
+    @Query(
+        """ SELECT * FROM PantryItem 
+            WHERE expiration_date >= DATE('now')
+            AND expiration_date < DATE('now', '+3 day') """
+    )
     suspend fun getCloseExpireItems(): List<PantryItem>?
+
+    @Query("SELECT * FROM PantryItem WHERE DATE(expiration_date) = DATE(:date)")
+    suspend fun getCloseExpireItems(date: LocalDateTime): List<PantryItem>?
 
     @Query("SELECT * FROM PantryItem WHERE item_id = :id")
     suspend fun getByGroceryId(id: Int): PantryItem?
