@@ -11,6 +11,22 @@ class PantryRepository(
 
     suspend fun getCloseExpireItems(): List<PantryItem>? = db.pantryItemDao.getCloseExpireItems()
 
+    suspend fun getCloseExpireItems(filter: String): List<PantryItem>? {
+
+        return when (filter) {
+            "TODAY" -> db.pantryItemDao.getCloseExpireItems(LocalDateTime.now())
+            "TOMORROW" -> db.pantryItemDao.getCloseExpireItems(
+                LocalDateTime.now().plusDays(1)
+            )
+
+            "2-DAYS" -> db.pantryItemDao.getCloseExpireItems(
+                LocalDateTime.now().plusDays(2)
+            )
+
+            else -> db.pantryItemDao.getCloseExpireItems()
+        }
+    }
+
     suspend fun getPantryItems(): List<PantryItem>? = db.pantryItemDao.getAll()
 
     suspend fun addPantryItem(newPantryItem: PantryItem) = db.pantryItemDao.add(newPantryItem)
@@ -37,7 +53,7 @@ class PantryRepository(
         addPantryItem(pantriItem)
     }
 
-    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem){
+    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem) {
         deletePantryItem(getPantryItemByGroceryId(groceryItem.itemId)!!)
     }
 

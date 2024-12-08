@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.example.compicomida.views.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home_improved" />
     <fragment
         android:id="@+id/shoppingListsFragment"
         android:name="com.example.compicomida.views.fragments.ShoppingListsFragment"

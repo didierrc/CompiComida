@@ -70,5 +70,12 @@
         <!-- Background color of the active indicator -->
         <item name="android:color">@color/white</item>
     </style>
+
+    <style name="CustomChipStyle" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/chip_background_selector</item>
+        <item name="android:textColor">@color/chip_text_selector</item>
+        <item name="checkedIconTint">@color/white</item>
+        <item name="checkedIconEnabled">true</item>
+    </style>
 </resources>
 

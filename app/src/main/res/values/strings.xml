@@ -114,6 +114,12 @@
 
     <string name="recipe_details_add_to_shopping_list_success">Receta añadida a la lista de la compra :)</string>
     <string name="recipe_details_add_to_shopping_list_fail">Lo siento, no hemos podido añadir la receta a una nueva lista de la compra. Inténtelo de nuevo, más tarde.</string>
-    "
+    <string name="tab_markets_near">Supermercados</string>
+    <string name="tab_suggested_recipe">Receta del día</string>
+    <string name="tab_expire_items">Próximo a expirar</string>
+    <string name="chip_expire_items_all">Todos</string>
+    <string name="chip_expire_items_today">Hoy</string>
+    <string name="chip_expire_items_tomorrow">Mañana</string>
+    <string name="chip_expire_items_2days">Pasado Mañana</string>
 
 </resources>

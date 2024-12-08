@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp") version "1.9.24-1.0.20"
     id("androidx.navigation.safeargs")
     alias(libs.plugins.googleServices)
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -55,6 +56,7 @@ dependencies {
     // Room dependencies
     //val room_version = "2.6.1"
     implementation(libs.androidx.room.runtime)
+    implementation(libs.play.services.maps)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)

@@ -23,6 +23,10 @@ class CompiComidaApp : Application() {
             "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
         lateinit var appModule: AppModule
         const val RECIPES_COLLECTION = "recipes"
+        const val HOME_NUMBER_TABS = 3
+        const val TODAY_FILTER = "TODAY"
+        const val TOMORROW_FILTER = "TOMORROW"
+        const val TWO_DAYS_FILTER = "2-DAYS"
     }
 
     override fun onCreate() {
