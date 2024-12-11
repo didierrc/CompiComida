@@ -5,5 +5,5 @@
 
     <!-- Home dimensions -->
     <dimen name="home_main_content_margin_side">16dp</dimen>
-    <dimen name="home_main_content_margin_top">90dp</dimen>
+    <dimen name="home_main_content_margin_top">20dp</dimen>
 </resources>
