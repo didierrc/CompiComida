@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -42,12 +44,30 @@ class EditPantryItemActivity : AppCompatActivity() {
             insets
         }
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Lógica personalizada para el evento "Atrás"
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        })
+
         // Back Button
         setSupportActionBar(binding.toolbarEditPantry)
         binding.toolbarEditPantry.setNavigationOnClickListener {
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
+        }
+
+        onBackInvokedDispatcher.registerOnBackInvokedCallback(
+            OnBackInvokedDispatcher.PRIORITY_DEFAULT
+        ) {
+            // Lógica para el evento "Atrás"
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            Toast.makeText(this, "Gestos Atrás manejados", Toast.LENGTH_SHORT).show()
         }
 
         // Initialising the view model
