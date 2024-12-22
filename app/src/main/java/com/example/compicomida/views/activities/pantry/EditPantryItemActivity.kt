@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -59,15 +58,6 @@ class EditPantryItemActivity : AppCompatActivity() {
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }
-
-        onBackInvokedDispatcher.registerOnBackInvokedCallback(
-            OnBackInvokedDispatcher.PRIORITY_DEFAULT
-        ) {
-            // Lógica para el evento "Atrás"
-            val intent = Intent()
-            setResult(Activity.RESULT_OK, intent)
-            Toast.makeText(this, "Gestos Atrás manejados", Toast.LENGTH_SHORT).show()
         }
 
         // Initialising the view model
