@@ -49,6 +49,11 @@ dependencies {
 
     implementation(libs.material.lists.listitem)
 
+    // Maps
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.maps)
+    implementation(libs.places)
+
     // Coil
     implementation(libs.coil)
     implementation(libs.coil.network.okhttp)
@@ -56,7 +61,7 @@ dependencies {
     // Room dependencies
     //val room_version = "2.6.1"
     implementation(libs.androidx.room.runtime)
-    implementation(libs.play.services.maps)
+
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)

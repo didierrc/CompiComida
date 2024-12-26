@@ -27,6 +27,7 @@ class CompiComidaApp : Application() {
         const val TODAY_FILTER = "TODAY"
         const val TOMORROW_FILTER = "TOMORROW"
         const val TWO_DAYS_FILTER = "2-DAYS"
+        const val MAPS_API_KEY = "" // TODO: CHANGE ME!
     }
 
     override fun onCreate() {

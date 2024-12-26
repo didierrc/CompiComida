@@ -121,5 +121,8 @@
     <string name="chip_expire_items_today">Hoy</string>
     <string name="chip_expire_items_tomorrow">Mañana</string>
     <string name="chip_expire_items_2days">Pasado Mañana</string>
+    <string name="tab_markets_near_denied_dialog_title">Permisos de Localización Denegados.</string>
+    <string name="tab_markets_near_denied_dialog_message">Lo siento, no podemos mostrarte los supermercados cercanos a ti sin tu permiso. Puedes cambiar esto en la configuración de tu dispositivo.</string>
+    <string name="tab_markets_near_denied_dialog_positive_button">Aceptar</string>
 
 </resources>

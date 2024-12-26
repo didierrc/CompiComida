@@ -15,6 +15,8 @@ constraintlayout = "2.1.4"
 navigationFragmentKtx = "2.8.3"
 navigationUiKtx = "2.8.3"
 firebaseBom = "33.4.0"
+places = "4.1.0"
+playServicesLocation = "21.3.0"
 roomRuntime = "2.6.1"
 services = "4.4.2"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
@@ -39,6 +41,8 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
 material-lists-listitem = { module = "net.nicbell.material-lists:listitem", version.ref = "listitemVersion" }
+places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
+play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 
 [plugins]
