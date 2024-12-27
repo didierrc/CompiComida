@@ -133,6 +133,13 @@ class AddGroceryItemActivity : AppCompatActivity() {
                 )
 
                 addGroceryItemViewModel.addGroceryItem(newItem)
+                // Persist permission for the image URI, so it can be shown later in the list
+                contentResolver.takePersistableUriPermission(
+                    imageURI?.let { Uri.parse(it) }!!,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+
+                // Return to the previous activity
                 setResult(Activity.RESULT_OK)
                 finish()
             }
