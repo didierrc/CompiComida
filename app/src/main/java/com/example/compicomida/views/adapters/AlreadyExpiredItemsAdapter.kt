@@ -14,13 +14,14 @@ import java.time.format.DateTimeFormatter
 
 class AlreadyExpiredItemsAdapter(
     private var pantryItemList: List<PantryItem>,
+    private val onDeletePantryItem: (PantryItem?) -> Unit
 ) : RecyclerView.Adapter<AlreadyExpiredItemsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val layoutItem = R.layout.recycler_already_expire_list
         val view =
             LayoutInflater.from(viewGroup.context).inflate(layoutItem, viewGroup, false)
-        return ViewHolder(view)
+        return ViewHolder(view, onDeletePantryItem)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
@@ -36,12 +37,27 @@ class AlreadyExpiredItemsAdapter(
     }
 
     class ViewHolder(
-        view: View
+        view: View,
+        private val onDeletePantryItem: (PantryItem?) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
+        private val deleteIcon = view.findViewById<View>(R.id.alreadyExpireItemTrailingIcon)
         private val pantryElement = view.findViewById<ListItem>(R.id.alreadyExpireItemElement)
+        private var pantryItem: PantryItem? = null
+
+        init {
+            deleteIcon.setOnClickListener {
+                deleteIcon.isEnabled =
+                    false // Disable the button to prevent multiple clicks
+                deleteIcon.animate().alpha(0f).setDuration(300).withEndAction {
+                    onDeletePantryItem(pantryItem)
+                }.start()
+            }
+        }
 
         fun bind(pantryItem: PantryItem) {
+
+            this.pantryItem = pantryItem
 
             val unit = pantryItem.unit ?: ""
             val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")

@@ -60,6 +60,9 @@ class ExpireTabViewModel(
         }
     }
 
+    /**
+     * Updating the items already expired from the pantry.
+     */
     fun refreshAlreadyExpiredList() {
         viewModelScope.launch(Dispatchers.IO) {
             repoPantry.getAlreadyExpiredItems().let {
@@ -67,6 +70,18 @@ class ExpireTabViewModel(
                     _alreadyExpiredList.postValue(it)
                     return@let
                 }
+            }
+        }
+    }
+
+    /**
+     * Deleting a pantry item.
+     */
+    fun deletePantryItem(pantryItem: PantryItem?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            pantryItem?.let {
+                repoPantry.deletePantryItem(it)
+                refreshAlreadyExpiredList()
             }
         }
     }

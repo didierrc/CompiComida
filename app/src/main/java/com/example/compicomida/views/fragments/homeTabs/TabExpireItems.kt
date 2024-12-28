@@ -62,7 +62,9 @@ class TabExpireItems : Fragment() {
         expireRecycler.adapter = expireAdapter
 
         // Adapter for the Already Expired Items
-        alreadyExpiredAdapter = AlreadyExpiredItemsAdapter(listOf())
+        alreadyExpiredAdapter = AlreadyExpiredItemsAdapter(listOf(), { pantryItem ->
+            expireModel.deletePantryItem(pantryItem)
+        })
 
         observeExpireItems() // Any change on the expire lists will be observed.
         handleChipGroup()
