@@ -121,5 +121,6 @@
     <string name="chip_expire_items_today">Hoy</string>
     <string name="chip_expire_items_tomorrow">Mañana</string>
     <string name="chip_expire_items_2days">Pasado Mañana</string>
+    <string name="chip_expire_items_already_expired">Ya caducados</string>
 
 </resources>
