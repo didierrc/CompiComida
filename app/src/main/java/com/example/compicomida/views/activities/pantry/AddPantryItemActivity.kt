@@ -2,14 +2,18 @@ package com.example.compicomida.views.activities.pantry
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.CompiComidaApp
+import com.example.compicomida.CompiComidaApp.Companion.DEFAULT_GROCERY_URI
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddPantryItemBinding
 import com.example.compicomida.model.localDb.converters.DateConverter
@@ -64,6 +68,13 @@ class AddPantryItemActivity : AppCompatActivity() {
         }
 
         initialiseAddOnClick()
+
+        addPantryItemViewModel.image.observe(this) {
+            if (it == DEFAULT_GROCERY_URI)
+                showImagePreview(null)
+            else
+                showImagePreview(Uri.parse(it))
+        }
     }
 
     private fun initialiseAddOnClick() {
@@ -102,8 +113,13 @@ class AddPantryItemActivity : AppCompatActivity() {
                     )
 
                     addPantryItemViewModel.addPantryItem(newItem)
-                    val intent = Intent()
-                    setResult(Activity.RESULT_OK, intent)
+
+                    // Persist permission for the image URI, so it can be shown later in the list
+                    contentResolver.takePersistableUriPermission(
+                        addPantryItemViewModel.image.value?.let { Uri.parse(it) }!!,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
 
@@ -117,11 +133,19 @@ class AddPantryItemActivity : AppCompatActivity() {
                     }
                 }
 
-            btnImgAddPantry.setOnClickListener {
+            btnImg.setOnClickListener {
                 val intent =
                     Intent(Intent.ACTION_OPEN_DOCUMENT).apply { type = "image/*" }
                 imagePickerLauncher.launch(intent)
             }
+
+            binding.btnRemoveImage.setOnClickListener {
+                binding.btnRemoveImage.animate().alpha(0f).setDuration(250)
+                    .withEndAction {
+                        addPantryItemViewModel.updateImage(DEFAULT_GROCERY_URI)
+                    }.start()
+            }
+
 
         }
 
@@ -169,6 +193,45 @@ class AddPantryItemActivity : AppCompatActivity() {
         }
 
         return add
+    }
+
+    private fun showImagePreview(uri: Uri?) {
+        binding.ivImagePreview.setImageURI(uri)
+        val visibility = if (uri != null) View.VISIBLE else View.GONE
+        binding.ivImagePreview.visibility = visibility
+        binding.btnRemoveImage.visibility = visibility
+        rearrangeElements(uri)
+    }
+
+    private fun rearrangeElements(uri: Uri?) {
+        val constraintLayout = binding.addPantryItem
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(constraintLayout)
+
+        if (uri != null) {
+            // Reset alpha value
+            // This is necessary since it's put to zero in the animation,
+            // otherwise it will not be visible even if it's set to View.VISIBLE
+            binding.btnRemoveImage.alpha = 1f
+
+            constraintSet.connect(
+                R.id.btAddPantryItem,
+                ConstraintSet.TOP,
+                R.id.iv_image_preview,
+                ConstraintSet.BOTTOM,
+                16
+            )
+        } else {
+            constraintSet.connect(
+                R.id.btAddPantryItem,
+                ConstraintSet.TOP,
+                R.id.btn_img,
+                ConstraintSet.BOTTOM,
+                16
+            )
+        }
+
+        constraintSet.applyTo(constraintLayout)
     }
 
 

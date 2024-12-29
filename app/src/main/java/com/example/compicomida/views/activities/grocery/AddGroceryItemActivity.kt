@@ -21,6 +21,7 @@ import com.example.compicomida.CompiComidaApp.Companion.appModule
 import com.example.compicomida.R
 import com.example.compicomida.databinding.ActivityAddGroceryItemBinding
 import com.example.compicomida.model.localDb.entities.GroceryItem
+import com.example.compicomida.model.localDb.entities.ItemCategory
 import com.example.compicomida.viewmodels.grocery.AddGroceryItemViewModel
 import com.example.compicomida.viewmodels.grocery.factory.AddGroceryItemViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
@@ -72,7 +73,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
         }
 
         addGroceryItemViewModel.image.observe(this) {
-            if (it == null)
+            if (it == DEFAULT_GROCERY_URI)
                 showImagePreview(null)
             else
                 showImagePreview(Uri.parse(it))
@@ -103,30 +104,23 @@ class AddGroceryItemActivity : AppCompatActivity() {
             val priceTxt = price.text.toString().trim()
             val priceValue = priceTxt.toDoubleOrNull()
             val quantityValue = quantityTxt.toDoubleOrNull()
-            if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
-                appModule.showAlert(
-                    this@AddGroceryItemActivity,
-                    getString(R.string.error_empty_fields_add_grocery_item)
+
+            if (canAddGroceryItem(
+                    itemCategory,
+                    itemNameTxt,
+                    unitTxt,
+                    priceValue,
+                    quantityValue
                 )
-            } else if (itemCategory == null) {
-                appModule.showAlert(
-                    this@AddGroceryItemActivity,
-                    getString(R.string.error_category_not_found_add_grocery_item)
-                )
-            } else if (priceValue == null || quantityValue == null) {
-                appModule.showAlert(
-                    this@AddGroceryItemActivity,
-                    getString(R.string.error_valid_numbers_add_grocery_item)
-                )
-            } else {
+            ) {
                 val newItem = GroceryItem(
                     itemId = 0,
                     listId = listID,
                     categoryId = categoryId,
                     itemName = itemNameTxt,
-                    quantity = quantityValue,
+                    quantity = quantityValue!!,
                     unit = unitTxt,
-                    price = priceValue,
+                    price = priceValue!!,
                     isPurchased = false,
                     itemPhotoUri = imageURI
                         ?: DEFAULT_GROCERY_URI
@@ -161,7 +155,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
 
         binding.btnRemoveImage.setOnClickListener {
             binding.btnRemoveImage.animate().alpha(0f).setDuration(250).withEndAction {
-                addGroceryItemViewModel.updateImage(null)
+                addGroceryItemViewModel.updateImage(DEFAULT_GROCERY_URI)
             }.start()
         }
 
@@ -176,6 +170,37 @@ class AddGroceryItemActivity : AppCompatActivity() {
         binding.ivImagePreview.visibility = visibility
         binding.btnRemoveImage.visibility = visibility
         rearrangeElements(uri)
+    }
+
+    private fun canAddGroceryItem(
+        itemCategory: ItemCategory?,
+        itemNameTxt: String,
+        unitTxt: String,
+        priceValue: Double?,
+        quantityValue: Double?
+    ): Boolean {
+        return if (itemNameTxt.isBlank() || unitTxt.isBlank()) {
+            appModule.showAlert(
+                this@AddGroceryItemActivity,
+                getString(R.string.error_empty_fields_add_grocery_item)
+            )
+            false
+        } else if (itemCategory == null) {
+            appModule.showAlert(
+                this@AddGroceryItemActivity,
+                getString(R.string.error_category_not_found_add_grocery_item)
+            )
+            false
+        } else if (priceValue == null || quantityValue == null) {
+            appModule.showAlert(
+                this@AddGroceryItemActivity,
+                getString(R.string.error_valid_numbers_add_grocery_item)
+            )
+            false
+        } else {
+            true
+        }
+
     }
 
     private fun rearrangeElements(uri: Uri?) {
