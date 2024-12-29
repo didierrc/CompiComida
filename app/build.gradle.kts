@@ -73,6 +73,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore) // Remote DB
 
+    // Preferences DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     // Base
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
