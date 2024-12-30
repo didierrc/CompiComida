@@ -3,9 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/pantry"
+    style="@style/TextAppearance.Material3.SearchBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.fragments.PantryFragment">
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/pantrySearchView"
+        style="@style/Widget.Material3.SearchBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:iconifiedByDefault="false"
+        app:layout_constraintBottom_toTopOf="@id/recyclerPantry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:queryHint="@string/pantry_fragment_search_view_hint" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPantry"
@@ -14,7 +29,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pantrySearchView"
         tools:listitem="@layout/recycler_pantry" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,5 +44,6 @@
         android:src="@drawable/baseline_add_box_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
