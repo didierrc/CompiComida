@@ -13,6 +13,10 @@ class ExpireTabViewModel(
     private val repoPantry: PantryRepository
 ) : ViewModel() {
 
+    private val _alreadyExpiredList = MutableLiveData<List<PantryItem>>()
+    val alreadyExpiredList: LiveData<List<PantryItem>>
+        get() = _alreadyExpiredList
+
     private val _expireList = MutableLiveData<List<PantryItem>>()
     val expireList: LiveData<List<PantryItem>>
         get() = _expireList
@@ -52,6 +56,32 @@ class ExpireTabViewModel(
                     return@let
                 }
                 _expireList.postValue(it)
+            }
+        }
+    }
+
+    /**
+     * Updating the items already expired from the pantry.
+     */
+    fun refreshAlreadyExpiredList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repoPantry.getAlreadyExpiredItems().let {
+                if (it != null) {
+                    _alreadyExpiredList.postValue(it)
+                    return@let
+                }
+            }
+        }
+    }
+
+    /**
+     * Deleting a pantry item.
+     */
+    fun deletePantryItem(pantryItem: PantryItem?) {
+        viewModelScope.launch(Dispatchers.IO) {
+            pantryItem?.let {
+                repoPantry.deletePantryItem(it)
+                refreshAlreadyExpiredList()
             }
         }
     }
