@@ -27,6 +27,8 @@ class CompiComidaApp : Application() {
         const val TODAY_FILTER = "TODAY"
         const val TOMORROW_FILTER = "TOMORROW"
         const val TWO_DAYS_FILTER = "2-DAYS"
+        val MAPS_API_KEY: String
+            get() = BuildConfig.MAPS_API_KEY
     }
 
     override fun onCreate() {
