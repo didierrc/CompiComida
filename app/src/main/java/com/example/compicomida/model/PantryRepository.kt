@@ -32,9 +32,7 @@ class PantryRepository(
     suspend fun addPantryItem(newPantryItem: PantryItem) = db.pantryItemDao.add(newPantryItem)
 
     suspend fun getPantryItemById(id: Int): PantryItem? = db.pantryItemDao.getById(id)
-
-    suspend fun getPantryItemByGroceryId(id: Int): PantryItem? = db.pantryItemDao.getByGroceryId(id)
-
+    
     suspend fun getPantryItemByName(name: String): PantryItem? = db.pantryItemDao.getByName(name)
 
     suspend fun deletePantryItem(pantryItem: PantryItem) = db.pantryItemDao.delete(pantryItem)
@@ -55,8 +53,10 @@ class PantryRepository(
         addPantryItem(pantriItem)
     }
 
-    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem) {
+    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem) =
         deletePantryItem(getPantryItemByGroceryId(groceryItem.itemId)!!)
-    }
+
+    private suspend fun getPantryItemByGroceryId(id: Int): PantryItem? =
+        db.pantryItemDao.getByGroceryId(id)
 
 }
