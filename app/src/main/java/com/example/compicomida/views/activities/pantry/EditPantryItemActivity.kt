@@ -27,7 +27,6 @@ class EditPantryItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditPantryItemBinding
     private lateinit var editPantryItemViewModel: EditPantryItemViewModel
     private val appModule = CompiComidaApp.appModule
-    private var selectedUnit: String? = null // Para guardar la selección
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +66,8 @@ class EditPantryItemActivity : AppCompatActivity() {
             this,
             EditPantryItemViewModelFactory(
                 appModule.pantryRepo,
-                intent.getIntExtra("pantryId", -1)
+                intent.getIntExtra("pantryId", -1),
+                resources.getStringArray(R.array.grocery_item_units)
             )
         )[EditPantryItemViewModel::class.java]
 
@@ -88,39 +88,7 @@ class EditPantryItemActivity : AppCompatActivity() {
         observeImagePicker()
         editOnClickListener()
         deleteOnClickListener()
-        initAutoCompleteTextView()
-    }
-
-    // Guardar el estado al rotar la pantalla
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("selectedUnit", selectedUnit)
-    }
-
-    // Restaurar el estado al recrear la actividad
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val units = resources.getStringArray(R.array.grocery_item_units)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
-        binding.spinnerProductUnitsEditPantry.setAdapter(adapter)
-
-
-        selectedUnit = savedInstanceState.getString("selectedUnit")
-        selectedUnit?.let {
-            binding.spinnerProductUnitsEditPantry.setText(it, false)
-        }
-    }
-
-    private fun initAutoCompleteTextView(){
-        val units = resources.getStringArray(R.array.grocery_item_units)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
-        binding.spinnerProductUnitsEditPantry.setAdapter(adapter)
-
-        binding.spinnerProductUnitsEditPantry.setOnItemClickListener { _, _, position, _ ->
-            selectedUnit = adapter.getItem(position)
-        }
-
-
+        initSpinnerUnits()
     }
 
     private fun observePantryItem() {
@@ -265,4 +233,16 @@ class EditPantryItemActivity : AppCompatActivity() {
         return add
     }
 
+    private fun initSpinnerUnits() {
+        editPantryItemViewModel.updateUnits()
+        editPantryItemViewModel.units.observe(this){
+            binding.spinnerProductUnitsEditPantry.setAdapter(
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
+                )
+            )
+        }
+    }
 }

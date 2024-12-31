@@ -56,7 +56,7 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository, privat
 
     fun updateUnits() {
         viewModelScope.launch(Dispatchers.IO) {
-            _units.postValue((unitsArray.toMutableList()))
+            _units.postValue(unitsArray.toMutableList())
         }
     }
 
