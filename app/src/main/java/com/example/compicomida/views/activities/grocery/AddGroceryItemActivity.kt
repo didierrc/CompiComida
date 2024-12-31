@@ -35,7 +35,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
     private lateinit var btnAdd: Button
     private lateinit var btnImage: ImageButton
     private var imageURI: String? = null
-    private var selectedUnit: String? = null // Para guardar la selección
+    //private var selectedUnit: String? = null // Para guardar la selección
 
     private lateinit var addGroceryItemViewModel: AddGroceryItemViewModel
 
@@ -60,12 +60,13 @@ class AddGroceryItemActivity : AppCompatActivity() {
         // Initialising the view model
         addGroceryItemViewModel = ViewModelProvider(
             this,
-            AddGroceryItemViewModelFactory(appModule.groceryRepo)
+            AddGroceryItemViewModelFactory(appModule.groceryRepo, resources.getStringArray(R.array.grocery_item_units))
         )[AddGroceryItemViewModel::class.java]
 
         // Initialising the view elements
         initialiseViewElements()
         initSpinnerCategories()
+        initSpinnerUnits()
         addOnClickListener()
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
@@ -79,39 +80,39 @@ class AddGroceryItemActivity : AppCompatActivity() {
                 showImagePreview(Uri.parse(it))
         }
 
-        initAutoCompleteTextView()
+        //initAutoCompleteTextView()
 
     }
 
     // Guardar el estado al rotar la pantalla
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString("selectedUnit", selectedUnit)
-    }
+//    override fun onSaveInstanceState(outState: Bundle) {
+//        super.onSaveInstanceState(outState)
+//        outState.putString("selectedUnit", selectedUnit)
+//    }
 
     // Restaurar el estado al recrear la actividad
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        val units = resources.getStringArray(R.array.grocery_item_units)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
-        this.units.setAdapter(adapter)
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+//        super.onRestoreInstanceState(savedInstanceState)
+//        val units = resources.getStringArray(R.array.grocery_item_units)
+//        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
+//        this.units.setAdapter(adapter)
+//
+//
+//        selectedUnit = savedInstanceState.getString("selectedUnit")
+//        selectedUnit?.let {
+//            this.units.setText(it, false)
+//        }
+//    }
 
-
-        selectedUnit = savedInstanceState.getString("selectedUnit")
-        selectedUnit?.let {
-            this.units.setText(it, false)
-        }
-    }
-
-    private fun initAutoCompleteTextView(){
-        val units = resources.getStringArray(R.array.grocery_item_units)
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
-        this.units.setAdapter(adapter)
-
-        this.units.setOnItemClickListener { _, _, position, _ ->
-            selectedUnit = adapter.getItem(position)
-        }
-    }
+//    private fun initAutoCompleteTextView(){
+//        val units = resources.getStringArray(R.array.grocery_item_units)
+//        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, units)
+//        this.units.setAdapter(adapter)
+//
+//        this.units.setOnItemClickListener { _, _, position, _ ->
+//            selectedUnit = adapter.getItem(position)
+//        }
+//    }
 
     private fun initialiseViewElements() {
         itemName = findViewById(R.id.et_list_name)
@@ -239,6 +240,19 @@ class AddGroceryItemActivity : AppCompatActivity() {
         addGroceryItemViewModel.updateCategories()
         addGroceryItemViewModel.categories.observe(this) {
             spinnerCategories.setAdapter(
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
+                )
+            )
+        }
+    }
+
+    private fun initSpinnerUnits() {
+        addGroceryItemViewModel.updateUnits()
+        addGroceryItemViewModel.units.observe(this){
+            units.setAdapter(
                 ArrayAdapter(
                     this,
                     android.R.layout.simple_spinner_dropdown_item,

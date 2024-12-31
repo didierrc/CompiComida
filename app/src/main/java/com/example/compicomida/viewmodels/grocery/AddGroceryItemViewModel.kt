@@ -10,9 +10,11 @@ import com.example.compicomida.model.localDb.entities.ItemCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : ViewModel() {
+class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository, private val  unitsArray: Array<String>) : ViewModel() {
 
     private val _categories: MutableLiveData<MutableList<String>> =
+        MutableLiveData(listOf<String>().toMutableList())
+    private val _units: MutableLiveData<MutableList<String>> =
         MutableLiveData(listOf<String>().toMutableList())
     private val _itemCategory = MutableLiveData<ItemCategory?>(null)
     private val _image = MutableLiveData<String?>(null)
@@ -25,6 +27,9 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : View
 
     val categories: LiveData<MutableList<String>>
         get() = _categories
+
+    val units: LiveData<MutableList<String>>
+        get() = _units
 
     fun updateImage(newImage: String?) {
         _image.value = newImage
@@ -46,6 +51,12 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository) : View
         viewModelScope.launch(Dispatchers.IO) {
             _categories.postValue(groceryRepo.getAllCategories().map { it.categoryName }
                 .toMutableList())
+        }
+    }
+
+    fun updateUnits() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _units.postValue((unitsArray.toMutableList()))
         }
     }
 
