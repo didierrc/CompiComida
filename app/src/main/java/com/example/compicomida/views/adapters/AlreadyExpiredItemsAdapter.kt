@@ -37,7 +37,7 @@ class AlreadyExpiredItemsAdapter(
     }
 
     class ViewHolder(
-        view: View,
+        private val view: View,
         private val onDeletePantryItem: (PantryItem?) -> Unit
     ) : RecyclerView.ViewHolder(view) {
 
@@ -61,7 +61,10 @@ class AlreadyExpiredItemsAdapter(
 
             val unit = pantryItem.unit ?: ""
             val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            val expireOn = "Venció el ${pantryItem.expirationDate.format(formatter)}"
+            val expireOn = view.context.getString(
+                R.string.expire_on,
+                pantryItem.expirationDate.format(formatter)
+            )
 
             pantryElement.headline.text = itemView.context.getString(
                 R.string.expire_items_headline_text,

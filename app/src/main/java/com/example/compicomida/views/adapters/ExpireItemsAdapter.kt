@@ -37,7 +37,7 @@ class ExpireItemsAdapter(
     }
 
     class ViewHolder(
-        view: View
+        private val view: View
     ) : RecyclerView.ViewHolder(view) {
 
         private val pantryElement = view.findViewById<ListItem>(R.id.expireItemElement)
@@ -50,12 +50,12 @@ class ExpireItemsAdapter(
 
             val expireOn =
                 when (pantryItem.expirationDate.dayOfMonth) {
-                    LocalDateTime.now().dayOfMonth -> "Vence HOY"
+                    LocalDateTime.now().dayOfMonth -> view.context.getString(R.string.expire_today)
                     LocalDateTime.now()
-                        .plusDays(1).dayOfMonth -> "Vence MAÑANA"
+                        .plusDays(1).dayOfMonth -> view.context.getString(R.string.expire_tomorrow)
 
                     LocalDateTime.now()
-                        .plusDays(2).dayOfMonth -> "Vence PASADO MAÑANA"
+                        .plusDays(2).dayOfMonth -> view.context.getString(R.string.expire_2days)
 
                     else -> "Vence el $expireDate" // Shouldn't happen
                 }

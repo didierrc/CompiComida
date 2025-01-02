@@ -1,11 +1,13 @@
 package com.example.compicomida.viewmodels.home
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.PreferencesDailyRecipe
+import com.example.compicomida.R
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.RecipeRepository
 import com.example.compicomida.model.localDb.entities.GroceryItem
@@ -42,7 +44,7 @@ class SuggestedRecipeTabViewModel(
         }
     }
 
-    fun addRecipeToGroceryList() {
+    fun addRecipeToGroceryList(context: Context?) {
         recipe.value?.let { recipe ->
             viewModelScope.launch(Dispatchers.IO) {
                 // Adding a new list with the recipe name
@@ -60,7 +62,8 @@ class SuggestedRecipeTabViewModel(
                                 categoryId = null,
                                 itemName = recipeIngredient.name,
                                 quantity = recipeIngredient.quantity ?: 0.0,
-                                unit = recipeIngredient.unit ?: "No especificada",
+                                unit = recipeIngredient.unit
+                                    ?: context?.getString(R.string.item_default_unit),
                                 price = 0.0,
                                 isPurchased = false,
                                 itemPhotoUri = CompiComidaApp.DEFAULT_GROCERY_URI

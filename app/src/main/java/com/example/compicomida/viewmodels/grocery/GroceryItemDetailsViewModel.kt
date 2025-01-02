@@ -44,7 +44,7 @@ class GroceryItemDetailsViewModel(
             val groceryItem = groceryRepo.getGroceryItemByID(itemID) ?: return@launch
             val category =
                 groceryItem.categoryId?.let { groceryRepo.getGroceryItemCategoryByID(it)?.categoryName }
-                    ?: "Sin Categoría"
+                    ?: context.getString(R.string.grocery_item_details_vm_no_cat)
             _groceryItem.postValue(
                 GroceryItemDetailsUI(
                     itemNameTxt = groceryItem.itemName,

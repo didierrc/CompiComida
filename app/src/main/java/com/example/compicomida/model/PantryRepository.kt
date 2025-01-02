@@ -36,7 +36,8 @@ class PantryRepository(
 
     suspend fun getPantryItemById(id: Int): PantryItem? = db.pantryItemDao.getById(id)
 
-    suspend fun getPantryItemByGroceryId(id: Int): PantryItem? = db.pantryItemDao.getByGroceryId(id)
+    private suspend fun getPantryItemByGroceryId(id: Int): PantryItem? =
+        db.pantryItemDao.getByGroceryId(id)
 
     suspend fun getPantryItemByName(name: String): PantryItem? = db.pantryItemDao.getByName(name)
 

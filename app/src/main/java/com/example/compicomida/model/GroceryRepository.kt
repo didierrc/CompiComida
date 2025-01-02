@@ -10,14 +10,6 @@ class GroceryRepository(
     private val db: LocalDatabase
 ) {
 
-    suspend fun getItemsFromMostRecentList(): List<GroceryItem>? {
-        val recentGroceryList = db.groceryListDao.getMostRecentList()
-        return recentGroceryList?.let { db.groceryItemDao.getByListId(it.listId) }
-    }
-
-    suspend fun getMostRecentListName(): String? =
-        db.groceryListDao.getMostRecentList()?.listName
-
     suspend fun getListSize(listId: Int): Int {
         return db.groceryListDao.getListSize(listId)
     }
@@ -83,19 +75,6 @@ class GroceryRepository(
 
     suspend fun addGroceryItems(groceryItems: List<GroceryItem>) {
         db.groceryItemDao.addAll(*groceryItems.toTypedArray())
-    }
-
-    suspend fun deletePurchasedItems(listId: Int){
-        val auxList: MutableList<GroceryItem> = mutableListOf()
-        db.groceryItemDao.getByListId(listId).forEach{ item ->
-            if(item.isPurchased){
-                auxList.add(item)
-            }
-        }
-
-        auxList.forEach { item->
-            db.groceryItemDao.delete(item)
-        }
     }
 
 

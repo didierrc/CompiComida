@@ -59,7 +59,7 @@ class AddGroceryListActivity : AppCompatActivity() {
                     setResult(Activity.RESULT_OK)
                     finish()
                 }, { errorMessage ->
-                    CompiComidaApp.appModule.showAlert(this, errorMessage)
+                    CompiComidaApp.appModule.showAlert(this, getString(errorMessage))
                 })
             }
     }
