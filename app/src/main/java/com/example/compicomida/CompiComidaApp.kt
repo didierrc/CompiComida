@@ -26,6 +26,7 @@ class CompiComidaApp : Application() {
             "https://cdn-icons-png.flaticon.com/512/1261/1261163.png"
         lateinit var appModule: AppModule
         const val RECIPES_COLLECTION = "recipes"
+        const val RECIPES_COLLECTION_EN = "recipes_en"
         const val HOME_NUMBER_TABS = 3
         const val TODAY_FILTER = "TODAY"
         const val TOMORROW_FILTER = "TOMORROW"
