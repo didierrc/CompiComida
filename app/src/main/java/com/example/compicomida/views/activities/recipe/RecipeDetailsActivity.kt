@@ -59,7 +59,11 @@ class RecipeDetailsActivity : AppCompatActivity() {
         // Initialising the view model
         recipesDetailsModel = ViewModelProvider(
             this,
-            RecipesDetailsViewModelFactory(appModule.recipesRepo, appModule.groceryRepo, appModule.pantryRepo)
+            RecipesDetailsViewModelFactory(
+                appModule.recipesRepo,
+                appModule.groceryRepo,
+                appModule.pantryRepo
+            )
         )[RecipesDetailsViewModel::class.java]
 
         // Initialising view elements
@@ -87,7 +91,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
                 // Adding Recipe to a GroceryList
                 if (recipesDetailsModel.recipe.value != null) {
 
-                    recipesDetailsModel.addRecipeToGroceryList()
+                    recipesDetailsModel.addRecipeToGroceryList(this@RecipeDetailsActivity)
 
                     // Showing notification of success
                     Snackbar.make(
@@ -142,7 +146,7 @@ class RecipeDetailsActivity : AppCompatActivity() {
         }
 
     }
-    
+
     private fun addIngredientView(container: LinearLayout, ingredient: Ingredient) {
 
         val ingredientIcon = ImageView(this).apply {
@@ -153,7 +157,8 @@ class RecipeDetailsActivity : AppCompatActivity() {
             ).apply {
                 weight = 1f
             }
-            contentDescription = "Icono para el ingrediente: ${ingredient.name}"
+            contentDescription =
+                getString(R.string.ingredient_icon_content_description, ingredient.name)
             setImageResource(R.drawable.shopping_basket_24px)
         }
 

@@ -62,7 +62,8 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
                 itemPrice.text = groceryItemDetailsUI.priceTxt
                 itemCheckbox.isChecked = groceryItemDetailsUI.checkState
                 itemImage.load(groceryItemDetailsUI.imageURI)
-                toolbar.title = groceryItemDetailsUI.itemNameTxt + " - Detalles"
+                toolbar.title =
+                    groceryItemDetailsUI.itemNameTxt + getString(R.string.grocery_item_details_leading_title)
             }
         }
 
