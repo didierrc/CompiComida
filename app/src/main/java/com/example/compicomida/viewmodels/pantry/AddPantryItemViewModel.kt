@@ -11,12 +11,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddPantryItemViewModel(
-    private val pantryRepo: PantryRepository
+    private val pantryRepo: PantryRepository,
+    private val  unitsArray: Array<String>
 ) : ViewModel() {
 
     private val _image = MutableLiveData(CompiComidaApp.DEFAULT_GROCERY_URI)
+    private val _units: MutableLiveData<MutableList<String>> =
+        MutableLiveData(listOf<String>().toMutableList())
+
     val image: LiveData<String?>
         get() = _image
+
+    val units: LiveData<MutableList<String>>
+        get() = _units
 
     fun updateImage(newImage: String?) {
         _image.value = newImage
@@ -25,6 +32,12 @@ class AddPantryItemViewModel(
     fun addPantryItem(newPantry: PantryItem) {
         viewModelScope.launch(Dispatchers.IO) {
             pantryRepo.addPantryItem(newPantry)
+        }
+    }
+
+    fun updateUnits() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _units.postValue(unitsArray.toMutableList())
         }
     }
 

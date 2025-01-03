@@ -60,12 +60,13 @@ class AddGroceryItemActivity : AppCompatActivity() {
         // Initialising the view model
         addGroceryItemViewModel = ViewModelProvider(
             this,
-            AddGroceryItemViewModelFactory(appModule.groceryRepo)
+            AddGroceryItemViewModelFactory(appModule.groceryRepo, resources.getStringArray(R.array.grocery_item_units))
         )[AddGroceryItemViewModel::class.java]
 
         // Initialising the view elements
         initialiseViewElements()
         initSpinnerCategories()
+        initSpinnerUnits()
         addOnClickListener()
         setSupportActionBar(binding.toolbar)
         binding.toolbar.setNavigationOnClickListener {
@@ -78,7 +79,6 @@ class AddGroceryItemActivity : AppCompatActivity() {
             else
                 showImagePreview(Uri.parse(it))
         }
-
     }
 
     private fun initialiseViewElements() {
@@ -238,6 +238,19 @@ class AddGroceryItemActivity : AppCompatActivity() {
         addGroceryItemViewModel.updateCategories()
         addGroceryItemViewModel.categories.observe(this) {
             spinnerCategories.setAdapter(
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
+                )
+            )
+        }
+    }
+
+    private fun initSpinnerUnits() {
+        addGroceryItemViewModel.updateUnits()
+        addGroceryItemViewModel.units.observe(this){
+            units.setAdapter(
                 ArrayAdapter(
                     this,
                     android.R.layout.simple_spinner_dropdown_item,

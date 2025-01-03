@@ -3,7 +3,9 @@ package com.example.compicomida.views.activities.pantry
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -42,6 +44,15 @@ class EditPantryItemActivity : AppCompatActivity() {
             insets
         }
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Lógica personalizada para el evento "Atrás"
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        })
+
         // Back Button
         setSupportActionBar(binding.toolbarEditPantry)
         binding.toolbarEditPantry.setNavigationOnClickListener {
@@ -55,7 +66,8 @@ class EditPantryItemActivity : AppCompatActivity() {
             this,
             EditPantryItemViewModelFactory(
                 appModule.pantryRepo,
-                intent.getIntExtra("pantryId", -1)
+                intent.getIntExtra("pantryId", -1),
+                resources.getStringArray(R.array.grocery_item_units)
             )
         )[EditPantryItemViewModel::class.java]
 
@@ -70,10 +82,13 @@ class EditPantryItemActivity : AppCompatActivity() {
             }
         }
 
+
+
         observePantryItem()
         observeImagePicker()
         editOnClickListener()
         deleteOnClickListener()
+        initSpinnerUnits()
     }
 
     private fun observePantryItem() {
@@ -218,4 +233,16 @@ class EditPantryItemActivity : AppCompatActivity() {
         return add
     }
 
+    private fun initSpinnerUnits() {
+        editPantryItemViewModel.updateUnits()
+        editPantryItemViewModel.units.observe(this){
+            binding.spinnerProductUnitsEditPantry.setAdapter(
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
+                )
+            )
+        }
+    }
 }
