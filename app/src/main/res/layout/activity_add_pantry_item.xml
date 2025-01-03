@@ -1,180 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/addPantryItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        tools:context=".views.activities.pantry.AddPantryItemActivity">
+            android:id="@+id/addPantryItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            tools:context=".views.activities.pantry.AddPantryItemActivity">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbarAddPantry"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-            app:title="@string/add_pantry_item_title" />
+                android:id="@+id/toolbarAddPantry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.Material3.Dark.ActionBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+                app:title="@string/add_pantry_item_title" />
 
         <TextView
-            android:id="@+id/tvNameAddPantry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/add_pantry_item_name_title"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarAddPantry" />
+                android:id="@+id/tvNameAddPantry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/add_pantry_item_name_title"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbarAddPantry" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPantryNameLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvNameAddPantry">
+                android:id="@+id/etPantryNameLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvNameAddPantry">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPantryName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_pantry_item_name_hint"
-                android:inputType="text" />
+                    android:id="@+id/etPantryName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_pantry_item_name_hint"
+                    android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <TextView
-            android:id="@+id/tvQuantityAddPantry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/add_pantry_item_quantity_title"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPantryNameLayout" />
+                android:id="@+id/tvQuantityAddPantry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/add_pantry_item_quantity_title"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etPantryNameLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPantryQuantityLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvQuantityAddPantry">
+                android:id="@+id/etPantryQuantityLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvQuantityAddPantry">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPantryQuantity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/add_pantry_item_quantity_hint"
-                android:inputType="number" />
+                    android:id="@+id/etPantryQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/add_pantry_item_quantity_hint"
+                    android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tvUnitsAddPantry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/add_pantry_item_units_title"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etPantryQuantityLayout" />
+                android:id="@+id/tvUnitsAddPantry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/add_pantry_item_units_title"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etPantryQuantityLayout" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/spinnerProductUnitsLayoutAddPantry"
-            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvUnitsAddPantry">
+                android:id="@+id/spinnerProductUnitsLayoutAddPantry"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvUnitsAddPantry">
 
             <AutoCompleteTextView
-                android:id="@+id/spinnerProductUnitsAddPantry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                app:simpleItems="@array/grocery_item_units"
-                tools:ignore="LabelFor" />
+                    android:id="@+id/spinnerProductUnitsAddPantry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    app:simpleItems="@array/grocery_item_units"
+                    tools:ignore="LabelFor" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tvExpirationDateAddPantry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/add_pantry_item_expiration_date_title"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spinnerProductUnitsLayoutAddPantry" />
+                android:id="@+id/tvExpirationDateAddPantry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/add_pantry_item_expiration_date_title"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinnerProductUnitsLayoutAddPantry" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etProductExpirationDateLayoutAddPantry"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvExpirationDateAddPantry">
+                android:id="@+id/etProductExpirationDateLayoutAddPantry"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvExpirationDateAddPantry">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etProductExpirationDateAddPantry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:hint="@string/add_pantry_item_expiration_date_hint"
-                android:inputType="none" />
+                    android:id="@+id/etProductExpirationDateAddPantry"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:hint="@string/add_pantry_item_expiration_date_hint"
+                    android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/tvImageAddPantry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="@string/add_pantry_item_image_title"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutAddPantry" />
+                android:id="@+id/tv_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/add_grocery_item_image_title"
+                android:textSize="22sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutAddPantry" />
+
+        <ImageButton
+                android:id="@+id/btn_img"
+                style="@style/CustomImageButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:contentDescription="@string/add_grocery_item_image_button_hint"
+                android:drawableStart="@drawable/baseline_photo_camera_24"
+                android:src="@drawable/baseline_photo_camera_24"
+                app:icon="@drawable/baseline_photo_camera_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_image" />
+
+        <ImageButton
+                android:id="@+id/btn_remove_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/remove_product_image_hint"
+                android:src="@drawable/baseline_close_24"
+                android:visibility="gone"
+                app:layout_constraintStart_toEndOf="@id/btn_img"
+                app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutAddPantry"
+                app:tint="@color/textColor" />
+
+        <ImageView
+                android:id="@+id/iv_image_preview"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:contentDescription="@string/add_grocery_item_image_preview"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@id/btAddPantryItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_remove_image"
+                app:layout_constraintTop_toBottomOf="@id/etProductExpirationDateLayoutAddPantry" />
 
         <Button
-            android:id="@+id/btnImgAddPantry"
-            style="@style/CustomButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:drawableStart="@drawable/baseline_photo_camera_24"
-            android:text="@string/add_pantry_item_image_button_text"
-            app:icon="@drawable/baseline_photo_camera_24"
-            app:layout_constraintBottom_toTopOf="@id/btAddPantryItem"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvImageAddPantry" />
-
-        <Button
-            android:id="@+id/btAddPantryItem"
-            style="@style/CustomButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:layout_marginTop="6dp"
-            android:drawableStart="@drawable/baseline_photo_camera_24"
-            android:text="@string/add_pantry_item_add_button_text"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnImgAddPantry" />
-
-
+                android:id="@+id/btAddPantryItem"
+                style="@style/CustomButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="6dp"
+                android:drawableStart="@drawable/baseline_photo_camera_24"
+                android:text="@string/add_pantry_item_add_button_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_img" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -1,248 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/suggestedRecipeLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="clip_horizontal"
-    android:orientation="vertical"
-    android:paddingStart="@dimen/home_main_content_margin_side"
-    android:paddingTop="@dimen/home_main_content_margin_top"
-    android:paddingEnd="@dimen/home_main_content_margin_side"
-    tools:context=".views.fragments.homeTabs.TabSuggestedRecipe">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/suggestedRecipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="clip_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="@dimen/home_main_content_margin_side"
+        android:paddingTop="@dimen/home_main_content_margin_top"
+        android:paddingEnd="@dimen/home_main_content_margin_side"
+        tools:context=".views.fragments.homeTabs.TabSuggestedRecipe">
 
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".views.activities.recipe.RecipeDetailsActivity">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context=".views.activities.recipe.RecipeDetailsActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/suggestedRecipeConstraintLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
+                android:id="@+id/suggestedRecipeConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp">
 
             <ProgressBar
-                android:id="@+id/progressBarRecipes"
-                style="?android:attr/progressBarStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminateTint="@color/green"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/suggestedRecipeImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:contentDescription="@string/image_recipe_details_description"
-                android:scaleType="centerCrop"
-                android:src="@drawable/pollo_al_vino"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/suggestedTvTitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/suggestedTvTitle"
-                style="@style/TextAppearance.AppCompat.Display1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/recipe_list_name"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/suggestedRecipeMainDescriptionLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/suggestedRecipeImage" />
-
-            <LinearLayout
-                android:id="@+id/suggestedRecipeMainDescriptionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/divider2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/suggestedTvTitle">
-
-                <TextView
-                    android:id="@+id/suggestedTvOther"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/recipe_other_information"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:id="@+id/suggestedDifficultyLayout"
+                    android:id="@+id/progressBarRecipes"
+                    style="?android:attr/progressBarStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:baselineAligned="true"
-                    android:orientation="horizontal"
-                    android:textAlignment="gravity">
+                    android:indeterminateTint="@color/green"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/suggestedTvDifficultyTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/recipe_details_dificultad_title"
+            <ImageView
+                    android:id="@+id/suggestedRecipeImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/image_recipe_details_description"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pollo_al_vino"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@id/suggestedTvTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                    android:id="@+id/suggestedTvTitle"
+                    style="@style/TextAppearance.AppCompat.Display1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/recipe_list_name"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@id/suggestedRecipeMainDescriptionLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/suggestedRecipeImage" />
+
+            <LinearLayout
+                    android:id="@+id/suggestedRecipeMainDescriptionLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@id/divider2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/suggestedTvTitle">
+
+                <TextView
+                        android:id="@+id/suggestedTvOther"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipe_other_information"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textSize="16sp" />
 
-                    <RatingBar
-                        android:id="@+id/suggestedDifficultyBar"
-                        style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+                <LinearLayout
+                        android:id="@+id/suggestedDifficultyLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:maxHeight="16dp"
-                        android:numStars="5"
-                        android:progressTint="@color/green"
-                        android:rating="3.5" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:baselineAligned="true"
+                        android:orientation="horizontal"
+                        android:textAlignment="gravity">
+
+                    <TextView
+                            android:id="@+id/suggestedTvDifficultyTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/recipe_details_dificultad_title"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textSize="16sp" />
+
+                    <RatingBar
+                            android:id="@+id/suggestedDifficultyBar"
+                            style="@android:style/Widget.DeviceDefault.Light.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:maxHeight="16dp"
+                            android:numStars="5"
+                            android:progressTint="@color/green"
+                            android:rating="3.5" />
                 </LinearLayout>
 
             </LinearLayout>
 
             <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/suggestedDescriptionLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/suggestedRecipeMainDescriptionLayout" />
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/suggestedDescriptionLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/suggestedRecipeMainDescriptionLayout" />
 
             <LinearLayout
-                android:id="@+id/suggestedDescriptionLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/divider4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2">
-
-                <TextView
-                    android:id="@+id/suggestedDescriptionRecipeTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/recipes_details_description_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-                <TextView
-                    android:id="@+id/suggestedDescriptionRecipeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:justificationMode="none"
-                    android:text="@string/recipes_details_description_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@id/suggestedIngredientsUpperLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/suggestedDescriptionLayout" />
-
-            <LinearLayout
-                android:id="@+id/suggestedIngredientsUpperLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@id/divider6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider4">
-
-                <TextView
-                    android:id="@+id/suggestedIngredientsTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/recipes_details_ingredients_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-                <LinearLayout
-                    android:id="@+id/suggestedIngredientsLayout"
+                    android:id="@+id/suggestedDescriptionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/divider4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2">
+
+                <TextView
+                        android:id="@+id/suggestedDescriptionRecipeTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipes_details_description_title"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <TextView
+                        android:id="@+id/suggestedDescriptionRecipeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:justificationMode="none"
+                        android:text="@string/recipes_details_description_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            </LinearLayout>
+
+            <View
+                    android:id="@+id/divider4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@id/suggestedIngredientsUpperLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/suggestedDescriptionLayout" />
+
+            <LinearLayout
+                    android:id="@+id/suggestedIngredientsUpperLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/divider6"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider4">
+
+                <TextView
+                        android:id="@+id/suggestedIngredientsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/recipes_details_ingredients_title"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                <LinearLayout
+                        android:id="@+id/suggestedIngredientsLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical" />
 
 
             </LinearLayout>
 
             <View
-                android:id="@+id/divider6"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="?android:attr/listDivider"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/suggestedStepsUpperLayout"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/suggestedIngredientsUpperLayout" />
+                    android:id="@+id/divider6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="?android:attr/listDivider"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/suggestedStepsUpperLayout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/suggestedIngredientsUpperLayout" />
 
             <LinearLayout
-                android:id="@+id/suggestedStepsUpperLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toTopOf="@+id/suggestedRecipeFab"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/divider6">
+                    android:id="@+id/suggestedStepsUpperLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toTopOf="@+id/suggestedRecipeFab"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/divider6">
 
 
                 <TextView
-                    android:id="@+id/suggestedStepsRecipeTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/steps_recipe_title_text"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                        android:id="@+id/suggestedStepsRecipeTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/steps_recipe_title_text"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             </LinearLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/suggestedRecipeFab"
-                style="@style/CustomFabStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:contentDescription="@string/fab_recipe_to_shopList_description"
-                android:src="@drawable/add_24px"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/suggestedStepsUpperLayout" />
+                    android:id="@+id/suggestedRecipeFab"
+                    style="@style/CustomFabStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:clickable="true"
+                    android:contentDescription="@string/fab_recipe_to_shopList_description"
+                    android:src="@drawable/add_24px"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/suggestedStepsUpperLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

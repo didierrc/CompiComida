@@ -46,7 +46,8 @@ class TabSuggestedRecipe : Fragment() {
             this,
             SuggestedRecipeTabViewModelFactory(
                 appModule.recipesRepo,
-                appModule.groceryRepo
+                appModule.groceryRepo,
+                appModule.preferencesDailyRecipe
             )
         )[SuggestedRecipeTabViewModel::class.java]
 

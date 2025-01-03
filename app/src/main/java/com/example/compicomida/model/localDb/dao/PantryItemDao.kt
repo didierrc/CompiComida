@@ -26,6 +26,9 @@ interface PantryItemDao {
     )
     suspend fun getCloseExpireItems(): List<PantryItem>?
 
+    @Query("SELECT * FROM PantryItem WHERE expiration_date < DATE('now')")
+    suspend fun getAlreadyExpiredItems(): List<PantryItem>?
+
     @Query("SELECT * FROM PantryItem WHERE DATE(expiration_date) = DATE(:date)")
     suspend fun getCloseExpireItems(date: LocalDateTime): List<PantryItem>?
 

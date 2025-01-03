@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.compicomida.CompiComidaApp.Companion.DEFAULT_GROCERY_URI
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.ItemCategory
@@ -17,7 +18,7 @@ class AddGroceryItemViewModel(private val groceryRepo: GroceryRepository, privat
     private val _units: MutableLiveData<MutableList<String>> =
         MutableLiveData(listOf<String>().toMutableList())
     private val _itemCategory = MutableLiveData<ItemCategory?>(null)
-    private val _image = MutableLiveData<String?>(null)
+    private val _image = MutableLiveData(DEFAULT_GROCERY_URI)
 
     val image: LiveData<String?>
         get() = _image

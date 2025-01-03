@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.R
-import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.viewmodels.grocery.ShoppingListsFragmentViewModel
 import com.example.compicomida.viewmodels.grocery.factory.ShoppingListsFragmentViewModelFactory
 import com.example.compicomida.views.activities.grocery.AddGroceryListActivity
@@ -29,7 +28,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class ShoppingListsFragment : Fragment() {
 
     private lateinit var recyclerGroceryList: RecyclerView
-    private lateinit var db: LocalDatabase
     private lateinit var addGroceryListLauncher: ActivityResultLauncher<Intent>
 
     private lateinit var viewModel: ShoppingListsFragmentViewModel
@@ -45,10 +43,6 @@ class ShoppingListsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Shows all the current lists from DB.
-        db = LocalDatabase.getDB(requireContext())
-//        initializeRecyclerGroceryList(db)
 
         // Initialise the Fab - Add new list.
         initFabNewList(view)

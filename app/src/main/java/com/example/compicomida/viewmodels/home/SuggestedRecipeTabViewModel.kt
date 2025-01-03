@@ -5,16 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compicomida.CompiComidaApp
+import com.example.compicomida.PreferencesDailyRecipe
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.RecipeRepository
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.recipeEntities.Recipe
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SuggestedRecipeTabViewModel(
     private val recipeRepo: RecipeRepository,
-    private val groceryRepo: GroceryRepository
+    private val groceryRepo: GroceryRepository,
+    private val preferencesDailyRecipe: PreferencesDailyRecipe
 ) : ViewModel() {
 
     private val _recipe = MutableLiveData<Recipe>()
@@ -22,10 +25,20 @@ class SuggestedRecipeTabViewModel(
         get() = _recipe
 
     init {
-        recipeRepo.getRandomRecipe { recipe ->
-            recipe?.let {
-                _recipe.postValue(it)
-            }
+        viewModelScope.launch {
+            if (preferencesDailyRecipe.isRecipeToUpdate())
+                recipeRepo.getRandomRecipe { recipe ->
+                    _recipe.postValue(recipe!!)
+                    viewModelScope.launch(Dispatchers.IO) {
+                        preferencesDailyRecipe.saveRecipe(recipe.id!!)
+                    }
+                }
+            else
+                preferencesDailyRecipe.recipe.first().let { recipeId ->
+                    recipeRepo.getRecipe(recipeId) { recipe ->
+                        _recipe.postValue(recipe!!)
+                    }
+                }
         }
     }
 

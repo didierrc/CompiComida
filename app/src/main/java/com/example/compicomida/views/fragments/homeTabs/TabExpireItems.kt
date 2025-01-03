@@ -13,6 +13,7 @@ import com.example.compicomida.CompiComidaApp
 import com.example.compicomida.databinding.FragmentTabExpireItemsBinding
 import com.example.compicomida.viewmodels.home.ExpireTabViewModel
 import com.example.compicomida.viewmodels.home.factory.ExpireTabViewModelFactory
+import com.example.compicomida.views.adapters.AlreadyExpiredItemsAdapter
 import com.example.compicomida.views.adapters.ExpireItemsAdapter
 
 class TabExpireItems : Fragment() {
@@ -25,6 +26,7 @@ class TabExpireItems : Fragment() {
 
     // Adapter Lists
     private lateinit var expireAdapter: ExpireItemsAdapter
+    private lateinit var alreadyExpiredAdapter: AlreadyExpiredItemsAdapter
 
     // Binding
     private var _binding: FragmentTabExpireItemsBinding? = null
@@ -54,17 +56,36 @@ class TabExpireItems : Fragment() {
         // At the beginning, recycler show an empty list.
         expireRecycler = binding.homeExpireRecycler
         expireRecycler.layoutManager = LinearLayoutManager(context)
+
+        // Adapter for the Near Expire Items --> Recycler begins with this adapter!
         expireAdapter = ExpireItemsAdapter(listOf())
         expireRecycler.adapter = expireAdapter
 
-        observeExpireItems() // Any change on the expire list will be observed.
+        // Adapter for the Already Expired Items
+        alreadyExpiredAdapter = AlreadyExpiredItemsAdapter(listOf(), { pantryItem ->
+            expireModel.deletePantryItem(pantryItem)
+        })
+
+        observeExpireItems() // Any change on the expire lists will be observed.
         handleChipGroup()
         binding.expireFiltersChipGroup.check(binding.chipExpireItemsAll.id) // Checking ALL by default.
     }
 
     private fun observeExpireItems() {
         expireModel.expireList.observe(viewLifecycleOwner) { expireList ->
+
+            if (expireRecycler.adapter != expireAdapter)
+                expireRecycler.adapter = expireAdapter
+
             expireAdapter.updateList(expireList)
+        }
+
+        expireModel.alreadyExpiredList.observe(viewLifecycleOwner) { expireList ->
+
+            if (expireRecycler.adapter != alreadyExpiredAdapter)
+                expireRecycler.adapter = alreadyExpiredAdapter
+
+            alreadyExpiredAdapter.updateList(expireList)
         }
     }
 
@@ -89,6 +110,11 @@ class TabExpireItems : Fragment() {
                 binding.chipExpireItems2days.id -> {
                     expireModel.refreshExpireList(CompiComidaApp.TWO_DAYS_FILTER)
                     Log.d("Chip", "2 Days")
+                }
+
+                binding.chipExpireItemsAlready.id -> {
+                    expireModel.refreshAlreadyExpiredList()
+                    Log.d("Chip", "Already")
                 }
 
             }

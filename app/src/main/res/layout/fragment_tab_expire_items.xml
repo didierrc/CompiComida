@@ -48,6 +48,13 @@
             android:layout_height="wrap_content"
             android:text="@string/chip_expire_items_2days" />
 
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_expire_items_already"
+            style="@style/CustomChipStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chip_expire_items_already_expired" />
+
     </com.google.android.material.chip.ChipGroup>
 
     <androidx.core.widget.NestedScrollView

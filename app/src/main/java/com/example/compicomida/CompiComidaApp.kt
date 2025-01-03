@@ -12,9 +12,12 @@ import com.example.compicomida.model.RecipeRepository
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.FirebaseFirestore
+import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import kotlin.math.abs
 
 class CompiComidaApp : Application() {
 
@@ -27,6 +30,8 @@ class CompiComidaApp : Application() {
         const val TODAY_FILTER = "TODAY"
         const val TOMORROW_FILTER = "TOMORROW"
         const val TWO_DAYS_FILTER = "2-DAYS"
+        val MAPS_API_KEY: String
+            get() = BuildConfig.MAPS_API_KEY
     }
 
     override fun onCreate() {
@@ -41,6 +46,8 @@ interface AppModule {
     val pantryRepo: PantryRepository
     val groceryRepo: GroceryRepository
     val recipesRepo: RecipeRepository
+    val preferencesDailyRecipe: PreferencesDailyRecipe
+
     fun parseExpirationDate(expirationDate: LocalDateTime): String
     fun parseUnitQuantity(unit: String?, quantity: Double): String
     fun createDatePicker(
@@ -50,6 +57,7 @@ interface AppModule {
 
     fun parseQuantity(quantity: Double): String
     fun parseLastUpdate(lastUpdate: LocalDateTime): String
+    fun getDateDifference(dateFirst: LocalDate, dateSecond: LocalDate): Long
     fun showAlert(context: Context, message: String, title: String = "Error")
 }
 
@@ -69,6 +77,8 @@ class AppModuleImpl(
     override val recipesRepo: RecipeRepository by lazy {
         RecipeRepository(recipesDb)
     }
+    override val preferencesDailyRecipe: PreferencesDailyRecipe
+        get() = PreferencesDailyRecipe(context.dataStore)
 
     // Room - Local Database initialisation
     override val localDb: LocalDatabase by lazy {
@@ -158,6 +168,12 @@ class AppModuleImpl(
         dialog.show()
     }
 
+    override fun getDateDifference(dateFirst: LocalDate, dateSecond: LocalDate): Long {
+        return abs(
+            Duration.between(dateFirst.atStartOfDay(), dateSecond.atStartOfDay())
+                .toDays()
+        )
+    }
 }
 
 val Int.dp: Int
