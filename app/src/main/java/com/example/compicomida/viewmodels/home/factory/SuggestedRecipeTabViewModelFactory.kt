@@ -3,18 +3,18 @@ package com.example.compicomida.viewmodels.home.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.compicomida.model.GroceryRepository
-import com.example.compicomida.model.PantryRepository
-import com.example.compicomida.viewmodels.home.HomeViewModel
+import com.example.compicomida.model.RecipeRepository
+import com.example.compicomida.viewmodels.home.SuggestedRecipeTabViewModel
 
-class HomeViewModelFactory(
-    private val repoPantry: PantryRepository,
-    private val repoGroceryList: GroceryRepository
+class SuggestedRecipeTabViewModelFactory(
+    private val recipeRepo: RecipeRepository,
+    private val groceryRepo: GroceryRepository
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(SuggestedRecipeTabViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return HomeViewModel(repoPantry, repoGroceryList) as T
+            return SuggestedRecipeTabViewModel(recipeRepo, groceryRepo) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }

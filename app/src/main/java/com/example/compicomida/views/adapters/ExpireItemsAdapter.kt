@@ -48,12 +48,17 @@ class ExpireItemsAdapter(
             val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
             val expireDate = pantryItem.expirationDate.format(formatter)
 
-            val expireOn = if (pantryItem.expirationDate.isBefore(LocalDateTime.now()))
-                "Vence HOY"
-            else if (pantryItem.expirationDate.isBefore(LocalDateTime.now().plusDays(1)))
-                "Vence MAÑANA"
-            else
-                "Vence el $expireDate"
+            val expireOn =
+                when (pantryItem.expirationDate.dayOfMonth) {
+                    LocalDateTime.now().dayOfMonth -> "Vence HOY"
+                    LocalDateTime.now()
+                        .plusDays(1).dayOfMonth -> "Vence MAÑANA"
+
+                    LocalDateTime.now()
+                        .plusDays(2).dayOfMonth -> "Vence PASADO MAÑANA"
+
+                    else -> "Vence el $expireDate" // Shouldn't happen
+                }
 
             pantryElement.headline.text = itemView.context.getString(
                 R.string.expire_items_headline_text,

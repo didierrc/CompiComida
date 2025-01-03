@@ -32,4 +32,18 @@ class RecipeRepository(
                 callbackFx(null)
             }
     }
+
+
+    fun getRandomRecipe(callbackFx: (Recipe?) -> Unit) {
+        db.collection(RECIPES_COLLECTION).get()
+            .addOnSuccessListener {
+                val recipes = it.documents.mapNotNull { recipe ->
+                    recipe.toObject(Recipe::class.java)?.copy(id = recipe.id)
+                }
+                callbackFx(recipes.random())
+            }.addOnFailureListener {
+                Log.d("Recipe Random - FAIL", "No such document")
+                callbackFx(null)
+            }
+    }
 }
