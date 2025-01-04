@@ -14,8 +14,11 @@ class PantryViewModel(
 ) : ViewModel() {
 
     private val _pantryList = MutableLiveData<List<PantryItem>>()
+
+
     val pantryList: LiveData<List<PantryItem>>
         get() = _pantryList
+
 
     init {
         refreshPantryList()
@@ -28,5 +31,4 @@ class PantryViewModel(
             }
         }
     }
-
 }
