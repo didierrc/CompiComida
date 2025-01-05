@@ -13,12 +13,18 @@ import kotlinx.coroutines.launch
 
 class EditPantryItemViewModel(
     private val pantryRepo: PantryRepository,
-    private val pantryID: Int
+    private val pantryID: Int,
+    private val unitsArray: Array<String>
 ) : ViewModel() {
 
     private val _pantryItem = MutableLiveData<PantryItem?>()
+    private val _units: MutableLiveData<MutableList<String>> =
+        MutableLiveData(listOf<String>().toMutableList())
+
     val pantryItem: LiveData<PantryItem?>
         get() = _pantryItem
+    val units: LiveData<MutableList<String>>
+        get() = _units
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,5 +64,9 @@ class EditPantryItemViewModel(
         }
     }
 
-
+    fun updateUnits() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _units.postValue(unitsArray.toMutableList())
+        }
+    }
 }
