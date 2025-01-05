@@ -137,7 +137,7 @@
     <string name="expire_today">Vence HOY</string>
     <string name="expire_tomorrow">Vence MAÑANA</string>
     <string name="expire_2days">VENCE PASADO MAÑANA</string>
-    <string name="pantry_fragment_search_view_hint">Busca en tu despensa...</string>
+    <string name="pantry_fragment_search_view_hint">Busca en tu despensa…</string>
     <string name="notifications_alert_denied">No se notificará el vencimiento de los productos</string>
     <string name="notifications_alert_allowed">Se notificará el vencimiento de los productos</string>
     <string name="product_notificacion_title">Despensa</string>

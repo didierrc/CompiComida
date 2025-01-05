@@ -138,4 +138,12 @@
     <string name="expire_tomorrow">Expires TOMORROW</string>
     <string name="expire_2days">Expires in 2 DAYS</string>
 
+    <string name="pantry_fragment_search_view_hint">Search in your pantry…</string>
+    <string name="notifications_alert_denied">Expiration of products are not going to be notified.</string>
+    <string name="notifications_alert_allowed">Expiration of products will be notified.</string>
+    <string name="product_notificacion_title">Pantry</string>
+    <string name="product_notificacion_body_not_expirated">You have products that expire in 2 days or less. Be careful!</string>
+    <string name="product_notificacion_body_expirated">You have some expired products. Check your Pantry!</string>
+
+
 </resources>
