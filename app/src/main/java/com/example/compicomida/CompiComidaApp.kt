@@ -1,11 +1,17 @@
 package com.example.compicomida
 
+import android.app.Activity
 import android.app.Application
 import android.app.DatePickerDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.res.Resources
 import android.icu.util.Calendar
+import android.os.Build
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.getSystemService
+import com.example.compicomida.CompiComidaApp.Companion.CANAL_SIMPLE
 import com.example.compicomida.model.GroceryRepository
 import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.model.RecipeRepository
@@ -33,11 +39,27 @@ class CompiComidaApp : Application() {
         const val TWO_DAYS_FILTER = "2-DAYS"
         val MAPS_API_KEY: String
             get() = BuildConfig.MAPS_API_KEY
+        const val  CANAL_SIMPLE = "Canal simple"
     }
 
     override fun onCreate() {
         super.onCreate()
         appModule = AppModuleImpl(this)
+        createNotificationChannel()
+    }
+
+    private fun createNotificationChannel(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
+            val idCanal = CANAL_SIMPLE
+            val nombreCanal = "Notifications"
+            val importancia = NotificationManager.IMPORTANCE_DEFAULT
+            val canal = NotificationChannel(idCanal,nombreCanal,importancia)
+            canal.description = "Channel for notifications"
+
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(canal)
+        }
     }
 }
 

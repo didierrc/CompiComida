@@ -59,8 +59,8 @@ class PantryRepository(
         addPantryItem(pantriItem)
     }
 
-    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem) {
+    suspend fun deletePantryItemsFromGroceryLists(groceryItem: GroceryItem) =
         deletePantryItem(getPantryItemByGroceryId(groceryItem.itemId)!!)
-    }
+
 
 }
