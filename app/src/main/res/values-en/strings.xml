@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_menu">Home</string>
+    <string name="recipes_menu">Recipes</string>
+    <string name="new_menu">New</string>
+    <string name="pantry_menu">Pantry</string>
+    <string name="lists_menu">Lists</string>
+    <string name="tv_home_expire_title">Products expiring soon</string>
+    <string name="tv_home_recent_list_title">Your most recent list: %s</string>
+    <string name="add_grocery_item_name_title">Name</string>
+    <string name="add_grocery_item_name_hint">Product name</string>
+    <string name="add_grocery_item_type_title">Type</string>
+    <string name="add_grocery_item_quantity_title">Quantity</string>
+    <string name="add_grocery_item_quantity_hint">Product quantity</string>
+    <string name="add_grocery_item_units_title">Units</string>
+    <string name="add_grocery_item_price_title">Price / Unit</string>
+    <string name="add_grocery_item_price_hint">Product price</string>
+    <string name="add_grocery_item_image_title">Image</string>
+    <string name="add_grocery_item_image_button_hint">Select image</string>
+    <string name="add_grocery_item_add_button_text">Add Product</string>
+    <string name="add_grocery_list_add_button_text">Add List</string>
+    <string name="add_pantry_item_add_button_text">Add product to pantry</string>
+    <string name="add_pantry_item_name_title">Name</string>
+    <string name="add_pantry_item_name_hint">Product name</string>
+    <string name="add_pantry_item_type_title">Type</string>
+    <string name="add_pantry_item_quantity_title">Quantity</string>
+    <string name="add_pantry_item_quantity_hint">Product quantity</string>
+    <string name="add_pantry_item_units_title">Units</string>
+    <string name="add_pantry_item_expiration_date_title">Expiration date</string>
+    <string name="add_pantry_item_expiration_date_hint">Product expiration date</string>
+    <string name="add_pantry_item_image_title">Image</string>
+    <string name="add_pantry_item_image_button_text">Select image</string>
+    <string name="edit_pantry_item_image_button_text">Edit image</string>
+    <string name="edit_pantry_item_edit_button_text">Confirm changes</string>
+    <string name="edit_pantry_item_delete_button_text">Delete product</string>
+    <string name="searchbar_hint">Product search</string>
+    <string name="home_searchbar_hint">Product search</string>
+    <string name="content_desc_grocery_list_image">Grocery List Image</string>
+    <string name="recycler_grocery_list_name">List 1</string>
+    <string name="recycler_grocery_list_date_and_products">Created on %1$s\n%2$d products</string>
+    <string name="grocery_items_adapter_cantidad_text">Quantity: %1$s %2$s</string>
+    <string name="add_grocery_list_title">Create Grocery List</string>
+    <string name="add_grocery_list_name_hint">List name</string>
+    <string name="content_desc_grocery_item_image">ListItem</string>
+    <string name="error_empty_fields_add_grocery_item">All fields must be filled</string>
+    <string name="error_valid_numbers_add_grocery_item">Price and quantity must be valid numbers</string>
+    <string name="error_valid_numbers_add_pantry_item">Quantity must be a valid number</string>
+    <string name="error_valid_expiration_date_add_pantry_item">Expiration date cannot be in the past</string>
+    <string name="error_category_not_found_add_grocery_item">You must provide a category for the product</string>
+    <string name="error_expiration_date_not_found_add_pantry_item">An expiration date must be selected</string>
+    <string name="add_grocery_item_title">Add Product\n</string>
+    <string name="add_pantry_item_title">Add product to pantry\n</string>
+    <string name="edit_pantry_item_title">Edit product\n</string>
+    <string name="content_desc_recipe_list_item">Go to the details of the recipe.</string>
+    <string name="content_description_recipe_image">Recipe image</string>
+    <string name="recipe_list_name">Peruvian Wine Chicken</string>
+    <string name="fab_recipe_to_shopList_description">Add the recipe\'s ingredients to a new shopping list.</string>
+    <string name="image_recipe_details_description">Recipe image</string>
+    <string name="recipe_other_information">%s • %d min • %d person(s)</string>
+    <string name="recipe_ingredient_detail">%s • %s %s</string>
+    <string name="recipe_details_dificultad_title">Difficulty:</string>
+    <string name="recipes_details_description_title">Description</string>
+    <string name="recipes_details_description_text">Recipe description.</string>
+    <string name="recipes_details_ingredients_title">Ingredients</string>
+    <string name="grocery_list_confirm_alert_text">Remember to add expiration dates to the products in the pantry</string>
+    <string name="grocery_list_confirm_alert_title">Alert</string>
+
+    <string-array name="grocery_item_types">
+        <item>Beverage</item>
+        <item>Citrus</item>
+        <item>Dairy</item>
+        <item>Legume</item>
+        <item>Fruit</item>
+        <item>Vegetable</item>
+        <item>Meat</item>
+        <item>Fish</item>
+        <item>Seafood</item>
+        <item>Nut</item>
+        <item>Grain</item>
+        <item>Condiment</item>
+        <item>Canned food</item>
+    </string-array>
+
+    <string-array name="grocery_item_units">
+        <item>Units</item>
+        <item>kg</item>
+        <item>g</item>
+        <item>L</item>
+        <item>cl</item>
+    </string-array>
+
+    <string name="title_activity_recipe_details">RecipeDetailsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="add_grocery_item_image_preview">Image Selected for the Grocery Item</string>
+    <string name="remove_product_image_hint">Remove Product Image</string>
+    <string name="bought_checkbox">Bought</string>
+    <string name="grocery_item_details_tv_more_info">More Information</string>
+    <string name="quantity_unit">Quantity: %1$s %2$s</string>
+    <string name="price_no_unit">
+    Price: %1$.2f €
+</string>
+    <string name="price_per_unit">
+    Price: %1$.2f € / %2$s
+</string>
+    <string name="delete_button">Delete</string>
+    <string name="steps_recipe_title_text">Steps</string>
+
+
+    <string name="recipe_description_sneak_peek">%s…</string>
+    <string name="expire_items_headline_text">%s • %s %s</string>
+    <string name="recent_list_items_headline_text">%s • %s %s</string>
+
+    <string name="recipe_details_add_to_shopping_list_success">Recipe added to the shopping list :)</string>
+    <string name="recipe_details_add_to_shopping_list_fail">Sorry, we couldn\'t add the recipe to a new shopping list. Please try again later.</string>
+    <string name="tab_markets_near">Supermarkets</string>
+    <string name="tab_suggested_recipe">Recipe of the Day</string>
+    <string name="tab_expire_items">Expiring Soon</string>
+    <string name="chip_expire_items_all">All</string>
+    <string name="chip_expire_items_today">Today</string>
+    <string name="chip_expire_items_tomorrow">Tomorrow</string>
+    <string name="chip_expire_items_2days">Day After Tomorrow</string>
+    <string name="chip_expire_items_already_expired">Already Expired</string>
+    <string name="tab_markets_near_denied_dialog_title">Location Permissions Denied.</string>
+    <string name="tab_markets_near_denied_dialog_message">Sorry, we cannot show you nearby supermarkets without your permission. You can change this in your device settings.</string>
+    <string name="tab_markets_near_denied_dialog_positive_button">Accept</string>
+
+    <string name="grocery_item_details_vm_no_cat">No Category</string>
+    <string name="add_grocery_list_vm_error_empty_listName">List name cannot be empty.</string>
+    <string name="add_grocery_list_vm_error_listAlreadyExists">List already exists.</string>
+    <string name="item_default_unit">Not specified</string>
+    <string name="grocery_list_last_update">Last update on %s</string>
+    <string name="grocery_item_details_leading_title">" - Details</string>
+    <string name="grocery_items_list_item_creation_advice">Remember to add the expiration date to the item in the pantry.</string>
+    <string name="edit_pantry_item_success">Product updated successfully.</string>
+    <string name="ingredient_icon_content_description">Icon for ingredient: %s</string>
+    <string name="expire_on">Expired on %s</string>
+    <string name="expire_today">Expires TODAY</string>
+    <string name="expire_tomorrow">Expires TOMORROW</string>
+    <string name="expire_2days">Expires in 2 DAYS</string>
+
+    <string name="pantry_fragment_search_view_hint">Search in your pantry…</string>
+    <string name="notifications_alert_denied">Expiration of products are not going to be notified.</string>
+    <string name="notifications_alert_allowed">Expiration of products will be notified.</string>
+    <string name="product_notificacion_title">Pantry</string>
+    <string name="product_notificacion_body_not_expirated">You have products that expire in 2 days or less. Be careful!</string>
+    <string name="product_notificacion_body_expirated">You have some expired products. Check your Pantry!</string>
+
+
+</resources>

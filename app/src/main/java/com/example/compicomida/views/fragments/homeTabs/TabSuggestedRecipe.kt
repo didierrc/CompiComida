@@ -86,7 +86,7 @@ class TabSuggestedRecipe : Fragment() {
         with(binding) {
             suggestedRecipeFab.setOnClickListener {
 
-                suggestedModel.addRecipeToGroceryList()
+                suggestedModel.addRecipeToGroceryList(context)
 
                 // Showing notification of success
                 Snackbar.make(
@@ -136,7 +136,8 @@ class TabSuggestedRecipe : Fragment() {
             ).apply {
                 weight = 1f
             }
-            contentDescription = "Icono para el ingrediente: ${ingredient.name}"
+            contentDescription =
+                getString(R.string.ingredient_icon_content_description, ingredient.name)
             setImageResource(R.drawable.shopping_basket_24px)
         }
 

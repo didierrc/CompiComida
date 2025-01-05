@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">CompiComida</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">CompiComida</string>
     <string name="home_menu">Home</string>
     <string name="recipes_menu">Recetas</string>
     <string name="new_menu">Nuevo</string>
@@ -93,8 +92,8 @@
         <item>cl</item>
     </string-array>
     <string name="title_activity_recipe_details">RecipeDetailsActivity</string>
-    <string name="action_settings">Settings</string>
-    <string name="add_grocery_item_image_preview">Image Selected for the Grocery Item</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="add_grocery_item_image_preview">Imagen seleccionada para el producto</string>
     <string name="remove_product_image_hint">Quitar Imagen de Producto</string>
     <string name="bought_checkbox">Comprado</string>
     <string name="grocery_item_details_tv_more_info">Más Información</string>
@@ -125,7 +124,20 @@
     <string name="tab_markets_near_denied_dialog_title">Permisos de Localización Denegados.</string>
     <string name="tab_markets_near_denied_dialog_message">Lo siento, no podemos mostrarte los supermercados cercanos a ti sin tu permiso. Puedes cambiar esto en la configuración de tu dispositivo.</string>
     <string name="tab_markets_near_denied_dialog_positive_button">Aceptar</string>
-    <string name="pantry_fragment_search_view_hint">Busca en tu despensa...</string>
+    <string name="grocery_item_details_vm_no_cat">Sin Categoría</string>
+    <string name="add_grocery_list_vm_error_empty_listName">El nombre de la lista no puede estar vacío.</string>
+    <string name="add_grocery_list_vm_error_listAlreadyExists">La lista ya existe.</string>
+    <string name="item_default_unit">No especificada</string>
+    <string name="grocery_list_last_update">Última actualización el %s</string>
+    <string name="grocery_item_details_leading_title">" - Detalles</string>
+    <string name="grocery_items_list_item_creation_advice">Recuerda añadir la caducidad al producto en la despensa.</string>
+    <string name="edit_pantry_item_success">Producto actualizado con éxito.</string>
+    <string name="ingredient_icon_content_description">Icono para el ingrediente: %s</string>
+    <string name="expire_on">Venció el %s</string>
+    <string name="expire_today">Vence HOY</string>
+    <string name="expire_tomorrow">Vence MAÑANA</string>
+    <string name="expire_2days">VENCE PASADO MAÑANA</string>
+    <string name="pantry_fragment_search_view_hint">Busca en tu despensa…</string>
     <string name="notifications_alert_denied">No se notificará el vencimiento de los productos</string>
     <string name="notifications_alert_allowed">Se notificará el vencimiento de los productos</string>
     <string name="product_notificacion_title">Despensa</string>

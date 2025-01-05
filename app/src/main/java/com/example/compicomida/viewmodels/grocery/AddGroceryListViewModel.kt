@@ -2,6 +2,7 @@ package com.example.compicomida.viewmodels.grocery
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.compicomida.R
 import com.example.compicomida.model.GroceryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,17 +14,17 @@ class AddGroceryListViewModel(private val groceryRepo: GroceryRepository) : View
     fun addGroceryList(
         listName: String,
         onSuccess: () -> Unit,
-        onError: (String) -> Unit
+        onError: (Int) -> Unit
     ) {
         if (listName.isBlank()) {
-            onError("El nombre de la lista no puede estar vacío")
+            onError(R.string.add_grocery_list_vm_error_empty_listName)
             return
         }
         viewModelScope.launch(Dispatchers.IO) {
             val existingList = groceryRepo.getGroceryListByName(listName)
             if (existingList != null) {
                 withContext(Dispatchers.Main) {
-                    onError("La lista ya existe")
+                    onError(R.string.add_grocery_list_vm_error_listAlreadyExists)
                 }
             } else {
                 groceryRepo.addGroceryList(listName)

@@ -179,7 +179,7 @@ class EditPantryItemActivity : AppCompatActivity() {
 
                     Toast.makeText(
                         this@EditPantryItemActivity,
-                        "Producto actualizado con éxito",
+                        getString(R.string.edit_pantry_item_success),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
