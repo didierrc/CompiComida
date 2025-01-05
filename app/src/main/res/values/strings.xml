@@ -126,5 +126,10 @@
     <string name="tab_markets_near_denied_dialog_message">Lo siento, no podemos mostrarte los supermercados cercanos a ti sin tu permiso. Puedes cambiar esto en la configuración de tu dispositivo.</string>
     <string name="tab_markets_near_denied_dialog_positive_button">Aceptar</string>
     <string name="pantry_fragment_search_view_hint">Busca en tu despensa...</string>
+    <string name="notifications_alert_denied">No se notificará el vencimiento de los productos</string>
+    <string name="notifications_alert_allowed">Se notificará el vencimiento de los productos</string>
+    <string name="product_notificacion_title">Despensa</string>
+    <string name="product_notificacion_body_not_expirated">Tienes productos que caducan en 2 dias o menos</string>
+    <string name="product_notificacion_body_expirated">Tienes productos caducados</string>
 
 </resources>
