@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -54,7 +55,7 @@ class AddPantryItemActivity : AppCompatActivity() {
         // Initialising the view model
         addPantryItemViewModel = ViewModelProvider(
             this,
-            AddPantryItemViewModelFactory(appModule.pantryRepo)
+            AddPantryItemViewModelFactory(appModule.pantryRepo, resources.getStringArray(R.array.grocery_item_units))
         )[AddPantryItemViewModel::class.java]
 
         // Initialising DatePicker
@@ -68,12 +69,26 @@ class AddPantryItemActivity : AppCompatActivity() {
         }
 
         initialiseAddOnClick()
+        initSpinnerUnits()
 
         addPantryItemViewModel.image.observe(this) {
             if (it == DEFAULT_GROCERY_URI)
                 showImagePreview(null)
             else
                 showImagePreview(Uri.parse(it))
+        }
+    }
+
+    private fun initSpinnerUnits(){
+        addPantryItemViewModel.updateUnits()
+        addPantryItemViewModel.units.observe(this){
+            binding.spinnerProductUnitsAddPantry.setAdapter(
+                ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    it
+                )
+            )
         }
     }
 

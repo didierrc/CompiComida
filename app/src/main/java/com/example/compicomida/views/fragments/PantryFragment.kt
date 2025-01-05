@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -41,7 +42,7 @@ import java.util.Calendar
  * PantryFragment:
  * - Shows a list with all the products from your pantry.
  */
-class PantryFragment : Fragment() {
+class PantryFragment : Fragment(), SearchView.OnQueryTextListener {
 
     // View Model
     private lateinit var pantryModel: PantryViewModel
@@ -103,6 +104,13 @@ class PantryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initFabNewPantryItem(view)
+        initSearchView(view)
+    }
+
+    // Initialise the SearchView
+    private fun initSearchView(view: View) {
+        val pantrySearchView = view.findViewById<SearchView>(R.id.pantrySearchView)
+        pantrySearchView.setOnQueryTextListener(this)
     }
 
     // Initialise the Fab Click Listener
@@ -141,6 +149,28 @@ class PantryFragment : Fragment() {
         }
 
         pantryModel.refreshPantryList()
+    }
+
+    // ------- Functions that handle the search of pantry items
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+
+        query?.let {
+            pantryModel.refreshPantryList(it)
+            return true
+        }
+
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+
+        newText?.let {
+            pantryModel.refreshPantryList(it)
+            return true
+        }
+
+        return false
     }
 
     private fun hasPermissionPostApi33(context: Context): Boolean {
