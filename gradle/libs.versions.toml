@@ -1,6 +1,6 @@
 [versions]
-#agp = "8.7.2"
-agp = "8.7.3"
+agp = "8.6.0"
+#agp = "8.7.3"
 coil = "3.0.0-rc02"
 datastorePreferences = "1.1.1"
 kotlin = "1.9.24"
@@ -23,6 +23,10 @@ services = "4.4.2"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "19.0.0"
 datastoreCoreAndroid = "1.1.1"
+mockito = "4.8.0"
+mockitoKotlin = "4.1.0"
+kotlinxCoroutinesTest = "1.7.3"
+coreTesting = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,6 +51,11 @@ material-lists-listitem = { module = "net.nicbell.material-lists:listitem", vers
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockito"}
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
+core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

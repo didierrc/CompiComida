@@ -3,10 +3,12 @@ package com.example.compicomida.model
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.PantryItem
+import java.time.Clock
 import java.time.LocalDateTime
 
 class PantryRepository(
-    private val db: LocalDatabase
+    private val db: LocalDatabase,
+    private val clock: Clock = Clock.systemDefaultZone() // Clock por defecto
 ) {
 
     suspend fun getCloseExpireItems(): List<PantryItem>? = db.pantryItemDao.getCloseExpireItems()
@@ -14,13 +16,13 @@ class PantryRepository(
     suspend fun getCloseExpireItems(filter: String): List<PantryItem>? {
 
         return when (filter) {
-            "TODAY" -> db.pantryItemDao.getCloseExpireItems(LocalDateTime.now())
+            "TODAY" -> db.pantryItemDao.getCloseExpireItems(LocalDateTime.now(clock))
             "TOMORROW" -> db.pantryItemDao.getCloseExpireItems(
-                LocalDateTime.now().plusDays(1)
+                LocalDateTime.now(clock).plusDays(1)
             )
 
             "2-DAYS" -> db.pantryItemDao.getCloseExpireItems(
-                LocalDateTime.now().plusDays(2)
+                LocalDateTime.now(clock).plusDays(2)
             )
 
             else -> db.pantryItemDao.getCloseExpireItems()
@@ -49,11 +51,11 @@ class PantryRepository(
         val pantriItem = PantryItem(
             pantryId = 0,
             itemId = groceryItem.itemId,
-            expirationDate = LocalDateTime.now(),
+            expirationDate = LocalDateTime.now(clock),
             pantryName = groceryItem.itemName,
             quantity = groceryItem.quantity,
             unit = groceryItem.unit,
-            lastUpdate = LocalDateTime.now(),
+            lastUpdate = LocalDateTime.now(clock),
             pantryPhotoUri = groceryItem.itemPhotoUri
         )
         addPantryItem(pantriItem)

@@ -69,4 +69,9 @@ class EditPantryItemViewModel(
             _units.postValue(unitsArray.toMutableList())
         }
     }
+
+    //USO EXCLUSIVO PARA TEST!!!
+    fun setTestPantryItem(item: PantryItem) {
+        _pantryItem.postValue(item)
+    }
 }
