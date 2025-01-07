@@ -244,6 +244,7 @@ class GroceryItemDetailsTest {
             )
         )
         materialButton2.perform(scrollTo(), click())
+        Thread.sleep(2000)
 
         val textView = onView(
             allOf(
