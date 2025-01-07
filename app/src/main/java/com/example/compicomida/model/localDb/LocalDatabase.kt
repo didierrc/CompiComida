@@ -43,9 +43,14 @@ abstract class LocalDatabase : RoomDatabase() {
                 LocalDatabase::class.java,
                 "LocalAppDB"
             ).createFromAsset("LocalAppDB.db").build()
-
             SINGLETON = instance
             return SINGLETON as LocalDatabase
+        }
+
+        fun resetDB() {
+            SINGLETON?.groceryItemDao?.deleteAll()
+            SINGLETON?.groceryListDao?.deleteAll()
+            SINGLETON?.pantryItemDao?.deleteAll()
         }
     }
 

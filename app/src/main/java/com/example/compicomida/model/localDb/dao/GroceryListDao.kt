@@ -53,4 +53,7 @@ interface GroceryListDao {
 
     @Delete
     suspend fun delete(groceryList: GroceryList)
+
+    @Query("DELETE FROM GroceryList")
+    fun deleteAll()
 }

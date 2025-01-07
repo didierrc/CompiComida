@@ -55,7 +55,10 @@ class AddPantryItemActivity : AppCompatActivity() {
         // Initialising the view model
         addPantryItemViewModel = ViewModelProvider(
             this,
-            AddPantryItemViewModelFactory(appModule.pantryRepo, resources.getStringArray(R.array.grocery_item_units))
+            AddPantryItemViewModelFactory(
+                appModule.pantryRepo,
+                resources.getStringArray(R.array.grocery_item_units)
+            )
         )[AddPantryItemViewModel::class.java]
 
         // Initialising DatePicker
@@ -79,9 +82,9 @@ class AddPantryItemActivity : AppCompatActivity() {
         }
     }
 
-    private fun initSpinnerUnits(){
+    private fun initSpinnerUnits() {
         addPantryItemViewModel.updateUnits()
-        addPantryItemViewModel.units.observe(this){
+        addPantryItemViewModel.units.observe(this) {
             binding.spinnerProductUnitsAddPantry.setAdapter(
                 ArrayAdapter(
                     this,
@@ -130,10 +133,11 @@ class AddPantryItemActivity : AppCompatActivity() {
                     addPantryItemViewModel.addPantryItem(newItem)
 
                     // Persist permission for the image URI, so it can be shown later in the list
-                    contentResolver.takePersistableUriPermission(
-                        addPantryItemViewModel.image.value?.let { Uri.parse(it) }!!,
-                        Intent.FLAG_GRANT_READ_URI_PERMISSION
-                    )
+                    if (addPantryItemViewModel.image.value != DEFAULT_GROCERY_URI)
+                        contentResolver.takePersistableUriPermission(
+                            addPantryItemViewModel.image.value?.let { Uri.parse(it) }!!,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        )
                     setResult(Activity.RESULT_OK)
                     finish()
                 }
