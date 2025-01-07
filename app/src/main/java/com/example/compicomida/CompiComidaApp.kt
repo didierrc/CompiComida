@@ -90,11 +90,11 @@ class AppModuleImpl(
 
     // Repository - Pantry, Grocery, Recipes, GroceryLists
     override val pantryRepo: PantryRepository by lazy {
-        PantryRepository(localDb)
+        PantryRepository(localDb.pantryItemDao)
     }
 
     override val groceryRepo: GroceryRepository by lazy {
-        GroceryRepository(localDb)
+        GroceryRepository(localDb.groceryListDao,localDb.groceryItemDao,localDb.itemCategoryDao)
     }
 
     override val recipesRepo: RecipeRepository by lazy {
