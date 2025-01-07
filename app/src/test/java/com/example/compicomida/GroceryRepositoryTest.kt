@@ -9,12 +9,14 @@ import com.example.compicomida.model.localDb.entities.GroceryList
 import com.example.compicomida.model.localDb.entities.ItemCategory
 import com.example.compicomida.model.GroceryRepository
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
 import java.time.LocalDateTime
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class GroceryRepositoryTest {
 
     private lateinit var mockDatabase: LocalDatabase

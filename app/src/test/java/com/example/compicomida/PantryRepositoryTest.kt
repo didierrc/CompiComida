@@ -6,6 +6,7 @@ import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.PantryItem
 import com.example.compicomida.model.PantryRepository
 import junit.framework.TestCase.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +18,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 
-
+@OptIn(ExperimentalCoroutinesApi::class)
 class PantryRepositoryTest {
 
     private lateinit var pantryRepository: PantryRepository
