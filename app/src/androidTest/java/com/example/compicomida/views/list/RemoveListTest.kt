@@ -1,4 +1,4 @@
-package com.example.compicomida.views
+package com.example.compicomida.views.list
 
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +19,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.LocalDatabase
+import com.example.compicomida.views.MainActivity
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -45,7 +46,7 @@ class RemoveListTest {
     }
 
     @Test
-    fun mainActivityTest() {
+    fun removeListTest() {
         val bottomNavigationItemView = onView(
             allOf(
                 withId(R.id.shoppingListsFragment), withContentDescription("Listas"),
@@ -142,7 +143,7 @@ class RemoveListTest {
         )
         appCompatImageButton.perform(click())
 
-        Thread.sleep(1000)
+        Thread.sleep(2000)
         val viewGroup = onView(
             allOf(
                 withId(R.id.recycler_grocery_list_item),

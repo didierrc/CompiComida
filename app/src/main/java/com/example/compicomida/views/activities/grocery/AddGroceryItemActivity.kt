@@ -35,7 +35,6 @@ class AddGroceryItemActivity : AppCompatActivity() {
     private lateinit var price: TextInputEditText
     private lateinit var btnAdd: Button
     private lateinit var btnImage: ImageButton
-    private var imageURI: String? = null
 
     private lateinit var addGroceryItemViewModel: AddGroceryItemViewModel
 
@@ -60,7 +59,10 @@ class AddGroceryItemActivity : AppCompatActivity() {
         // Initialising the view model
         addGroceryItemViewModel = ViewModelProvider(
             this,
-            AddGroceryItemViewModelFactory(appModule.groceryRepo, resources.getStringArray(R.array.grocery_item_units))
+            AddGroceryItemViewModelFactory(
+                appModule.groceryRepo,
+                resources.getStringArray(R.array.grocery_item_units)
+            )
         )[AddGroceryItemViewModel::class.java]
 
         // Initialising the view elements
@@ -122,16 +124,17 @@ class AddGroceryItemActivity : AppCompatActivity() {
                     unit = unitTxt,
                     price = priceValue!!,
                     isPurchased = false,
-                    itemPhotoUri = imageURI
-                        ?: DEFAULT_GROCERY_URI
+                    itemPhotoUri = addGroceryItemViewModel.image.value
+                        ?: DEFAULT_GROCERY_URI,
                 )
 
                 addGroceryItemViewModel.addGroceryItem(newItem)
                 // Persist permission for the image URI, so it can be shown later in the list
-                contentResolver.takePersistableUriPermission(
-                    imageURI?.let { Uri.parse(it) }!!,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
+                if (addGroceryItemViewModel.image.value != DEFAULT_GROCERY_URI)
+                    contentResolver.takePersistableUriPermission(
+                        addGroceryItemViewModel.image.value?.let { Uri.parse(it) }!!,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
 
                 // Return to the previous activity
                 setResult(Activity.RESULT_OK)
@@ -143,7 +146,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     val uri = result.data?.data
-                    imageURI = uri.toString()
+                    val imageURI = uri.toString()
                     addGroceryItemViewModel.updateImage(imageURI)
                 }
             }
@@ -249,7 +252,7 @@ class AddGroceryItemActivity : AppCompatActivity() {
 
     private fun initSpinnerUnits() {
         addGroceryItemViewModel.updateUnits()
-        addGroceryItemViewModel.units.observe(this){
+        addGroceryItemViewModel.units.observe(this) {
             units.setAdapter(
                 ArrayAdapter(
                     this,

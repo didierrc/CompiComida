@@ -1,4 +1,4 @@
-package com.example.compicomida.views
+package com.example.compicomida.views.list
 
 
 import android.view.View
@@ -18,6 +18,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.example.compicomida.R
 import com.example.compicomida.model.localDb.LocalDatabase
+import com.example.compicomida.views.MainActivity
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf

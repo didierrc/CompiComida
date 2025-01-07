@@ -64,6 +64,7 @@ dependencies {
     // Room dependencies
     //val room_version = "2.6.1"
     implementation(libs.androidx.room.runtime)
+    androidTestImplementation(libs.androidx.espresso.contrib)
 
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
