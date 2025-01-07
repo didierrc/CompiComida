@@ -4,10 +4,12 @@ import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.GroceryList
 import com.example.compicomida.model.localDb.entities.ItemCategory
+import java.time.Clock
 import java.time.LocalDateTime
 
 class GroceryRepository(
-    private val db: LocalDatabase
+    private val db: LocalDatabase,
+    private val clock: Clock = Clock.systemDefaultZone() // Clock por defecto
 ) {
 
     suspend fun getListSize(listId: Int): Int {
@@ -31,7 +33,7 @@ class GroceryRepository(
     }
 
     suspend fun addGroceryList(value: String) {
-        db.groceryListDao.add(GroceryList(0, value, LocalDateTime.now()))
+        db.groceryListDao.add(GroceryList(0, value, LocalDateTime.now(clock)))
     }
 
     suspend fun getGroceryListByName(listName: String): GroceryList? {

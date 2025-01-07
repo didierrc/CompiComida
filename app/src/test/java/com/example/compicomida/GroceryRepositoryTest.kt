@@ -14,7 +14,10 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.*
+import java.time.Clock
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GroceryRepositoryTest {
@@ -24,6 +27,10 @@ class GroceryRepositoryTest {
     private lateinit var mockGroceryListDao: GroceryListDao
     private lateinit var mockItemCategoryDao: ItemCategoryDao
     private lateinit var repository: GroceryRepository
+
+    private val fixedClock = Clock.fixed(LocalDateTime.of(
+        2025, 1, 6, 0, 0, 0)
+        .toInstant(ZoneOffset.UTC), ZoneId.systemDefault())
 
     @Before
     fun setUp() {
@@ -37,7 +44,7 @@ class GroceryRepositoryTest {
             `when`(itemCategoryDao).thenReturn(mockItemCategoryDao)
         }
 
-        repository = GroceryRepository(mockDatabase)
+        repository = GroceryRepository(mockDatabase, fixedClock)
     }
 
     @Test
