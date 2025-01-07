@@ -37,7 +37,7 @@ interface PantryItemDao {
 
     @Query("SELECT * FROM PantryItem WHERE pantry_name = :name")
     suspend fun getByName(name: String): PantryItem?
-    
+
     // Inserts
 
     @Insert
@@ -61,4 +61,7 @@ interface PantryItemDao {
 
     @Delete
     suspend fun delete(pantryItem: PantryItem)
+
+    @Query("DELETE FROM PantryItem")
+    fun deleteAll()
 }
