@@ -67,6 +67,13 @@ class TabSuperNearYou : Fragment(), OnMapReadyCallback {
         return inflater.inflate(R.layout.fragment_tab_super_near_you, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (::map.isInitialized) {
+            handleLocationGranted()
+        }
+    }
+
     /**
      * Initialising Google Maps.
      */
@@ -188,9 +195,38 @@ class TabSuperNearYou : Fragment(), OnMapReadyCallback {
                     showNearestSupermarkets(location)
                 }
             }
+
+        map.setOnMyLocationButtonClickListener {
+
+            var ableToDoAction = false
+
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+
+                        ableToDoAction = true
+
+                        // Move the camera to the user's location.
+                        val userLocation = LatLng(location.latitude, location.longitude)
+                        map.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(userLocation, 14f),
+                            2000,
+                            null
+                        )
+
+                        showNearestSupermarkets(location)
+                    }
+                }
+
+
+            return@setOnMyLocationButtonClickListener ableToDoAction
+        }
     }
 
     private fun showNearestSupermarkets(location: Location) {
+
+        // Erasing previous markers
+        map.clear()
 
         // Defining a list of fields to include in the response
         val fields = listOf(
