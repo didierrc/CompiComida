@@ -76,6 +76,13 @@ dependencies {
     // Preferences DataStore
     implementation(libs.androidx.datastore.preferences)
 
+    //Test
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.core.testing)
+
     // Base
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
