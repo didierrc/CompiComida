@@ -1,10 +1,16 @@
 package com.example.compicomida
 
+import androidx.room.DatabaseConfiguration
+import androidx.room.InvalidationTracker
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import com.example.compicomida.model.localDb.LocalDatabase
 import com.example.compicomida.model.localDb.dao.PantryItemDao
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.PantryItem
 import com.example.compicomida.model.PantryRepository
+import com.example.compicomida.model.localDb.dao.GroceryItemDao
+import com.example.compicomida.model.localDb.dao.GroceryListDao
+import com.example.compicomida.model.localDb.dao.ItemCategoryDao
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -22,7 +28,6 @@ import java.time.ZoneOffset
 class PantryRepositoryTest {
 
     private lateinit var pantryRepository: PantryRepository
-    private lateinit var mockDatabase: LocalDatabase
     private lateinit var mockDao: PantryItemDao
 
     private val fixedClock = Clock.fixed(LocalDateTime.of(
@@ -31,12 +36,9 @@ class PantryRepositoryTest {
 
     @Before
     fun setUp() {
-        mockDatabase = mock(LocalDatabase::class.java)
         mockDao = mock(PantryItemDao::class.java)
 
-        `when`(mockDatabase.pantryItemDao).thenReturn(mockDao)
-
-        pantryRepository = PantryRepository(mockDatabase,fixedClock)
+        pantryRepository = PantryRepository(mockDao,fixedClock)
     }
 
     @Test

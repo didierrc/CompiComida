@@ -1,6 +1,9 @@
 package com.example.compicomida.model
 
 import com.example.compicomida.model.localDb.LocalDatabase
+import com.example.compicomida.model.localDb.dao.GroceryItemDao
+import com.example.compicomida.model.localDb.dao.GroceryListDao
+import com.example.compicomida.model.localDb.dao.ItemCategoryDao
 import com.example.compicomida.model.localDb.entities.GroceryItem
 import com.example.compicomida.model.localDb.entities.GroceryList
 import com.example.compicomida.model.localDb.entities.ItemCategory
@@ -8,75 +11,77 @@ import java.time.Clock
 import java.time.LocalDateTime
 
 class GroceryRepository(
-    private val db: LocalDatabase,
+    private val groceryListDao: GroceryListDao,
+    private val groceryItemDao: GroceryItemDao,
+    private val itemCategoryDao: ItemCategoryDao,
     private val clock: Clock = Clock.systemDefaultZone() // Clock por defecto
 ) {
 
     suspend fun getListSize(listId: Int): Int {
-        return db.groceryListDao.getListSize(listId)
+        return groceryListDao.getListSize(listId)
     }
 
     suspend fun getLastInsertedList(): GroceryList? {
-        return db.groceryListDao.getLastInserted()
+        return groceryListDao.getLastInserted()
     }
 
     suspend fun getAllLists(): List<GroceryList> {
-        return db.groceryListDao.getAll()
+        return groceryListDao.getAll()
     }
 
     suspend fun deleteGroceryList(it: GroceryList) {
-        db.groceryListDao.delete(it)
+        groceryListDao.delete(it)
     }
 
     suspend fun getGroceryItemsByListId(listId: Int): List<GroceryItem> {
-        return db.groceryItemDao.getByListId(listId)
+        return groceryItemDao.getByListId(listId)
     }
 
     suspend fun addGroceryList(value: String) {
-        db.groceryListDao.add(GroceryList(0, value, LocalDateTime.now(clock)))
+        groceryListDao.add(GroceryList(0, value, LocalDateTime.now(clock)))
     }
 
     suspend fun getGroceryListByName(listName: String): GroceryList? {
-        return db.groceryListDao.getByName(listName)
+        return groceryListDao.getByName(listName)
     }
 
     suspend fun addGroceryItem(newGrocery: GroceryItem) {
-        db.groceryItemDao.add(newGrocery)
+        groceryItemDao.add(newGrocery)
     }
 
     suspend fun getItemCategory(newCategoryName: String): ItemCategory? {
-        return db.itemCategoryDao.getByName(newCategoryName)
+        return itemCategoryDao.getByName(newCategoryName)
     }
 
     suspend fun getGroceryItemCategoryByID(categoryID: Int): ItemCategory? {
-        return db.itemCategoryDao.getById(categoryID)
+        return itemCategoryDao.getById(categoryID)
     }
 
     suspend fun getAllCategories(): List<ItemCategory> {
-        return db.itemCategoryDao.getAll()
+        return itemCategoryDao.getAll()
 
     }
 
     suspend fun checkGroceryItem(checkState: Boolean, itemID: Int) {
-        db.groceryItemDao.update(
-            db.groceryItemDao.getById(itemID)!!.copy(isPurchased = checkState)
+        groceryItemDao.update(
+            groceryItemDao.getById(itemID)!!.copy(isPurchased = checkState)
         )
     }
 
     suspend fun getGroceryItemByID(itemID: Int): GroceryItem? {
-        return db.groceryItemDao.getById(itemID)
+        return groceryItemDao.getById(itemID)
     }
 
     suspend fun deleteGroceryItemByID(itemID: Int) {
-        db.groceryItemDao.delete(db.groceryItemDao.getById(itemID)!!)
+        groceryItemDao.delete(groceryItemDao.getById(itemID)!!)
     }
 
     suspend fun getGroceryListByID(listID: Int): GroceryList? {
-        return db.groceryListDao.getById(listID)
+        return groceryListDao.getById(listID)
     }
 
     suspend fun addGroceryItems(groceryItems: List<GroceryItem>) {
-        db.groceryItemDao.addAll(*groceryItems.toTypedArray())
+        groceryItemDao.addAll(*groceryItems.toTypedArray())
     }
 
 

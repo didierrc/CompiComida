@@ -22,7 +22,6 @@ import java.time.ZoneOffset
 @OptIn(ExperimentalCoroutinesApi::class)
 class GroceryRepositoryTest {
 
-    private lateinit var mockDatabase: LocalDatabase
     private lateinit var mockGroceryItemDao: GroceryItemDao
     private lateinit var mockGroceryListDao: GroceryListDao
     private lateinit var mockItemCategoryDao: ItemCategoryDao
@@ -38,13 +37,7 @@ class GroceryRepositoryTest {
         mockGroceryListDao = mock(GroceryListDao::class.java)
         mockItemCategoryDao = mock(ItemCategoryDao::class.java)
 
-        mockDatabase = mock(LocalDatabase::class.java).apply {
-            `when`(groceryItemDao).thenReturn(mockGroceryItemDao)
-            `when`(groceryListDao).thenReturn(mockGroceryListDao)
-            `when`(itemCategoryDao).thenReturn(mockItemCategoryDao)
-        }
-
-        repository = GroceryRepository(mockDatabase, fixedClock)
+        repository = GroceryRepository(mockGroceryListDao, mockGroceryItemDao, mockItemCategoryDao, fixedClock)
     }
 
     @Test
@@ -60,7 +53,7 @@ class GroceryRepositoryTest {
 
     @Test
     fun `getLastInsertedList should return the last inserted grocery list`() = runTest {
-        val groceryList = GroceryList(1, "Groceries", LocalDateTime.now())
+        val groceryList = GroceryList(1, "Groceries", LocalDateTime.now(fixedClock))
         `when`(mockGroceryListDao.getLastInserted()).thenReturn(groceryList)
 
         val result = repository.getLastInsertedList()
@@ -72,8 +65,8 @@ class GroceryRepositoryTest {
     @Test
     fun `getAllLists should return all grocery lists`() = runTest {
         val groceryLists = listOf(
-            GroceryList(1, "Groceries", LocalDateTime.now()),
-            GroceryList(2, "Supplies", LocalDateTime.now())
+            GroceryList(1, "Groceries", LocalDateTime.now(fixedClock)),
+            GroceryList(2, "Supplies", LocalDateTime.now(fixedClock))
         )
         `when`(mockGroceryListDao.getAll()).thenReturn(groceryLists)
 
@@ -85,7 +78,7 @@ class GroceryRepositoryTest {
 
     @Test
     fun `deleteGroceryList should call DAO with correct list`() = runTest {
-        val groceryList = GroceryList(1, "Groceries", LocalDateTime.now())
+        val groceryList = GroceryList(1, "Groceries", LocalDateTime.now(fixedClock))
 
         repository.deleteGroceryList(groceryList)
 
@@ -134,7 +127,7 @@ class GroceryRepositoryTest {
 
         repository.addGroceryList(listName)
 
-        val groceryList = GroceryList(0,listName,LocalDateTime.now())
+        val groceryList = GroceryList(0,listName,LocalDateTime.now(fixedClock))
 
         verify(mockGroceryListDao).add(groceryList)
     }
@@ -142,7 +135,7 @@ class GroceryRepositoryTest {
     @Test
     fun `getGroceryListByName should return grocery list for given name`() = runTest {
         val listName = "TestList"
-        val groceryList = GroceryList(1, listName, LocalDateTime.now())
+        val groceryList = GroceryList(1, listName, LocalDateTime.now(fixedClock))
         `when`(mockGroceryListDao.getByName(listName)).thenReturn(groceryList)
 
         val result = repository.getGroceryListByName(listName)
@@ -226,7 +219,7 @@ class GroceryRepositoryTest {
 
     @Test
     fun `getGroceryListByID should return grocery list for given ID`() = runTest {
-        val groceryList = GroceryList(1, "TestList", LocalDateTime.now())
+        val groceryList = GroceryList(1, "TestList", LocalDateTime.now(fixedClock))
         `when`(mockGroceryListDao.getById(groceryList.listId)).thenReturn(groceryList)
 
         val result = repository.getGroceryListByID(groceryList.listId)
