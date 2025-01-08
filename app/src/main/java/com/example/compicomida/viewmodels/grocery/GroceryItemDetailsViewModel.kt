@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.compicomida.R
 import com.example.compicomida.model.GroceryRepository
+import com.example.compicomida.model.PantryRepository
 import com.example.compicomida.viewmodels.grocery.uiData.GroceryItemDetailsUI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class GroceryItemDetailsViewModel(
-    private val groceryRepo: GroceryRepository
+    private val groceryRepo: GroceryRepository,
+    private val pantryRepo: PantryRepository
 ) : ViewModel() {
 
     private val _groceryItem by lazy {
@@ -35,6 +37,11 @@ class GroceryItemDetailsViewModel(
         _groceryItem.value = _groceryItem.value!!.copy(checkState = value)
         viewModelScope.launch(Dispatchers.IO) {
             groceryRepo.checkGroceryItem(_groceryItem.value!!.checkState, itemID)
+            if(groceryRepo.getGroceryItemByID(itemID)!!.isPurchased){
+                pantryRepo.addPantryItemsFromGroceryLists(groceryRepo.getGroceryItemByID(itemID)!!)
+            }else{
+                pantryRepo.deletePantryItemsFromGroceryLists(groceryRepo.getGroceryItemByID(itemID)!!)
+            }
         }
     }
 

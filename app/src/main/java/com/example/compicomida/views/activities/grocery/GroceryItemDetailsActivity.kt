@@ -41,7 +41,8 @@ class GroceryItemDetailsActivity : AppCompatActivity() {
         groceryItemDetailsViewModel = ViewModelProvider(
             this,
             GroceryItemDetailsViewModelFactory(
-                CompiComidaApp.appModule.groceryRepo
+                CompiComidaApp.appModule.groceryRepo,
+                CompiComidaApp.appModule.pantryRepo
             )
         )[GroceryItemDetailsViewModel::class.java]
 
